@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% block title %}سوالات متداول{% endblock %}
+{% block banner %}
+
+    <div class="banner">
+        <div class="text-center" style="padding-top: 150px;">
+            <h2>درباره ما</h2>
+            <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
+                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-chevron-left"> </i>
+                <span class="fw-light">درباره ما</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block banner-mob %}
+
+    <div class="banner">
+        <div class="text-center" style="padding-top: 150px;">
+            <h2>درباره ما</h2>
+            <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
+                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-chevron-left"> </i>
+                <span class="fw-light">درباره ما</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!-- navbar desktop -->
+
+
+<!-- navbar mobile -->
+
+<!-- navbar mobile-->
+{% block content %}
+
+    <section>
+        <div class="container-2">
+            <div class="row justify-content-between mt-5">
+                <!-- Blog Right (Main Content) -->
+                <div class="col-md-8 text-md-start text-center ">
+                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
+                        {% load static %}
+                        <img src="{% static "image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
+                        <div class="card-body">
+                            <h3 class="text-gold my-3">به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است</h3>
+                            <p class="card-text text-muted small">21 خرداد 1403</p>
+                            <p class="card-text text-muted my-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+                                چاپ و با استفاده
+                                از طراحان گرافیک است...</p>
+                            <a href="#"
+
+                               class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه
+                                مطلب</a>
+                        </div>
+                    </div>
+                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
+                        <img src="{% static " image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
+                        <div class="card-body">
+                            <h3 class="text-gold my-3">به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است</h3>
+                            <p class="card-text text-muted small">21 خرداد 1403</p>
+                            <p class="card-text text-muted my-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+                                چاپ و با استفاده
+                                از طراحان گرافیک است...</p>
+                            <a href="#"
+
+                               class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه
+                                مطلب</a>
+                        </div>
+                    </div>
+                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
+                        <img src="{% static " image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
+                        <div class="card-body">
+                            <h3 class="text-gold my-3">به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است</h3>
+                            <p class="card-text text-muted small">21 خرداد 1403</p>
+                            <p class="card-text text-muted my-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+                                چاپ و با استفاده
+                                از طراحان گرافیک است...</p>
+                            <a href="#"
+
+                               class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه
+                                مطلب</a>
+                        </div>
+                    </div>
+                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
+                        <img src="{% static " image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
+                        <div class="card-body">
+                            <h3 class="text-gold my-3">به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است</h3>
+                            <p class="card-text text-muted small">21 خرداد 1403</p>
+                            <p class="card-text text-muted my-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+                                چاپ و با استفاده
+                                از طراحان گرافیک است...</p>
+                            <a href="#"
+
+                               class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه
+                                مطلب</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Left (Sidebar) -->
+                <div class="col-md-4 mt-md-0 mt-5">
+                    <!-- Search Box -->
+                    <div class="mb-4 d-flex gap-3 p-4 py-5 bg-blog ">
+                        <input class="input-blog" type="text" placeholder="جستجو ...">
+                        <button class="bg-gold border-0 py-2 w-100 btn-form">جستجو</button>
+                    </div>
+
+                    <!-- Latest Posts -->
+                    <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
+                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">جدیدترین مطالب</h6>
+                        <ul class="list-group mt-2">
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">به دنبال بالا بودن تقاضا به دنبال رهبران کار و
+                                    استخدام
+                                    است</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">ساختمان صنعتی با مالک سابق نزدیک به ۴ میلیون دلار
+                                    معامله
+                                    می‌شود</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">بسیاری از شرکت های حقوقی کلاس های سال اول را قوی
+                                    نگه می
+                                    دارند</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">فضای زیادی در جهان</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">با الهام از شما</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Latest Posts -->
+                    <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
+                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">آخرین دیدگاه ها </h6>
+                        <ul class="list-group mt-2">
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">به دنبال بالا بودن تقاضا به دنبال رهبران کار و
+                                    استخدام
+                                    است</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">ساختمان صنعتی با مالک سابق نزدیک به ۴ میلیون دلار
+                                    معامله
+                                    می‌شود</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">بسیاری از شرکت های حقوقی کلاس های سال اول را قوی
+                                    نگه می
+                                    دارند</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">فضای زیادی در جهان</a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="text-light fs-14">با الهام از شما</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- fix phone -->
+    <div class="bg-gold fix-phone">
+        <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
+                                                                     style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
+                ۰۲۱۱۲۳۴۵۶۷۸</span></a>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+
+    // Accordion
+    const headers = document.querySelectorAll('.accordion-header');
+    if (headers) {
+    document.addEventListener('DOMContentLoaded', function () {
+
+    headers.forEach(header => {
+    header.addEventListener('click', function () {
+    const body = this.nextElementSibling;
+    body.classList.toggle('active');
+
+    headers.forEach(otherHeader => {
+    if (otherHeader !== this) {
+    otherHeader.nextElementSibling.classList.remove('active');
+    }
+    });
+    });
+    });
+    });
+
+
+    }
+{% endblock %}

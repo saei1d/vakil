@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سرویس ها</title>
+    <!-- css -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static "plugin/swiper-bundle.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/bootstrap.rtl.css" %}">
+    <link rel="stylesheet" href="{% static "css/font.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/Responsive.css" %}">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
+
+
+    <style>
+
+        body {
+            color: black !important;
+        }
+
+        .input-equal {
+            height: 50px;
+        }
+
+        /* هاور سبز برای دکمه پرداخت */
+        .btn-hover123:hover {
+            background-color: green;
+        }
+
+
+        .form-header-call {
+            position: relative;
+            text-align: center;
+        }
+
+        .form-header-call hr {
+            border: 2px solid #456e3c;
+            opacity: 1;
+        }
+
+        .call-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            z-index: 1000;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            color: red;
+            float: right;
+            font-size: 38px;
+        }
+
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+
+        .btn-open {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+
+<body style="background-color: #000000 !important;">
+
+<!-- navbar desktop -->
+<header class="position-relative desktop" style="z-index: 10; background-color: #101A0E;">
+    <div class="container-2">
+        <!-- nav top -->
+        <nav class=" d-flex justify-content-between py-2 align-items-center">
+            <div class="col-md-1">
+                <img src="{% static "image/logo.png" %}" width="190px" alt="">
+            </div>
+            <div class="col-md-7 d-flex justify-content-end gap-4 align-items-center">
+                <p class="fs-14 fw-lighter" style="color:rgba(255,255,255,0.3);">
+                    ما این کار را بیش از ۳۰ سال است که
+                    <br>
+                    انجام می دهیم، اکنون با ما تماس بگیرید.
+                </p>
+                <h2 class="fw-lighter">۰۲۱۱۲۳۴۵۶۷۸</h2>
+            </div>
+        </nav>
+        <!-- nav top -->
+
+        <!-- menue desktop-->
+        <nav class="menu d-flex position-relative
+             justify-content-between mt-4  align-items-center" style="background-color: #182615;">
+            <ul class="d-flex justify-content-between gap-3 ps-5 align-items-center">
+                <li>
+                    <a href="">صفحه اصلی </a>
+                </li>
+                <span class="text-gold">★</span>
+
+                <li>
+                    <a href="">درباره ما </a>
+                </li>
+                <span class="text-gold">★</span>
+                <li>
+                    <a href="">خدمات ما </a>
+                </li>
+                <span class="text-gold">★</span>
+                <li>
+                    <a href="">سوالات متداول </a>
+                </li>
+                <span class="text-gold">★</span>
+                <li>
+                    <a href="">وبلاگ </a>
+                </li>
+                <span class="text-gold">★</span>
+                <li>
+                    <a href="">فروشگاه </a>
+                </li>
+                <span class="text-gold">★</span>
+                <li>
+                    <a href="">تماس با ما </a>
+                </li>
+
+            </ul>
+
+            <a href="" class="btn-header"> <i class="fa fa-balance-scale me-2 fw-bold"></i> ارزیابی رایگان </a>
+        </nav>
+        <!-- menue desktop-->
+    </div>
+
+    <div class="banner">
+        <div class="text-center" style="padding-top: 150px;">
+            <h2>درباره ما</h2>
+            <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
+                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-chevron-left"> </i>
+                <span class="fw-light">درباره ما</span>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- navbar desktop -->
+
+
+<!-- navbar mobile -->
+
+<header class="position-relative mobile" style="z-index: 10;">
+
+    <!-- nav top -->
+    <nav class=" d-flex justify-content-between py-4 px-5 align-items-center" style="background-color: #101a0e;">
+        <div class="col-md-1">
+            <img src="{% static "image/logo.png" %}" width="160px" alt="">
+        </div>
+        <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4"></i>
+    </nav>
+    <!-- nav top -->
+
+    <div class="banner">
+        <div class="text-center" style="padding-top: 100px;">
+            <h2>درباره ما</h2>
+            <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
+                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-chevron-left"> </i>
+                <span class="fw-light">درباره ما</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- menu mobile -->
+    <nav class="menu-mobile animate__animated">
+        <i class="bi bi-x"></i>
+        <ul class="d-flex justify-content-between flex-column gap-3">
+            <li><a href="">صفحه اصلی </a></li>
+            <li><a href="">درباره ما </a></li>
+            <li><a href="">خدمات ما </a></li>
+            <li><a href="">سوالات متداول </a></li>
+            <li><a href="">وبلاگ </a></li>
+            <li><a href="">فروشگاه </a></li>
+        </ul>
+        <div class="icon-menu w-100 text-center">
+            <div class="d-flex justify-content-center mb-4">
+                <a href="#" class="text-warning mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-warning mx-2"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="text-warning mx-2"><i class="bi bi-twitter"></i></a>
+            </div>
+            <p>Copyright </p>
+        </div>
+    </nav>
+</header>
+<!-- navbar mobile-->
+{############################################################################################################################}
+{############################################################################################################################}
+
+
+{############################################################################################################################}
+
+<!-- service -->
+<section class="service-section mt">
+    <div class="container-2">
+
+        <div class="service-2 ">
+            <div class="bg-white box-servise position-relative text-center btn-open">
+                <i style="font-size: 40px" class="bi bi-telephone-inbound"></i>
+                <p>تماس تلفنی با وکیل</p>
+                <p style="font-size: 13px;color:#525050">(بعد از پرکردن فرم <span
+                        style="font-size:15px;font-weight: bold;color: black"> ما </span> با شما تماس میگیریم)</p>
+                <a href="#"
+                   class="text-black btn-form position-absolute bottom-0 start-0 text-center p-2 bg-gold w-100">فعال
+                    سازی</a>
+            </div>
+
+            <div class="overlay" id="overlay"></div>
+            <div class="call-popup" id="call-popup">
+                <span style="margin-right: 15px" class="close-btn" id="close-btn">×</span>
+
+                <form class="p-4 bg-white shadow rounded">
+                    <!-- خط بالای فرم -->
+                    <div class="form-header-call text-center position-relative mb-4">
+                        <hr class="w-50 mx-auto">
+                        <p class="position-absolute top-50 start-50 translate-middle bg-white px-2"
+                           style="color: black; font-weight: bold;">ما با شما تماس میگیریم</p>
+                    </div>
+
+                    <div class="row">
+                        <!-- انتخاب تاریخ -->
+                        <div class="pb-3">
+                            <p style="font-size: 11px;place-self: center;">درصورت باقی ماندن زمانتون میتوانید روز های
+                                بعد از آن استفاده
+                                کنید</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <input type="text" id="date" style="color: black" class="form-control input-equal" data-jdp
+                                   data-jdp-min-date="today" placeholder="انتخاب تاریخ تماس"/>
+                        </div>
+
+                        <!-- انتخاب ساعت تماس -->
+                        <div class="col-md-6 mb-3">
+                            <input type="text" id="time" style="color: black" class="form-control input-equal"
+                                   data-jdp data-jdp-only-time placeholder="انتخاب ساعت تماس"/>
+                        </div>
+
+                        <!-- انتخاب مدت زمان تماس -->
+                        <div class="col-md-6 mb-3">
+                            <select id="duration-call" class="form-select input-equal" style="border-radius: 0;border: 1px solid #d1a264;">
+                                <option value="0">مدت زمان تماس</option>
+                                <option value="1">1 ساعت</option>
+                                <option value="2">2 ساعت</option>
+                                <option value="3">3 ساعت</option>
+                                <option value="4">4 ساعت</option>
+                                <option value="5">5 ساعت</option>
+                            </select>
+                        </div>
+
+                        <!-- جمع فاکتور -->
+                        <div class="col-md-6 mb-3">
+                            <input type="text" id="total-call" style="color: black" class="form-control input-equal"
+                                   readonly
+                                   value="200,000 تومان">
+                        </div>
+                    </div>
+
+                    <!-- دکمه پرداخت -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary w-100 btn-hover123">پرداخت</button>
+                    </div>
+                </form>
+            </div>
+
+            {############################################################################################################################}
+            {############################################################################################################################}
+
+
+            {############################################################################################################################}
+
+            <div class="bg-white box-servise position-relative text-center btn-open-chat">
+                <i style="font-size: 40px" class="bi bi-chat-right-text"></i>
+                <p>چت با وکیل</p>
+                <p style="font-size: 13px;color:#525050">چت روم مختص سایت با <span
+                        style="font-size:15px;font-weight: bold;color: black"> امنیت کامل </span></p>
+
+                <a href="" class="text-black btn-form position-absolute bottom-0 start-0 text-center p-2 bg-gold w-100">فعال
+                    سازی</a>
+            </div>
+
+            <div class="overlay" id="chat-overlay"></div>
+            <div class="call-popup" id="chat-popup">
+                <span style="margin-right: 15px" class="close-btn" id="chat-close-btn">×</span>
+                <form class="p-4 bg-white shadow rounded">
+                    <div class="form-header-call text-center position-relative mb-4">
+                        <hr class="w-50 mx-auto">
+                        <p class="position-absolute top-50 start-50 translate-middle bg-white px-2"
+                           style="color: black; font-weight: bold;">چت روم اختصاصی</p>
+                    </div>
+
+                    <div class="row">
+                        <!-- انتخاب تاریخ -->
+                        <div class="col-md-6 mb-3">
+                            <input type="text" id="date-chat" style="color: black" class="form-control input-equal"
+                                   data-jdp
+                                   data-jdp-min-date="today" placeholder="تاریخ شروع چت"/>
+                        </div>
+
+
+                        <!-- انتخاب مدت زمان تماس -->
+                        <div class="col-md-6 mb-3">
+                            <select id="duration-chat" class="form-select input-equal"style="border-radius: 0;border: 1px solid #d1a264;">
+                                <option value="1">1 روز</option>
+                                <option value="3">3 روز</option>
+                                <option value="7">1 هفته</option>
+                            </select>
+                        </div>
+
+                        <!-- جمع فاکتور -->
+                        <div class="col-md-12 mb-3">
+                            <input type="text" id="total-chat" style="color: black" class="form-control input-equal"
+                                   readonly value="150,000 تومان">
+
+                        </div>
+                    </div>
+
+                    <!-- دکمه پرداخت -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary w-100 btn-hover123">پرداخت</button>
+                    </div>
+
+                </form>
+            </div>
+
+            {############################################################################################################################}
+            {############################################################################################################################}
+
+
+            {############################################################################################################################}
+
+            <div class="bg-white box-servise position-relative text-center btn-open-legal">
+                <i style="font-size: 40px" class="bi bi-file-richtext"></i>
+                <p>تنظیم اوراق قضایی</p>
+                <p style="font-size: 13px;color:#525050">تنظیم دادخواست , لایحه , اظهارنامه و شکواییه</p>
+                <a href="" class="text-black btn-form position-absolute bottom-0 start-0 text-center p-2 bg-gold w-100">فعال
+                    سازی</a>
+            </div>
+            <div class="overlay" id="legal-overlay"></div>
+            <div class="call-popup" id="legal-popup">
+                <span style="margin-right: 15px" class="close-btn" id="legal-close-btn">×</span>
+                <form class="p-4 bg-white shadow rounded">
+                    <div class="form-header-call text-center position-relative mb-4">
+                        <hr class="w-50 mx-auto">
+                        <p class="position-absolute top-50 start-50 translate-middle bg-white px-2"
+                           style="color: black; font-weight: bold;">تنظیم اوراق قضایی</p>
+                    </div>
+                    <p style="font-size: 13px">بعد از ارسال درخواستتون چت یک روزه برای شما فعال میشه تا بتوانید عکس های
+                        مورد نظر و اطلاعات بیشتر رو در چت تبادل کنید</p>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <select id="duration-chat" class="form-select input-equal"style="border-radius: 0;border: 1px solid #d1a264;">
+                                <option value="1">تنظیم لایحه</option>
+                                <option value="2">تنظیم دادخواست</option>
+                                <option value="3">تنظیم شکواییه</option>
+                                <option value="4">تنظیم اظهارنامه</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <input type="text" id="=title-darkhast" style="color: black"
+                                   class="form-control input-equal"
+                                   placeholder="موضوع">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <textarea id="description_darkhast" style="color: black; height: 120px;"
+                                      class="form-control input-equal"
+                                      placeholder="متن کامل درخواست از وکیل"></textarea>
+
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary w-100 btn-hover123">بررسی توسط وکیل</button>
+                    </div>
+                </form>
+            </div>
+            {############################################################################################################################}
+            {############################################################################################################################}
+
+
+            {############################################################################################################################}
+
+            <div class="bg-white box-servise position-relative text-center btn-open-lawyer">
+                <i style="font-size: 40px" class="bi bi-person-check"></i>
+                <p>وکیل اختصاصی</p>
+                <p style="font-size: 13px;color:#525050">بصورت حضوری و غیرحضوری حتی در شهرشما</p>
+                <a href="" class="text-black btn-form position-absolute bottom-0 start-0 text-center p-2 bg-gold w-100">فعال
+                    سازی</a>
+            </div>
+            <div class="overlay" id="lawyer-overlay"></div>
+            <div class="call-popup" id="lawyer-popup">
+                <span style="margin-right: 15px" class="close-btn" id="lawyer-close-btn">×</span>
+                <form class="p-4 bg-white shadow rounded">
+                    <div class="form-header-call text-center position-relative mb-4">
+                        <hr class="w-50 mx-auto">
+                        <p class="position-absolute top-50 start-50 translate-middle bg-white px-2"
+                           style="color: black; font-weight: bold;">وکیل اختصاصی</p>
+                    </div>
+                    <p style="font-size: 13px">انجام تمامی پرونده ها و حضور در دادگاه ها </p>
+                    <div class="row mt-3">
+                        <div class="col-md-6 mb-2">
+                            <select id="duration-ekhtesasi" class="form-select input-equal"style="border-radius: 0;border: 1px solid #d1a264;">
+                                <option value="1">1 هفته</option>
+                                <option value="2">1 ماه</option>
+                                <option value="3">6 ماه</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <input type="text" id="date-chat" style="color: black" class="form-control input-equal"
+                                   data-jdp
+                                   data-jdp-min-date="today" placeholder="تاریخ شروع"/>
+                        </div>
+                    </div>
+                    <!-- اینجا فیلدهای فرم وکیل اختصاصی اضافه کنید -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary w-100 btn-hover123">درخواست وکیل</button>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- service -->
+
+
+<!-- footer -->
+
+<footer class="bg-white pt-5 mt2 position-relative" style="border-top: 5px solid #BC945C;">
+    <div class="container-2 ">
+
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{% static "image/logo-footer.png" %}" width="200" alt="">
+                <p class="text-black text-jus my-4 col-md-11 fw-semibold">وکلا همیشه آزادند تا انجمن های داوطلبانه
+                    خود را تشکیل دهند، جدای
+                    از هرگونه مجوز یا عضویت اجباری که ممکن است توسط قوانین حوزه قضایی آنها لازم باشد.</p>
+
+                <div class="mt-5 d-flex gap-3">
+                    <a href=""><i class="bi bi-facebook text-gold p-1 px-2"
+                                  style="border: 1px solid #bc945c94 ;"></i></a>
+                    <a href=""><i class="bi bi-instagram text-gold p-1 px-2"
+                                  style="border: 1px solid #bc945c94 ;"></i></a>
+                    <a href=""><i class="bi bi-twitter text-gold p-1 px-2"
+                                  style="border: 1px solid #bc945c94 ;"></i></a>
+                </div>
+
+            </div>
+            <div class="col-md-8 box-footer">
+                <div class="row justify-content-between">
+                    <div class="col-md-5">
+                        <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">اطلاعات تماس</h5>
+                        <ul class="list-unstyled mt-4">
+                            <li class="mb-5 d-flex gap-4">
+                                <i class="bi bi-telephone-fill text-gold px-3 py-2 fs-4"
+                                   style="border: 1px solid #bc945c3b;"></i>
+                                <div>
+                                    <p class="text-gold">تلفن: </p>
+                                    <h5 class="fw-light mt-2">02112345678</h5>
+                                </div>
+                            </li>
+                            <li class="mb-5 d-flex gap-4">
+                                <i class="bi bi-envelope-fill text-gold px-3 py-2 fs-4"
+                                   style="border: 1px solid #bc945c3b;"></i>
+                                <div>
+                                    <p class="text-gold">ایمیل: </p>
+                                    <h5 class="fw-light mt-2">info@lawyerylaw.com</h5>
+                                </div>
+                            </li>
+                            <li class="mb-5 d-flex gap-4">
+                                <i class="bi bi-geo-alt-fill text-gold px-3 py-2 fs-4"
+                                   style="border: 1px solid #bc945c3b;"></i>
+                                <div>
+                                    <p class="text-gold">آدرس: </p>
+                                    <h5 class="fw-light mt-2">ایران، تهران</h5>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="col-md-7">
+                        <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">دسترسی سریع</h5>
+                        <ul class="list-unstyled mt-4 fs-12">
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">مرکز موسسه
+                                حقوقی</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">ابزار موسسه
+                                حقوقی</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">تماس با موسسه
+                                حقوقی</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">مواردهای
+                                قانون</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">کتابخانه
+                                منابع</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">مرکز
+                                پشتیبانی</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- footer -->
+
+
+<!-- fix phone -->
+<div class="bg-gold fix-phone">
+    <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
+                                                                 style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
+                ۰۲۱۱۲۳۴۵۶۷۸</span></a>
+</div>
+<!-- fix phone -->
+
+<!--  JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{% static "js/script.js" %}"></script>
+<script src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
+<script>
+
+    var swiper = new Swiper(".mySwiper2", {
+        pagination: {
+            el: ".swiper-pagination",
+        },
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+            },
+
+            1024: {
+                slidesPerView: 3,
+            },
+        },
+    });
+
+    // Accordion
+    const headers = document.querySelectorAll('.accordion-header');
+    if (headers) {
+        document.addEventListener('DOMContentLoaded', function () {
+
+            headers.forEach(header => {
+                header.addEventListener('click', function () {
+                    const body = this.nextElementSibling;
+                    body.classList.toggle('active');
+
+                    headers.forEach(otherHeader => {
+                        if (otherHeader !== this) {
+                            otherHeader.nextElementSibling.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        });
+
+
+    }
+
+
+    function handlePopup() {
+
+        jalaliDatepicker.startWatch({
+            minDate: "today"  // اینجا حداقل تاریخ انتخابی از امروز تنظیم می‌شود
+        });
+        const callBtn = document.querySelector('.btn-open'); // دکمه تماس
+        const chatBtn = document.querySelector('.btn-open-chat'); // دکمه چت
+        const legalBtn = document.querySelector('.btn-open-legal'); // دکمه تنظیم اوراق
+        const lawyerBtn = document.querySelector('.btn-open-lawyer'); // دکمه وکیل اختصاصی
+
+        const overlay = document.getElementById('overlay');
+        const chatOverlay = document.getElementById('chat-overlay');
+        const legalOverlay = document.getElementById('legal-overlay');
+        const lawyerOverlay = document.getElementById('lawyer-overlay');
+
+        const callPopup = document.getElementById('call-popup');
+        const chatPopup = document.getElementById('chat-popup');
+        const legalPopup = document.getElementById('legal-popup');
+        const lawyerPopup = document.getElementById('lawyer-popup');
+
+        const closeBtn = document.getElementById('close-btn');
+        const chatCloseBtn = document.getElementById('chat-close-btn');
+        const legalCloseBtn = document.getElementById('legal-close-btn');
+        const lawyerCloseBtn = document.getElementById('lawyer-close-btn');
+
+        // باز کردن پاپ آپ‌ها
+        if (callBtn) {
+            callBtn.addEventListener('click', () => {
+                overlay.style.display = 'block';
+                callPopup.style.display = 'block';
+            });
+        }
+
+        if (chatBtn) {
+            chatBtn.addEventListener('click', () => {
+                chatOverlay.style.display = 'block';
+                chatPopup.style.display = 'block';
+            });
+        }
+
+        if (legalBtn) {
+            legalBtn.addEventListener('click', () => {
+                legalOverlay.style.display = 'block';
+                legalPopup.style.display = 'block';
+            });
+        }
+
+        if (lawyerBtn) {
+            lawyerBtn.addEventListener('click', () => {
+                lawyerOverlay.style.display = 'block';
+                lawyerPopup.style.display = 'block';
+            });
+        }
+
+        // بستن پاپ آپ‌ها
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                overlay.style.display = 'none';
+                callPopup.style.display = 'none';
+            });
+        }
+
+        if (chatCloseBtn) {
+            chatCloseBtn.addEventListener('click', () => {
+                chatOverlay.style.display = 'none';
+                chatPopup.style.display = 'none';
+            });
+        }
+
+        if (legalCloseBtn) {
+            legalCloseBtn.addEventListener('click', () => {
+                legalOverlay.style.display = 'none';
+                legalPopup.style.display = 'none';
+            });
+        }
+
+        if (lawyerCloseBtn) {
+            lawyerCloseBtn.addEventListener('click', () => {
+                lawyerOverlay.style.display = 'none';
+                lawyerPopup.style.display = 'none';
+            });
+        }
+    }
+
+    // اجرای اسکریپت بعد از لود شدن کامل صفحه
+    document.addEventListener('DOMContentLoaded', handlePopup);
+
+
+    // Execute function when DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', handlePopup);
+    document.getElementById('duration-call').addEventListener('change', function () {
+        const duration = parseInt(this.value);
+        const pricePerHour = 200000;
+        const total = duration * pricePerHour;
+        document.getElementById('total-call').value = total.toLocaleString() + ' تومان';
+    });
+    $(document).ready(function () {
+        // پیکربندی انتخابگر زمان
+        $('#time').persianDatepicker({
+            onlyTimePicker: true, // فقط ساعت و دقیقه
+            timePicker: {
+                second: false // حذف ثانیه‌ها
+            },
+            onSelect: function () {
+                // وقتی زمان انتخاب شد، مقدار در فیلد باقی بماند و منوی انتخاب بسته شود
+                $(this).val();
+            }
+        });
+
+        // تغییر رنگ اعداد به مشکی
+        $('#time').on('focus', function () {
+            $('.datepicker-time').css('color', 'black');
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('صفحه به طور کامل بارگذاری شد');
+
+        // دکمه‌ای که پاپ‌آپ را باز می‌کند
+        const chatPopupButton = document.querySelector('.btn-open-chat');
+        console.log('دکمه پاپ‌آپ چت پیدا شد:', chatPopupButton);
+
+        if (chatPopupButton) {
+            chatPopupButton.addEventListener('click', function () {
+                console.log('روی دکمه چت کلیک شد، پاپ‌آپ باز می‌شود');
+
+                // اضافه کردن تاخیر کوتاه برای اطمینان از اینکه پاپ‌آپ کاملاً لود شده است
+                setTimeout(function () {
+                    console.log('در حال بررسی عناصر پاپ‌آپ بعد از باز شدن...');
+
+                    // یافتن عناصر فرم در پاپ‌آپ
+                    const durationChat = document.getElementById('duration-chat');
+                    const totalChat = document.getElementById('total-chat');
+
+                    console.log('durationChat عنصر:', durationChat);
+                    console.log('totalChat عنصر:', totalChat);
+
+                    if (durationChat && totalChat) {
+                        console.log('عناصر durationChat و totalChat پیدا شدند. آماده افزودن listener.');
+
+                        // اضافه کردن listener برای تغییرات در durationChat
+                        durationChat.addEventListener('change', function () {
+                            const duration = this.value; // مقدار انتخاب شده را دریافت می‌کنیم
+                            console.log('مدت زمان انتخاب شده:', duration);
+
+                            let total = 150000; // مقدار پیش‌فرض
+
+                            // محاسبه قیمت بر اساس مدت زمان انتخاب شده
+                            if (duration === "1") {
+                                total = 150000;
+                            } else if (duration === "3") {
+                                total = 300000;
+                            } else if (duration === "7") {
+                                total = 500000;
+                            }
+
+                            console.log('قیمت محاسبه شده:', total);
+
+                            // به‌روزرسانی فیلد totalChat
+                            totalChat.value = total.toLocaleString() + ' تومان';
+                        });
+                    } else {
+                        console.log('عناصر durationChat یا totalChat پیدا نشدند.');
+                    }
+                }, 100); // تاخیر کوتاه
+            });
+        } else {
+            console.log('دکمه چت پیدا نشد!');
+        }
+    });
+
+</script>
+
+</body>
+
+</html>

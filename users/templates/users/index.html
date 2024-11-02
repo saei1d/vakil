@@ -1,0 +1,932 @@
+{% extends 'base.html' %}
+{% block title %}صفحه اصلی{% endblock %}
+{% block style %}
+    @keyframes fadeIIn {
+    0% {
+    opacity: 0;
+    transform: translate(-50%, -60%); /* پاپ آپ کمی بالاتر شروع به ظاهر شدن می‌کند */
+    }
+    100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    }
+    }
+
+    /* افکت محو شدن */
+    @keyframes fadeOOut {
+    0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    }
+    100% {
+    opacity: 0;
+    transform: translate(-50%, -60%); /* پاپ آپ کمی بالاتر محو می‌شود */
+    }
+    }
+
+
+    .no-scroll {
+    overflow: hidden; /* جلوگیری از اسکرول */
+    }
+
+    .blur-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* پس‌زمینه نیمه شفاف */
+    backdrop-filter: blur(10px); /* بلور کردن پس‌زمینه */
+    z-index: 999; /* مطمئن شوید که این کلاس زیر پاپ‌آپ است */
+    pointer-events: auto; /* فعال‌سازی کلیک برای این پس‌زمینه */
+    }
+
+
+    /* پاپ آپ */
+    .background {
+    width: 430px;
+    height: 300px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    display: none; /* Initially hidden */
+    z-index: 900; /* نمایش shape ها در زیر پاپ آپ */
+    }
+
+
+    .popup.hidden {
+    animation: fadeOut 0.5s forwards; /* برای مخفی کردن پاپ آپ */
+    display: none; /* بعد از انیمیشن پاپ آپ مخفی شود */
+    }
+
+    .popup {
+    opacity: 0;
+    animation: fadeIn 1s forwards; /* زمان و جهت انیمیشن */
+    display: none;
+    background: rgba(48, 91, 48, 0.94);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    z-index: 1000; /* بالاتر از shape ها */
+    }
+
+
+    /* دکمه ضربدر */
+    .close-popup {
+    width: 40px;
+    height: 45px;
+    background: none;
+    color: #ee0808;
+    border: none;
+    font-size: 50px;
+    cursor: pointer;
+    }
+
+
+    form * {
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+    }
+
+    form h3 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+    }
+
+    label {
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+    }
+
+    input {
+
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 24px;
+    font-weight: 800;
+    text-align: center;
+
+    }
+
+    ::placeholder {
+    color: #e5e5e5;
+    font-size: 18px; /* سایز بزرگ‌تر برای placeholder */
+    text-align: center; /* متن placeholder در وسط */
+    }
+
+    button {
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+
+    .popup.active {
+    display: block;
+    }
+
+    .background.active {
+    display: block; /* Show shapes when popup is active */
+    }
+
+    @media (max-width: 800px) {
+    /* پنهان کردن shapeها در موبایل */
+    .background .shape {
+    display: none;
+    }
+
+    /* تنظیم اندازه پاپ‌آپ در موبایل */
+    .popup {
+    margin: auto;
+    }
+    }
+
+
+
+    .loader {
+    width: 60px;
+    height: 25px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side, #c77c13 90%, #0000);
+    background: var(--_g) 0% 50%,
+    var(--_g) 50% 50%,
+    var(--_g) 100% 50%;
+    background-size: calc(100% / 3) 50%;
+    animation: l3 1s infinite linear;
+    }
+
+    @keyframes l3 {
+    20% {
+    background-position: 0% 0%, 50% 50%, 100% 50%
+    }
+    40% {
+    background-position: 0% 100%, 50% 0%, 100% 50%
+    }
+    60% {
+    background-position: 0% 50%, 50% 100%, 100% 0%
+    }
+    80% {
+    background-position: 0% 50%, 50% 50%, 100% 100%
+    }
+    }
+{% endblock %}
+
+{% block content %}
+    <header class="hed-img">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-slide-2">
+                    {% load static %}
+
+                    <img src="{% static "image/slider2.jpg" %}" class="aos-item" data-aos="zoom-out"
+                         data-aos-duration="3000"
+                         height="700px" alt="">
+                    <div class="text-slider text-center">
+                        {% load static %}
+                        <img src="{% static "image/slider-img1.png" %}" class="aos-item" data-aos-easing="zoom-out"
+                             data-aos-delay="3000" data-aos="fade-down" data-aos-duration="3000" alt="">
+                        <h1 class="my-2 aos-item h1-res" style="font-size: 64px;" data-aos="fade-up"
+                            data-aos-easing="zoom-out" data-aos-delay="3000" data-aos-duration="2000">
+                            بیش از ۳۰ سال استراتژیک
+                            <br>
+                            مشاوره حقوقی
+                        </h1>
+                        <img src="{% static "image/slider-img2.png" %}" data-aos="fade-up" data-aos-easing="zoom-out"
+                             data-aos-delay="3000" data-aos-duration="2000" style="width: 200px !important;" alt="">
+                    </div>
+                </div>
+                <div class="swiper-slide swiper-slide-2">
+                    {% load static %}
+                    <img src="{% static "image/slider1.jpg" %}" class="aos-item" data-aos="zoom-out"
+                         data-aos-duration="3000"
+                         height="700px" alt="">
+                    <div class="text-slider text-center">
+                        {% load static %}
+                        <img src="{% static "image/slider-img1.png" %}" class="aos-item" data-aos-easing="zoom-out"
+                             data-aos-delay="3000" data-aos="fade-down" data-aos-duration="3000" alt="">
+                        <h1 class="my-2 aos-item h1-res" style="font-size: 64px;" data-aos="fade-up"
+                            data-aos-easing="zoom-out" data-aos-delay="3000" data-aos-duration="2000">
+                            بیش از ۳۰ سال استراتژیک
+                            <br>
+                            مشاوره حقوقی
+                        </h1>
+                        {% load static %}
+                        <img src="{% static "image/slider-img2.png" %}" class="aos-item" data-aos-easing="zoom-out"
+                             data-aos-delay="3000" data-aos="fade-down" data-aos-duration="3000"
+                             style="width: 200px !important;" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="container-2 box-hed">
+            <div class="row flex-row-reverse">
+                <div class="col-md-4">
+                    <div class="custom-card">
+                        <h6>تصادف خودرو</h6>
+                        <h5>۹۵۰ میلیون تومان</h5>
+                        <p>مشتری ما توسط یک راننده بی احتیاط که نتوانست تسلیم ترافیک روبرو شود، مورد اصابت قرار گرفت.
+                        </p>
+                        <a href="#" class=" btn-custom">پرونده کامل را بخوانید</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-card">
+                        <h6>خسارت آسیب در محل کار</h6>
+                        <h5>۴۰۰ میلیون تومان</h5>
+                        <p>به یک زن کمک کرد که ماشینش توسط راننده ای که نتوانست تسلیم ترافیک روبرو شود، برخورد کرد.</p>
+                        <a href="#" class=" btn-custom">پرونده کامل را بخوانید</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-card">
+                        <h6>خسارت تصادف رانندگی</h6>
+                        <h5>۶ میلیارد تومان</h5>
+                        <p>خانم ۴۲ ساله ای در حال بازگشت از محل کار به خانه بود که تصادف کرد.</p>
+                        <a href="#" class=" btn-custom">پرونده کامل را بخوانید</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- slider -->
+
+
+    <!-- about  -->
+    <section>
+        <div class="container-2 mt2">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md-5 text-md-start text-center mb-3">
+                    <li><a href="" onclick="openPopup(event)">وارد شوید</a></li>
+                    <img src="{% static "image/icon1.png" %}" alt="">
+                    <h2 class="my-4" style="font-size: 48px;">در کنار شما، مبارزه
+                        <br>
+                        برای برد شما
+                    </h2>
+                    <p>
+                        شاید مشتریانم برای من مهمتر باشند زیرا واقعی هستند
+                        <br>
+                        افرادی با مشکلات واقعی که همه ما می توانیم آنها را درک کنیم، می گوید
+                        <br>
+                        دالاس «سیستم حقوقی ما فقط زمانی کار می‌کند که مشتریان باشند
+                        <br>
+                        توسط وکلای آگاه و متخصص.
+                    </p>
+                    <img src="{% static "image/signature.png" %}" class="mt-5" alt="">
+                </div>
+                <div class="col-md-4 ">
+                    <div class="bg-befor position-relative">
+                        <img src="{% static "image/img1.png" %}" width="100%" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- about  -->
+
+
+    <!-- contect -->
+    <Section>
+        <div class="container-2 mt2">
+            <div class="row justify-content-between  p-4 mx-1 mx-md-0 p-md-5"
+                 style="background-color: #182615; border-bottom: 5px solid #BC945C;">
+                <!-- info contect -->
+                <div class="col-md-5 text-md-start text-center ">
+                    <div class="contact-info">
+                        <h2 style="font-size: 40px;">برای بازگرداندن زندگی خود آماده‌اید؟</h2>
+                        <p class="my-4">ما آماده جنگیدن برای شما هستیم. ما آماده‌ایم که متحد شما باشیم. و ما هم اکنون
+                            آماده شروع کار
+                            هستیم. زمان را از دست ندهید. همین امروز با ما تماس بگیرید.</p>
+                        <div
+                                class="d-flex align-items-center flex-column flex-md-row gap-3 mb-5 justify-content-md-start justify-content-center">
+                            <img src="{% static "image/icon6.png" %}" width="50px" alt="">
+                            <div>
+                                <p class="text-gold mb-2">تماس اضطراری</p>
+                                <h6> ۰۲۱-۱۲۳۴۵۶۷۸</h6>
+                            </div>
+                        </div>
+                        <div
+                                class="d-flex align-items-center flex-column flex-md-row gap-3 justify-content-md-start justify-content-center">
+                            <img src="{% static "image/icon5.png" %}" width="50px" alt="">
+                            <div>
+                                <p class="text-gold mb-2">ساعات کاری</p>
+                                <h6> ۲۴/۷ در دسترس</h6>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!-- form contect -->
+                <div class="col-md-6 mt-md-0 mt-5 ">
+                    <div class="form-section">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <div class="form-group">
+                                    <label for="name">نام خود را وارد کنید *</label>
+                                    <input type="text" name="name" id="name" class="form-control"
+                                           placeholder="نام خود را وارد کنید *" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="subject">نوع سوال را انتخاب کنید</label>
+                                        <select class="form-control" name="department" id="subject" required>
+                                            <option selected style="color: black;" disabled>نوع سوال را انتخاب کنید
+                                            </option>
+                                            <option value="1" style="color: black;">کیفری</option>
+                                            <option value="2" style="color: black;">تجارت</option>
+                                            <option value="3" style="color: black;">خانواده</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="title">موضوع</label>
+                                        <input type="text" name="title" id="title" class="form-control"
+                                               placeholder="موضوع"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="question">سوال شما</label>
+                                    <textarea class="form-control" name="description" id="question" rows="4"
+                                              placeholder="سوال شما" required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="text-md-start text-center">
+                                <button type="submit" class="btn-form">ارسال</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="text-center mt-5">
+                <img src="{% static "image/icon4.png" %}" alt="">
+                <h2 class="my-5 lh-lg">
+                    تیم وکلای ما رکوردهای بزرگی را ثبت کرده اند، از جمله
+                    <br>
+                    بزرگترین حکم دریافت غرامت در کشور
+                    <br>
+                    با بیش از ۱۳۰ پرونده موفق
+                </h2>
+                <div class="d-flex gap-4 justify-content-center">
+                    <a href="" class="bg-gold p-3 px-4 text-black">
+                        ارزیابی رایگان </a>
+                    <a href="" class="border-gold p-3 px-4 text-gold">
+                        اطلاعات بیشتر </a>
+                </div>
+            </div>
+
+        </div>
+    </Section>
+    <!-- contect -->
+
+
+    <!-- box category -->
+    <section class="category-section py-5">
+        <div class="category text-center">
+            <div class="bg-white box-category">
+                <img src="{% static "image/icon14.png" %}" alt="حقوق" width="50px">
+                <h5 class="mt-3">حقوق</h5>
+                <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
+            </div>
+            <div class="bg-white box-category">
+                <img src="{% static "image/icon10.png" %}" alt="تصادف" width="50px">
+                <h5 class="mt-3">تصادف</h5>
+                <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
+            </div>
+            <div class="bg-white box-category">
+                <img src="{% static "image/icon13.png" %}" alt="دفاع جنایی" width="50px">
+                <h5 class="mt-3">دفاع جنایی</h5>
+                <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
+            </div>
+            <div class="bg-white box-category">
+                <img src="{% static "image/icon11.png" %}" alt="ورشکستگی" width="50px">
+                <h5 class="mt-3">ورشکستگی</h5>
+                <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
+            </div>
+            <div class="bg-white box-category">
+                <img src="{% static "image/icon12.png" %}" alt="صدمه شخصی" width="50px">
+                <h5 class="mt-3">صدمه شخصی</h5>
+                <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
+            </div>
+        </div>
+        <div class="text-center ">
+            <a href="#" class="w-100 btn-hover d-inline-block p-3 text-black bg-gold">مشاهده همه خدمات حقوقی</a>
+        </div>
+    </section>
+    <!-- box category -->
+
+
+    <!-- amar  -->
+    <section class=" py-5">
+        <div class="container-2">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md-5 bg-befor mb-5 position-relative">
+                    <img src="{% static "image/img12.jpg" %}" alt="Gavel Image" width="100%">
+                </div>
+                <div class="col-md-6 ">
+                    <h2 class="fs-1 lh-lg ps-5">و در پایان <br>ما پیروز خواهیم شد.</h2>
+                    <div class="cases ">
+                        <div class="case d-flex gap-3">
+                            <div class="ps-5">
+                                <img src="{% static "icon15.png" %}" width="60px" alt="">
+                            </div>
+                            <div>
+                                <h3>$۱۹,۱۵۰,۰۰۰</h3>
+                                <h6>پرونده تصادف کامیون</h6>
+                                <p>لورم ایپسوم متن ساختگی...</p>
+                            </div>
+                        </div>
+                        <div class="case d-flex gap-3">
+                            <div class="ps-5">
+                                <img src="{% static "icon15.png" %}" width="60px" alt="">
+                            </div>
+                            <div>
+                                <h3>$۶,۳۲۰,۰۰۰</h3>
+                                <h6>تصادف موتور سیکلت</h6>
+                                <p>لورم ایپسوم متن ساختگی...</p>
+                            </div>
+
+                        </div>
+                        <div class="case d-flex gap-3">
+                            <div class="ps-5">
+                                <img src="{% static "icon15.png" %}" width="60px" alt="">
+                            </div>
+                            <div>
+                                <h3>$۱۱,۸۰۰,۰۰۰</h3>
+                                <h6>صدمه شخصی</h6>
+                                <p>لورم ایپسوم متن ساختگی...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!--  amar -->
+
+
+    <!-- comment -->
+    <section>
+        <div class="container-2 mt2">
+            <div class="swiper mySwiper2">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide p-5 text-center position-relative"
+                         style="background: #182615; border-bottom: 5px solid #BC945C ;">
+                        <img src="{% static "tst1.jpg" %}" class="img-comment" width="80px" alt="">
+                        <h4 class="mt-5">مهدی پورنیا</h4>
+                        <p class="mb-3">بیمه عمر</p>
+                        <p class="my-4 lh-lg">“لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
+                            طراحان گرافیک است.
+                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
+                            تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در
+                            شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها
+                            شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی
+                            ایجاد کرد.”</p>
+
+                        <div>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+
+                        </div>
+                    </div>
+                    <div class="swiper-slide p-5 text-center position-relative"
+                         style="background: #182615; border-bottom: 5px solid #BC945C ;">
+                        <img src="{% static "" %}./static/image/tst1.jpg" class="img-comment" width="80px" alt="">
+                        <h4 class="mt-5">مهدی پورنیا</h4>
+                        <p class="mb-3">بیمه عمر</p>
+                        <p class="my-4 lh-lg">“لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
+                            طراحان گرافیک است.
+                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
+                            تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در
+                            شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها
+                            شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی
+                            ایجاد کرد.”</p>
+
+                        <div>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+
+                        </div>
+                    </div>
+                    <div class="swiper-slide p-5 text-center position-relative"
+                         style="background: #182615; border-bottom: 5px solid #BC945C ;">
+                        <img src="{% static "" %}./static/image/tst1.jpg" class="img-comment" width="80px" alt="">
+                        <h4 class="mt-5">مهدی پورنیا</h4>
+                        <p class="mb-3">بیمه عمر</p>
+                        <p class="my-4 lh-lg">“لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
+                            طراحان گرافیک است.
+                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
+                            تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در
+                            شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها
+                            شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی
+                            ایجاد کرد.”</p>
+
+                        <div>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- comment -->
+
+
+    <!-- blog -->
+
+    <section>
+        <div class="container-2 mt2">
+            <h2 class="text-center " style="font-size: 42px;">آخرین اخبار و پست ها را بخوانید
+                <br>
+                درباره <span class="text-gold">دادگاه</span> و <span class="text-gold">قانون</span>
+            </h2>
+            <div class="blog  justify-content-between mt-5">
+                <div class="bg-white p-3 py-5 box-blog">
+                    <div class="text-gold d-flex gap-5 fs-14 border-bottom pb-2">
+                        <span>آموزش</span>
+                        <span>۲۱ خرداد ۱۴۰۳</span>
+                    </div>
+                    <h3 class="text-jus mt-4">
+                        به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است
+                    </h3>
+                </div>
+                <div class=" bg-white p-3 py-5 box-blog">
+                    <div class="text-gold d-flex gap-5 fs-14 border-bottom pb-2">
+                        <span>آموزش</span>
+                        <span>۲۱ خرداد ۱۴۰۳</span>
+                    </div>
+                    <h3 class="text-jus mt-4">
+                        به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است
+                    </h3>
+                </div>
+                <div class=" bg-white p-3 py-5 box-blog">
+                    <div class="text-gold d-flex gap-5 fs-14 border-bottom pb-2">
+                        <span>آموزش</span>
+                        <span>۲۱ خرداد ۱۴۰۳</span>
+                    </div>
+                    <h3 class="text-jus mt-4">
+                        به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است
+                    </h3>
+                </div>
+            </div>
+
+
+            <div class="mt-5 text-center">
+                <a href="" class="bg-gold text-black p-2 btn-form">مشاهده تمام مطالب وبلاگ </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- blog -->
+
+
+
+    <!-- fix phone mob -->
+    <div class="bg-gold fix-phone">
+        <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
+                                                                     style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
+                ۰۲۱۱۲۳۴۵۶۷۸</span></a>
+    </div>
+    <!-- fix phone mob -->
+
+
+    <!--  support -->
+    <div class="support-container">
+
+        <div class="support-button" id="supportButton">
+            <i class="bi bi-whatsapp" id="buttonIcon"></i>
+        </div>
+
+        <div class="overlay" id="overlay"></div>
+
+        <div class="support-menu justify-content-around " id="supportMenu">
+
+            <div class="support-item d-flex flex-column">
+                <i class="bi bi-telegram fs-1 pt-0" style="color: #0078FF;"></i>
+                <a href="https://telegram.me/example" target="_blank">
+                    وکیل
+                </a>
+            </div>
+            <div class="support-item d-flex flex-column">
+                <i class="bi bi-whatsapp fs-1 pt-0" style="color: #25D366;"></i>
+                <a href="https://wa.me/123456789" target="_blank">
+                    پشتیبانی
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!--support-->
+
+
+    <div id="loginPopup" class="popup bodyy">
+        <button class="close-popup" onclick="closePopup()">×</button>
+        <form id="phoneForm" method="post" novalidate>
+            {% csrf_token %}
+            <h3 class="mx-auto">ورود به سایت</h3>
+            <div class="phone-number-input">
+                <label for="phone_number">شماره همراه:</label>
+                <input id="phone_number" type="text" name="phone_number" placeholder="09120000000" maxlength="11"
+                       required>
+            </div>
+            <div class="p-3 pb-4">
+                <button type="button" id="submitPhoneBtn" style="cursor: not-allowed;height: 53px">دریافت کد</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="codePopup" class="popup bodyy" style="display: none;">
+        <button class="close-popup" onclick="closePopup2()">×</button>
+        <form id="codeForm" method="post" action="/home/" novalidate>
+            {% csrf_token %}
+            <h3 class="mx-auto">ورود کد تأیید</h3>
+            <div class="code-input">
+                <label for="sms_code">کد تأیید:</label>
+                <input id="sms_code" type="text" name="sms_code" placeholder="0000" maxlength="4" required>
+            </div>
+            <input type="hidden" id="hiddenPhoneNumber" name="phone_number">
+            <div class="p-3 pb-4">
+                <button type="submit" id="submitCodeBtn" style="height: 53px;">
+                    <span class="btn-text" style="color: black">ورود</span>
+                    <div class="loader" style="display: none"></div>
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    $(document).ready(function () {
+    $('#phone_number').on('input', function () {
+    var phoneNumber = $(this).val();
+    if (phoneNumber.length === 11 && phoneNumber.startsWith('09')) {
+    $('#submitPhoneBtn').css({
+    'background-color': 'green',
+    'color': 'white',
+    'cursor': 'pointer'
+
+    }).prop('disabled', false); // فعال‌سازی دکمه
+    } else {
+    $('#submitPhoneBtn').css({
+    'background-color': 'gray',
+    'color': 'black',
+    'cursor': 'not-allowed'
+
+    }).prop('disabled', true); // غیرفعال‌سازی دکمه
+    }
+    });
+
+    $('#submitPhoneBtn').click(function () {
+    var phoneNumber = $('#phone_number').val();
+    if (phoneNumber.length === 11) {
+    $.ajax({
+    url: '/send-code/', // آدرس URL
+    type: 'POST',
+    data: {
+    phone_number: phoneNumber,
+    csrfmiddlewaretoken: '{{ csrf_token }}' // توکن CSRF
+    },
+    success: function (response) {
+    $('#hiddenPhoneNumber').val(phoneNumber); // ذخیره شماره تلفن در فرم کد
+    $('#loginPopup').hide(); // مخفی کردن کادر شماره تلفن
+    $('#codePopup').show(); // نمایش کادر کد تأیید
+    },
+    error: function (xhr, status, error) {
+    alert('خطا در ارسال کد. لطفاً دوباره تلاش کنید.');
+    }
+    });
+    } else {
+    alert('لطفاً شماره همراه را به‌طور کامل وارد کنید.');
+    }
+    });
+
+    // جلوگیری از ارسال فرم با زدن Enter
+    $('#phoneForm').on('keydown', function (e) {
+    if (e.key === "Enter") {
+    e.preventDefault(); // جلوگیری از رفتار پیش‌فرض
+    }
+    });
+    });
+
+    $('#submitCodeBtn').click(function (event) {
+    event.preventDefault(); // جلوگیری از رفتار پیش‌فرض سابمیت فرم
+    var smsCode = $('#sms_code').val();
+    var phoneNumber = $('#hiddenPhoneNumber').val();
+
+    // مخفی کردن متن ورود و نمایش لودر بلافاصله بعد از کلیک
+    $('#submitCodeBtn .btn-text').hide(); // مخفی کردن متن "ورود"
+    $('#submitCodeBtn .loader').css('display', 'inline-block'); // نمایش لودر
+    $('#submitCodeBtn').prop('disabled', true); // غیرفعال کردن دکمه
+
+    // ایجاد تأخیر 2 ثانیه‌ای قبل از ارسال درخواست
+    setTimeout(function () {
+    $.ajax({
+    url: '/verify-code/', // آدرس URL برای تأیید کد
+    type: 'POST',
+    data: {
+    sms_code: smsCode,
+    phone_number: phoneNumber,
+    csrfmiddlewaretoken: '{{ csrf_token }}' // توکن CSRF
+    },
+    success: function (response) {
+    if (response.success) {
+    Swal.fire({
+    icon: 'success',
+    title: 'ورود موفقیت‌آمیز بود!',
+    showConfirmButton: false,
+    timer: 3000
+    });
+
+    $('#codePopup').hide(); // بستن کادر دوم
+    $('#shapesBackground').hide(); // پنهان کردن background و shape ها
+    const blurBackground = document.querySelector('.blur-background');
+    if (blurBackground) blurBackground.remove();
+    document.body.classList.remove('no-scroll');
+    } else {
+    Swal.fire({
+    icon: 'error',
+    title: 'خطا!',
+    text: response.error,
+    timer: 3000
+    });
+    }
+    },
+    error: function (xhr, status, error) {
+    alert('خطا در تأیید کد. لطفاً دوباره تلاش کنید.');
+    }
+    });
+    }, 500); // تأخیر 2 ثانیه‌ای قبل از اجرای درخواست
+    });
+
+    function closeMenuAndOpenPopup(event) {
+    event.preventDefault();
+
+    // اضافه کردن انیمیشن مخفی‌سازی
+    const menuMobile = document.querySelector('.menu-mobile');
+    menuMobile.classList.add('animate__fadeOut');
+
+    // بعد از اتمام انیمیشن، منو را کاملا مخفی کن
+    setTimeout(() => {
+    menuMobile.style.display = 'none';
+    }, 500); // مدت زمان انیمیشن 0.5 ثانیه
+
+    // باز کردن پاپ آپ
+    openPopup(event);
+    }
+
+    function openPopup(event) {
+    event.preventDefault();
+
+    // نمایش پاپ‌آپ
+    const popup = document.getElementById('loginPopup');
+    popup.style.display = 'block';
+    popup.classList.add('active');
+
+    // غیرفعال کردن اسکرول صفحه
+    document.body.classList.add('no-scroll');
+
+    // ایجاد پس‌زمینه بلور و غیرفعال کردن کلیک روی عناصر پس‌زمینه
+    const blurBackground = document.createElement('div');
+    blurBackground.classList.add('blur-background', 'active');
+    document.body.appendChild(blurBackground);
+
+    // فوکوس روی فیلد شماره تلفن
+    $('#phone_number').focus();
+    }
+
+
+    function closePopup() {
+    // مخفی کردن پاپ‌آپ
+    const popup = document.getElementById('loginPopup');
+    popup.style.display = 'none';
+    popup.classList.remove('active');
+
+    // حذف پس‌زمینه بلور
+    const blurBackground = document.querySelector('.blur-background');
+    if (blurBackground) {
+    blurBackground.remove();
+    }
+
+    // فعال‌سازی اسکرول صفحه
+    document.body.classList.remove('no-scroll');
+    }
+
+    function closePopup2() {
+    // مخفی کردن پاپ‌آپ
+    const popup = document.getElementById('loginPopup');
+    popup.style.display = 'none';
+    popup.classList.remove('active');
+
+    // حذف پس‌زمینه بلور
+    const blurBackground = document.querySelector('.blur-background');
+    if (blurBackground) {
+    blurBackground.remove();
+    }
+
+    // فعال‌سازی اسکرول صفحه
+    document.body.classList.remove('no-scroll');
+    }
+
+
+    // Initialize Swiper and AOS
+    var swiper = new Swiper('.mySwiper', {
+    pagination: {el: '.swiper-pagination'},
+    autoplay: {
+    delay: 5000,
+    disableOnInteraction: false,
+    },
+    effect: 'fade',
+    fadeEffect: {crossFade: true},
+    speed: 2000,
+    on: {
+    slideChangeTransitionStart: function () {
+    document.querySelectorAll('.swiper-slide .aos-item').forEach(item => {
+    item.classList.remove('aos-animate');
+    });
+    },
+    slideChangeTransitionEnd: function () {
+    document.querySelectorAll('.swiper-slide-active .aos-item').forEach(item => {
+    item.classList.add('aos-animate');
+    });
+    }
+    }
+    });
+
+
+    function checkLogin() {
+    return $.ajax({
+    url: '/check-login/', // آدرس ویو جنگو که وضعیت لاگین را بررسی می‌کند
+    method: 'GET',
+    dataType: 'json',
+    });
+    }
+
+    // رویداد کلیک روی فیلد ورودی
+    $('#question').on('click', function (event) {
+    checkLogin().done(function (response) {
+    if (!response.is_logged_in) {
+    openPopup(event); // کاربر لاگین نیست، پاپ‌آپ را باز کنید
+    }
+    });
+    });
+
+
+    AOS.init({once: false});
+{% endblock %}

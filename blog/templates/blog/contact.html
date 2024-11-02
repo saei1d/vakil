@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block title %}سوالات متداول{% endblock %}
+{% block banner %}
+
+
+
+    <div class="banner">
+        <div class="text-center" style="padding-top: 150px;">
+            <h2>درباره ما</h2>
+            <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
+                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-chevron-left"> </i>
+                <span class="fw-light">درباره ما</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}{% block banner-mob %}
+
+
+
+    <div class="banner">
+        <div class="text-center" style="padding-top: 150px;">
+            <h2>درباره ما</h2>
+            <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
+                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-chevron-left"> </i>
+                <span class="fw-light">درباره ما</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+
+    <!-- contect -->
+    <Section>
+        <div class="container-2 mt-4">
+            <div class="row justify-content-between  p-3 p-md-5 contact">
+                <!-- info contect -->
+                <div class="col-md-5 text-md-start text-center ">
+                    <div class="contact-info">
+                        <h2 style="font-size: 40px;">با ما در تماس باشید</h2>
+                        <p class="my-4">پیام بفرستید. در اولین فرصت با شما تماس می گیریم.</p>
+                        <div class="contact-info">
+                            <!-- بخش تلفن -->
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="تلفن">
+                                </div>
+                                <div class="contact-details">
+                                    <h3>تلفن</h3>
+                                    <p>۰۲۱-۱۲۳۴۵۶۷۸</p>
+                                </div>
+                            </div>
+
+                            <!-- بخش ایمیل -->
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="ایمیل">
+                                </div>
+                                <div class="contact-details">
+                                    <h3>ایمیل</h3>
+                                    <p>support@yoursite.com</p>
+                                </div>
+                            </div>
+
+                            <!-- بخش آدرس -->
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <img src="https://img.icons8.com/ios-filled/50/ffffff/marker.png" alt="آدرس">
+                                </div>
+                                <div class="contact-details">
+                                    <h3>آدرس</h3>
+                                    <p>ایران، استان تهران، تهران</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- form contect -->
+                <div class="col-md-6 mt-md-0 mt-5 ">
+                    <div class="form-section">
+
+                        <form>
+                            <div class="row mb-3">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="email">ایمیل شما (*)</label>
+                                        <input type="email" id="email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="email">نام شما (*) </label>
+                                        <input type="email" id="email" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="email">دپارتمان (*)</label>
+                                        <select class="form-control" id="subject" aria-label="موضوع">
+                                            <option selected>موضوع</option>
+                                            <option value="1">بی‌یزینس</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="text">موضوع</label>
+                                        <input type="text" id="text" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <div class="form-group">
+                                    <label for="question">سوال شما</label>
+                                    <textarea class="form-control" id="question" rows="4"
+                                              placeholder="سوال شما"></textarea>
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="btn-form">ارسال</button>
+
+                        </form>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </Section>
+
+
+    <!-- fix phone -->
+    <div class="bg-gold fix-phone">
+        <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
+                                                                     style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
+                ۰۲۱۱۲۳۴۵۶۷۸</span></a>
+    </div>
+    <!-- fix phone -->
+{% endblock %}
+
+{% block script %}
+
+    // Accordion
+    const headers = document.querySelectorAll('.accordion-header');
+    if (headers) {
+    document.addEventListener('DOMContentLoaded', function () {
+
+    headers.forEach(header => {
+    header.addEventListener('click', function () {
+    const body = this.nextElementSibling;
+    body.classList.toggle('active');
+
+    headers.forEach(otherHeader => {
+    if (otherHeader !== this) {
+    otherHeader.nextElementSibling.classList.remove('active');
+    }
+    });
+    });
+    });
+    });
+
+
+    }
+{% endblock %}

@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% block title %}سوالات متداول{% endblock %}
+{% block banner %}
+    <div class="banner">
+        <div class="text-center" style="padding-top: 150px;">
+            <h2>سوالات متداول</h2>
+            <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
+                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-chevron-left"> </i>
+                <span class="fw-light">سوالات متداول</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}{% block banner-mob %}
+    <div class="banner">
+        <div class="text-center" style="padding-top: 150px;">
+            <h2>سوالات متداول</h2>
+            <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
+                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-chevron-left"> </i>
+                <span class="fw-light">سوالات متداول</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+<!-- faq -->
+{% block content %}
+    <Section>
+        <div class="container ">
+            <div class="row justify-content-between mt-5">
+                <!-- faq contect -->
+                <div class="col-md-8 text-md-start text-center  p-5">
+                    {% load static %}
+                    <img src="{% static "image/icon1.png" %} " alt="">
+                    <h1 class="my-4">آیا سوالی در ذهن دارید؟</h1>
+                    <p>لطفا سوالات زیر را بخوانید و اگر نتوانستید پاسخ خود را پیدا کنید، لطفا سوال خود را برای ما ارسال
+                        کنید
+                        ما در اسرع وقت به شما پاسخ خواهیم داد</p>
+
+                    <!-- faq -->
+                    <div class="mt">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-question-circle bg-gold text-black p-3 py-2 fs-4"></i>
+                            <h4>سوالات عمومی</h4>
+                        </div>
+                        <div class="accordion mt-4">
+                            <div class="accordion-item-2">
+                                <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                     onclick="toggleAccordion(this)"> چرا نیاز به وکیل دارید؟<i
+                                        class="bi bi-chevron-down"></i></div>
+                                <div class="accordion-body">
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.
+                                </div>
+                            </div>
+                            <div class="accordion-item-2">
+                                <div class="accordion-header d-flex justify-content-between align-items-center"
+                                     onclick="toggleAccordion(this)">چرا نیاز به وکیل دارید؟<i
+                                        class="bi bi-chevron-down"></i></div>
+                                <div class="accordion-body">
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.
+                                </div>
+                            </div>
+                            <div class="accordion-item-2">
+                                <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                     onclick="toggleAccordion(this)">چرا نیاز به وکیل دارید؟<i
+                                        class="bi bi-chevron-down"></i></div>
+                                <div class="accordion-body">
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-question-circle bg-gold text-black p-3 py-2 fs-4"></i>
+                            <h4>دیگر سوالات </h4>
+                        </div>
+
+                        <div class="accordion mt-4">
+                            <div class="accordion-item-2">
+                                <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                     onclick="toggleAccordion(this)"> چرا نیاز به وکیل دارید؟<i
+                                        class="bi bi-chevron-down"></i></div>
+                                <div class="accordion-body">
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.
+                                </div>
+                            </div>
+                            <div class="accordion-item-2">
+                                <div class="accordion-header d-flex justify-content-between align-items-center"
+                                     onclick="toggleAccordion(this)">چرا نیاز به وکیل دارید؟<i
+                                        class="bi bi-chevron-down"></i></div>
+                                <div class="accordion-body">
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.
+                                </div>
+                            </div>
+                            <div class="accordion-item-2">
+                                <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                     onclick="toggleAccordion(this)">چرا نیاز به وکیل دارید؟<i
+                                        class="bi bi-chevron-down"></i></div>
+                                <div class="accordion-body">
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.
+                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.
+                                </div>
+                            </div>
+                            <!-- تکرار سایر آیتم‌ها -->
+                        </div>
+
+                    </div>
+                </div>
+                <!-- form contect -->
+                <div class="col-md-4 mt-md-0 mt-5 ">
+
+                    <div class="bg-befor3 position-relative ">
+                        <img src="{% static "image/img12.jpg" %} " width="100%"
+                             style="border-bottom: 5px solid #BC945C;" alt="">
+                    </div>
+
+
+                    <form class="mt">
+                        <div class="d-flex align-items-center gap-2 my-5">
+                            <i class="bi bi-envelope bg-gold text-black p-3 py-2 fs-4"></i>
+                            <h4>دیگر سوالات </h4>
+                        </div>
+                        <div class="row ">
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="email">ایمیل شما (*)</label>
+                                    <input type="email" id="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="email">نام شما (*) </label>
+                                    <input type="email" id="email" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row ">
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="email">دپارتمان (*)</label>
+                                    <select class="form-control" id="subject" aria-label="موضوع">
+                                        <option selected>موضوع</option>
+                                        <option value="1">بی‌یزینس</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="text">موضوع</label>
+                                    <input type="text" id="text" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <div class="form-group">
+                                <label for="question">سوال شما</label>
+                                <textarea class="form-control" id="question" rows="4"
+                                          placeholder="سوال شما"></textarea>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn-form ">ارسال</button>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </Section>
+    <!-- contect -->
+
+
+
+
+
+
+
+
+    <!-- fix phone -->
+    <div class="bg-gold fix-phone">
+        <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
+                                                                     style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
+                ۰۲۱۱۲۳۴۵۶۷۸</span></a>
+    </div>
+    <!-- fix phone -->
+{% endblock %}
+
+{% block script %}
+
+    // Accordion
+    const headers = document.querySelectorAll('.accordion-header');
+    if (headers) {
+    document.addEventListener('DOMContentLoaded', function () {
+    headers.forEach(header => {
+    header.addEventListener('click', function () {
+    const body = this.nextElementSibling;
+    body.classList.toggle('active');
+
+    // اضافه کردن کلاس accordion-bg به هدر کلیک‌شده
+    this.classList.add('accordion-bg');
+
+    // حذف کلاس از سایر هدرها
+    headers.forEach(otherHeader => {
+    if (otherHeader !== this) {
+    otherHeader.classList.remove('accordion-bg'); // حذف کلاس از سایر هدرها
+    otherHeader.nextElementSibling.classList.remove('active');
+    }
+    });
+    });
+    });
+    });
+    }
+{% endblock %}
