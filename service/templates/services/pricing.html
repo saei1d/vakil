@@ -4,6 +4,13 @@
     body {
     color: black !important;
     }
+    .jdp-time-container.jdp-only-time .jdp-time:first-child {
+    display: none !important;
+    }
+
+    .jdp-time-container.jdp-only-time .jdp-time:nth-child(2)::after {
+    content: none !important;
+    }
 
     .input-equal {
     height: 50px;
@@ -198,7 +205,8 @@
                         <div class="row">
                             <!-- انتخاب تاریخ -->
                             <div class="col-md-6 mb-3">
-                                <input type="text" name="date" id="date-chat" style="color: black" class="form-control input-equal"
+                                <input type="text" name="date" id="date-chat" style="color: black"
+                                       class="form-control input-equal"
                                        data-jdp
                                        data-jdp-min-date="today" placeholder="تاریخ شروع چت"/>
                             </div>
@@ -303,7 +311,7 @@
                 <div class="overlay" id="lawyer-overlay"></div>
                 <div class="call-popup" id="lawyer-popup">
                     <span style="margin-right: 15px" class="close-btn" id="lawyer-close-btn">×</span>
-                    <form class="p-4 bg-white shadow rounded" method="post" action="{% url "service:ekhtesasi"%}">
+                    <form class="p-4 bg-white shadow rounded" method="post" action="{% url "service:ekhtesasi" %}">
                         {% csrf_token %}
                         <div class="form-header-call text-center position-relative mb-4">
                             <hr class="w-50 mx-auto">
@@ -321,7 +329,8 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-2">
-                                <input type="text" id="date-chat" name="date" style="color: black" class="form-control input-equal"
+                                <input type="text" id="date-chat" name="date" style="color: black"
+                                       class="form-control input-equal"
                                        data-jdp
                                        data-jdp-min-date="today" placeholder="تاریخ شروع"/>
                             </div>
@@ -474,13 +483,24 @@
     $('#time').persianDatepicker({
     onlyTimePicker: true, // فقط ساعت و دقیقه
     timePicker: {
-    second: false // حذف ثانیه‌ها
+    enabled: true,
+    hour: {
+    step: 1
+    },
+    minute: {
+    step: 1
+    },
+    second: {
+    enabled: false // حذف ثانیه‌ها
+    }
     },
     onSelect: function () {
-    // وقتی زمان انتخاب شد، مقدار در فیلد باقی بماند و منوی انتخاب بسته شود
+
     $(this).val();
     }
     });
+
+
 
     // تغییر رنگ اعداد به مشکی
     $('#time').on('focus', function () {

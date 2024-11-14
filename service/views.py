@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views import View
 from datetime import datetime, timedelta, time
@@ -19,7 +20,7 @@ class Pricing(View):
     def get(self, request):
         return render(request, 'services/pricing.html')
 
-
+@login_required
 def Call(request):
     if request.method == 'POST':
         tarikh = request.POST['date']
@@ -73,7 +74,7 @@ def Call(request):
             )
             return render(request, "users/dashboard.html")
 
-
+@login_required
 def Payam(request):
     if request.method == 'POST':
         tarikh_chat = request.POST['date']
@@ -112,7 +113,7 @@ def Payam(request):
             )
             return render(request, "users/dashboard.html")
 
-
+@login_required
 def Shekaiatname(request):
     if request.method == 'POST':
         title = request.POST['title']
@@ -154,7 +155,7 @@ def Shekaiatname(request):
 
         return render(request, "users/dashboard.html")
 
-
+@login_required
 def Ekhtesasi(request):
     if request.method == 'POST':
         tarikh_ekhtesasi = request.POST['date']
