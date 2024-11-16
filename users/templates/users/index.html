@@ -79,18 +79,18 @@
 
     /* دکمه ضربدر */
     .close-popup {
-    width: 40px;
-    height: 45px;
+{#    width: 40px;#}
+{#    height: 45px;#}
     background: none;
     color: #ee0808;
     border: none;
-    font-size: 50px;
+    font-size: 35px;
     cursor: pointer;
     }
 
 
     form * {
-    color: #ffffff;
+    color:black;
     letter-spacing: 0.5px;
     outline: none;
     border: none;
@@ -115,10 +115,10 @@
     display: block;
     height: 50px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-radius: 3px;
+{#    background-color: rgba(255, 255, 255, 0.07);#}
+    border-radius: 5px;
     padding: 0 10px;
-    margin-top: 8px;
+    margin-top: 3px;
     font-size: 24px;
     font-weight: 800;
     text-align: center;
@@ -126,9 +126,9 @@
     }
 
     ::placeholder {
-    color: #e5e5e5;
+    color: black;
     font-size: 18px; /* سایز بزرگ‌تر برای placeholder */
-    text-align: center; /* متن placeholder در وسط */
+    text-align: right; /* متن placeholder در وسط */
     }
 
     button {
@@ -190,6 +190,8 @@
     background-position: 0% 50%, 50% 50%, 100% 100%
     }
     }
+
+
 {% endblock %}
 
 {% block content %}
@@ -673,19 +675,30 @@
     <!--support-->
 
 
-    <div id="loginPopup" class="popup bodyy">
-        <button class="close-popup" onclick="closePopup()">×</button>
+<div id="loginPopup" class="popup bodyy">
+    <div class="row align-items-center">
+        <div class="col-md-8 col-10">
+            {% load static %}
+            <img src="{% static "image/logo.png" %}" width="150px" style="padding: 10px;" alt="">
+        </div>
+
+        <div class="col-md-4 col-2 text-right">
+            <button class="close-popup" onclick="closePopup()">×</button>
+        </div>
+    </div>
         <form id="phoneForm" method="post" novalidate>
             {% csrf_token %}
-            <h3 class="mx-auto">ورود به سایت</h3>
+            <h4 class="text-right p-1">ورود به سایت</h4>
+            <p class="p-2">برای ورود به سایت لطفا شماره همراه حود را وارد کنید.</p>
             <div class="phone-number-input">
-                <label for="phone_number">شماره همراه:</label>
-                <input id="phone_number" type="text" name="phone_number" placeholder="09120000000" maxlength="11"
+                <label for="phone_number"></label>
+                <input class="col-md-10 col-10 mx-auto" id="phone_number" type="tel" name="phone_number" style="background-color: white" placeholder="شماره موبایل" maxlength="11"
                        required>
             </div>
-            <div class="p-3 pb-4">
+            <div class="p-3 pb-4 col-md-12 col-10 mx-auto">
                 <button type="button" id="submitPhoneBtn" style="cursor: not-allowed;height: 53px">دریافت کد</button>
             </div>
+            <p class="text-center">ارسال مجدد کد</p>
         </form>
     </div>
 
