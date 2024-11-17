@@ -395,7 +395,6 @@ ul {
 }
 
 .form-group label {
-    position: absolute;
     top: -10px;
     right: 10px;
     background-color: #162314;
@@ -931,7 +930,7 @@ footer .list-unstyled li .bi-chevron-left {
 }
 
 .se {
-    margin-top: -121px;
+    /*margin-top: -121px;*/
     position: relative;
     z-index: 23;
 }

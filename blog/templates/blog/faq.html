@@ -150,27 +150,35 @@
 
 {% block script %}
 
-    // Accordion
-    const headers = document.querySelectorAll('.accordion-header');
-    if (headers) {
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// آکاردئون
+const headers = document.querySelectorAll('.accordion-header');
+if (headers) {
     document.addEventListener('DOMContentLoaded', function () {
-    headers.forEach(header => {
-    header.addEventListener('click', function () {
-    const body = this.nextElementSibling;
-    body.classList.toggle('active');
+        headers.forEach(header => {
+            header.addEventListener('click', debounce(function () {
+                const body = this.nextElementSibling;
+                body.classList.toggle('active');
 
-    // اضافه کردن کلاس accordion-bg به هدر کلیک‌شده
-    this.classList.add('accordion-bg');
+                // اضافه کردن کلاس به هدر کلیک‌شده
+                this.classList.add('accordion-bg');
 
-    // حذف کلاس از سایر هدرها
-    headers.forEach(otherHeader => {
-    if (otherHeader !== this) {
-    otherHeader.classList.remove('accordion-bg'); // حذف کلاس از سایر هدرها
-    otherHeader.nextElementSibling.classList.remove('active');
-    }
+                // حذف کلاس از سایر هدرها
+                headers.forEach(otherHeader => {
+                    if (otherHeader !== this) {
+                        otherHeader.classList.remove('accordion-bg');
+                        otherHeader.nextElementSibling.classList.remove('active');
+                    }
+                });
+            }, 200)); // تأخیر را به دلخواه تنظیم کنید
+        });
     });
-    });
-    });
-    });
-    }
+}
 {% endblock %}

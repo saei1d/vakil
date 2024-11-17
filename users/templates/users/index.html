@@ -79,8 +79,8 @@
 
     /* دکمه ضربدر */
     .close-popup {
-{#    width: 40px;#}
-{#    height: 45px;#}
+    {#    width: 40px;#}
+    {#    height: 45px;#}
     background: none;
     color: #ee0808;
     border: none;
@@ -115,7 +115,7 @@
     display: block;
     height: 50px;
     width: 100%;
-{#    background-color: rgba(255, 255, 255, 0.07);#}
+    {#    background-color: rgba(255, 255, 255, 0.07);#}
     border-radius: 5px;
     padding: 0 10px;
     margin-top: 3px;
@@ -189,6 +189,20 @@
     80% {
     background-position: 0% 50%, 50% 50%, 100% 100%
     }
+    }
+    .online-indicator {
+    width: 15px; /* عرض چراغ */
+    height: 15px; /* ارتفاع چراغ */
+    border-radius: 50%; /* دایره‌ای کردن */
+    background-color: green; /* رنگ سبز */
+    position: absolute; /* موقعیت‌دهی مطلق */
+    top: 10px; /* فاصله از بالا */
+    left: 12px; /* فاصله از چپ */
+    animation: blink 1s infinite; /* انیمیشن چشمک‌زن */
+    }
+    @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
     }
 
 
@@ -649,8 +663,9 @@
     <!--  support -->
     <div class="support-container">
 
-        <div class="support-button" id="supportButton">
-            <i class="bi bi-whatsapp" id="buttonIcon"></i>
+        <div class="support-button" style="text-align: center" id="supportButton">
+            <i class="bi bi-headset mx-auto mt-3" id="buttonIcon"></i>
+            <div class="online-indicator"></div> <!-- چراغ آنلاین -->
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -664,7 +679,7 @@
                 </a>
             </div>
             <div class="support-item d-flex flex-column">
-                <i class="bi bi-whatsapp fs-1 pt-0" style="color: #25D366;"></i>
+                <i class="bi bi-headset fs-1 pt-0" style="color: #25D366;"></i>
                 <a href="https://wa.me/123456789" target="_blank">
                     پشتیبانی
                 </a>
@@ -675,47 +690,63 @@
     <!--support-->
 
 
-<div id="loginPopup" class="popup bodyy">
-    <div class="row align-items-center">
-        <div class="col-md-8 col-10">
-            {% load static %}
-            <img src="{% static "image/logo.png" %}" width="150px" style="padding: 10px;" alt="">
-        </div>
+    <div id="loginPopup" class="popup bodyy">
+        <div class="row align-items-center">
+            <div class="col-md-8 col-10">
+                {% load static %}
+                <img src="{% static "image/logo.png" %}" width="150px" style="padding: 10px;" alt="">
+            </div>
 
-        <div class="col-md-4 col-2 text-right">
-            <button class="close-popup" onclick="closePopup()">×</button>
+            <div class="col-md-4 col-2 text-right">
+                <button class="close-popup" onclick="closePopup()">×</button>
+            </div>
         </div>
-    </div>
         <form id="phoneForm" method="post" novalidate>
             {% csrf_token %}
-            <h4 class="text-right p-1">ورود به سایت</h4>
-            <p class="p-2">برای ورود به سایت لطفا شماره همراه حود را وارد کنید.</p>
+            <h4 class="text-center p-1 text-light">ورود به سایت</h4>
             <div class="phone-number-input">
                 <label for="phone_number"></label>
-                <input class="col-md-10 col-10 mx-auto" id="phone_number" type="tel" name="phone_number" style="background-color: white" placeholder="شماره موبایل" maxlength="11"
+                <input class="mx-auto" id="phone_number" type="tel" name="phone_number"
+                       style="background-color: white;max-width: 262px" placeholder="شماره موبایل" maxlength="11"
                        required>
             </div>
-            <div class="p-3 pb-4 col-md-12 col-10 mx-auto">
+            <div class="p-3 pb-4 mx-auto">
                 <button type="button" id="submitPhoneBtn" style="cursor: not-allowed;height: 53px">دریافت کد</button>
             </div>
-            <p class="text-center">ارسال مجدد کد</p>
+            {#            <p class="text-center">ارسال مجدد کد</p>#}
         </form>
     </div>
 
     <div id="codePopup" class="popup bodyy" style="display: none;">
-        <button class="close-popup" onclick="closePopup2()">×</button>
+        <div class="row align-items-center">
+            <div class="col-md-8 col-10">
+                {% load static %}
+                <img src="{% static "image/logo.png" %}" width="150px" style="padding: 10px;" alt="">
+            </div>
+
+            <div class="col-md-4 col-2 text-right">
+                <button class="close-popup" onclick="closePopup()">×</button>
+            </div>
+        </div>
         <form id="codeForm" method="post" action="/home/" novalidate>
             {% csrf_token %}
-            <h3 class="mx-auto">ورود کد تأیید</h3>
+            <h4 class="text-center text-light mt-2" style="font-size: 25px">ورود کد تأیید</h4>
             <div class="code-input">
-                <label for="sms_code">کد تأیید:</label>
-                <input id="sms_code" type="text" name="sms_code" placeholder="0000" maxlength="4" required>
+                <label for="sms_code"></label>
+                <input class="mx-auto" id="sms_code" type="text" name="sms_code" style="max-width: 262px"
+                       placeholder="کد را وارد کنید" maxlength="4" required>
             </div>
             <input type="hidden" id="hiddenPhoneNumber" name="phone_number">
             <div class="p-3 pb-4">
                 <button type="submit" id="submitCodeBtn" style="height: 53px;">
                     <span class="btn-text" style="color: black">ورود</span>
                     <div class="loader" style="display: none"></div>
+                </button>
+            </div>
+            <div class="button-container">
+                <button id="loginPopup" type="button">
+                    <span>ویرایش شماره همراه</span>
+                    <div class="timer" id="timer">02:00</div>
                 </button>
             </div>
 
@@ -725,6 +756,34 @@
 {% endblock %}
 
 {% block script %}
+    let timeLeft = 120; // 2 دقیقه به ثانیه
+    const timerElement = document.getElementById('timer');
+    const button = document.getElementById('submit_button');
+    const popup = document.getElementById('loginPopup');
+    const popupMessage = document.getElementById('popupMessage');
+
+    const countdown = setInterval(function() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+    if (timeLeft <= 0) {
+    clearInterval(countdown);
+    button.classList.add('active');
+    button.querySelector('span').textContent = 'ارسال'; // تغییر متن دکمه
+    button.onclick = function() {
+    const phoneNumber = document.getElementById('phone_number').value;
+    popupMessage.textContent = `شماره موبایل شما: ${phoneNumber}`;
+    popup.classList.add('active'); // نمایش پنجره
+    };
+    }
+    timeLeft--;
+    }, 1000); // هر ثانیه یک بار
+
+    function closePopup() {
+    popup.classList.remove('active'); // پنهان کردن پنجره
+    }
+
 
     $(document).ready(function () {
     $('#phone_number').on('input', function () {
