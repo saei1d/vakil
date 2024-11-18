@@ -118,9 +118,23 @@ ul {
     transition: all 0.3s ease;
 }
 
+.menu a {
+    text-decoration: none;
+}
+
+.menu a:hover {
+    color: inherit; /* رنگ لینک را در حالت هاور تغییر ندهید */
+}
+
 .activelink {
+    pointer-events: none; /* جلوگیری از هاور روی لینک فعال */
     border-bottom: 3px solid #b6884f;
     color: #b6884f !important;
+
+}
+
+.activelink a:hover {
+    border-bottom: none;
 }
 
 .menu ul li a::after {

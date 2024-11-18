@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/Responsive.css' %}">
-<!--    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">-->
+    <!--    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -50,41 +50,43 @@
         <!-- nav top -->
 
         <!-- menue desktop-->
-        <nav class="menu d-flex justify-content-between mt-4  align-items-center" style="background-color: #182615;">
+        <nav class="menu d-flex justify-content-between mt-4 align-items-center" style="background-color: #182615;">
             <ul class="d-flex justify-content-between gap-3 ps-5 align-items-center">
                 <li>
-                    <a href="http://localhost:8000/home/" class="activelink">صفحه اصلی </a>
+                    <a href="http://localhost:8000/home/"
+                       class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه اصلی</a>
                 </li>
-
-                <span class="text-gold">★</span>
+                <span class="text-gold" style="font-size: 45px">.</span>
                 <li>
-                    <a href="http://localhost:8000/service/">خدمات ما</a>
+                    <a href="http://localhost:8000/service/"
+                       class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات ما</a>
                 </li>
-                <span class="text-gold">★</span>
+                <span class="text-gold" style="font-size: 45px">.</span>
                 <li>
-                    <a href="http://localhost:8000/pricing/">سرویس ها</a>
+                    <a href="http://localhost:8000/pricing/"
+                       class="{% if request.path == '/pricing/' %}activelink{% endif %}">سرویس ها</a>
                 </li>
-                <span class="text-gold">★</span>
+                <span class="text-gold" style="font-size: 45px">.</span>
                 <li>
-                    <a href="http://localhost:8000/faq/">سوالات متداول </a>
+                    <a href="http://localhost:8000/faq/" class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات
+                        متداول</a>
                 </li>
-                <span class="text-gold">★</span>
+                <span class="text-gold" style="font-size: 45px">.</span>
                 <li>
-                    <a href="http://localhost:8000/about-us/">درباره ما </a>
+                    <a href="http://localhost:8000/about-us/"
+                       class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما</a>
                 </li>
-                <span class="text-gold">★</span>
+                <span class="text-gold" style="font-size: 45px">.</span>
                 {% if not user.is_authenticated %}
                     <li>
                         <a href="" onclick="openPopup(event)">وارد شوید</a>
                     </li>
                 {% else %}
                     <a href="{% url 'users:logout' %}">خروج</a>
-
                 {% endif %}
-
             </ul>
 
-            <a href="" class="btn-header"> <i class="fa fa-balance-scale me-2 fw-bold"></i> ارزیابی رایگان </a>
+            <a href="" class="btn-header"><i class="fa fa-balance-scale me-2 fw-bold"></i> ارزیابی رایگان</a>
         </nav>
 
         <!-- menue desktop-->
@@ -140,7 +142,8 @@
                     <img src="{% static "image/logo.png" %}" width="190px" alt="">
                 </div>
                 <div class="col-md-7 d-flex justify-content-end gap-4 align-items-center">
-                    <p class="fs-14 fw-lighter" style="color:rgba(255,255,255,0.3);    transform: translate(-14px, -177px);">
+                    <p class="fs-14 fw-lighter"
+                       style="color:rgba(255,255,255,0.3);    transform: translate(-14px, -177px);">
                         ما این کار را بیش از ۳۰ سال است که
                         <br>
                         انجام می دهیم، اکنون با ما تماس بگیرید.
