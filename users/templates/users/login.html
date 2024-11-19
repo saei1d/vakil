@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}داشبورد کاربر{% endblock %}
+{% block content %}
+
+    <div id="otp-container">
+        <form id="phone-form">
+            <label for="phone">شماره تلفن:</label>
+            <input type="text" id="phone" name="phone" required>
+            <button type="button" id="send-code">ارسال کد</button>
+        </form>
+
+        <form id="otp-form" style="display: none;">
+            <label for="otp">کد تأیید:</label>
+            <input type="text" id="otp" name="otp" required disabled>
+            <button type="submit" id="verify-code" disabled>تأیید</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    // گرفتن CSRF Token از کوکی
+    function getCSRFToken() {
+    const name = "csrftoken";
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+    if (cookie.trim().startsWith(name + "=")) {
+    return cookie.trim().substring(name.length + 1);
+    }
+    }
+    return null;
+    }
+    const csrftoken = getCSRFToken();
+
+    // نمایش پیام با SweetAlert
+    function showAlert(type, title, text) {
+    Swal.fire({
+    icon: type, // 'success', 'error', 'warning', 'info'
+    title: title,
+    text: text,
+    confirmButtonText: 'باشه'
+    });
+    }
+
+    // ارسال کد OTP
+    document.addEventListener("DOMContentLoaded", function () {
+    // رویداد کلیک برای ارسال کد OTP
+    document.getElementById("send-code").addEventListener("click", function () {
+    const phone = document.getElementById("phone").value;
+    if (!phone || phone.length !== 11 || !phone.startsWith("09")) {
+    showAlert("warning", "شماره تلفن نامعتبر", "لطفاً شماره تلفن معتبر وارد کنید.");
+    return;
+    }
+
+    // ارسال درخواست به سرور
+    console.log("در حال ارسال درخواست ارسال کد...");
+    fetch("/send-otp/", {
+    method: "POST",
+    headers: {
+    "Content-Type": "application/json",
+    "X-CSRFToken": csrftoken
+    },
+    body: JSON.stringify({ phone: phone })
+    })
+    .then(response => response.json())
+    .then(data => {
+    console.log("پاسخ سرور:", data);
+    if (data.success) {
+    showAlert("success", "ارسال موفق", "کد تأیید با موفقیت ارسال شد!");
+    document.getElementById("otp-form").style.display = "block";
+    document.getElementById("otp").disabled = false;
+    document.getElementById("verify-code").disabled = false;
+    } else {
+    showAlert("error", "خطا در ارسال کد", data.error || "ارسال کد با خطا مواجه شد.");
+    }
+    })
+    .catch(error => {
+    console.error("خطا:", error);
+    showAlert("error", "خطای سیستم", "خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+    });
+    });
+
+    // رویداد ارسال برای تأیید کد OTP
+    document.getElementById("otp-form").addEventListener("submit", function (e) {
+    e.preventDefault(); // جلوگیری از ارسال پیش‌فرض فرم
+    const phone = document.getElementById("phone").value;
+    const otp = document.getElementById("otp").value;
+
+    if (!otp || otp.length !== 4) {
+    showAlert("warning", "کد تأیید نامعتبر", "لطفاً کد تأیید معتبر وارد کنید.");
+    return;
+    }
+
+    // ارسال درخواست تأیید کد
+    console.log("در حال ارسال درخواست تأیید کد...");
+    fetch("/verify-otp/", {
+    method: "POST",
+    headers: {
+    "Content-Type": "application/json",
+    "X-CSRFToken": csrftoken
+    },
+    body: JSON.stringify({ phone: phone, otp: otp })
+    })
+    .then(response => response.json())
+    .then(data => {
+    console.log("پاسخ سرور:", data);
+    if (data.success) {
+    showAlert("success", "تأیید موفق", "کد تأیید شد و کاربر لاگین شد.");
+    // در اینجا می‌توانید کاربر را به صفحه دیگری هدایت کنید
+    // window.location.href = "/dashboard/";
+    } else {
+    showAlert("error", "کد نامعتبر", data.error || "کد وارد شده صحیح نیست.");
+    }
+    })
+    .catch(error => {
+    console.error("خطا:", error);
+    showAlert("error", "خطای سیستم", "خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+    });
+    });
+    });
+
+
+
+{% endblock script %}
+

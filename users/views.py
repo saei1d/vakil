@@ -1,61 +1,95 @@
+import json
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 from django.views import View
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from service.models import FreeForm
 from users.models import Client
-from django.contrib.auth import logout
+from django.contrib.auth import logout ,login ,authenticate
+import random
+from django.utils.timezone import now ,make_aware
+from datetime import datetime,timedelta
 
 
-# from django.contrib.auth import get_user_model
+def send_otp(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            phone = data.get("phone")
 
+            if not phone:
+                return JsonResponse({"success": False, "error": "Phone number is missing."})
 
-def send_code(request):
-    if request.method == 'POST':
-        phone_number = request.POST.get('phone_number')
-        print(phone_number)
+            # بررسی محدودیت زمانی
+            last_sent = request.session.get("last_otp_sent")
+            if last_sent:
+                last_sent_time = make_aware(datetime.fromtimestamp(last_sent))  # تبدیل به offset-aware
+                if now() < last_sent_time + timedelta(minutes=2):
+                    return JsonResponse({
+                        "success": False,
+                        "error": "You can request another OTP after 2 minutes."
+                    })
 
-        return JsonResponse({'success': True})
+            # تولید و ارسال OTP
+            otp = "1234"  # در اینجا یک کد نمونه قرار داده شده است
+            request.session["otp"] = otp
+            request.session["phone"] = phone
+            request.session["last_otp_sent"] = now().timestamp()  # ذخیره زمان ارسال
 
-    return JsonResponse({'success': False, 'error': 'Invalid request'})
+            # کد مربوط به ارسال پیامک را اینجا قرار دهید
+            print(f"OTP for {phone}: {otp}")
 
+            return JsonResponse({"success": True, "message": "OTP sent successfully."})
 
-# User = get_user_model()
+        except json.JSONDecodeError:
+            return JsonResponse({"success": False, "error": "Invalid JSON data."})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
 
+    return JsonResponse({"success": False, "error": "Invalid request method."})
+def verify_otp(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            phone = data.get("phone")
+            otp = data.get("otp")
+            print(otp,phone)
+            # بررسی صحت داده‌های ورودی
+            if not phone or not otp:
+                return JsonResponse({"success": False, "error": "Phone or OTP is missing."})
 
-def verify_code(request):
-    phone_number = request.POST.get('phone_number')
-    sms_code = request.POST.get('sms_code')
-    print(phone_number, sms_code)
+            # بررسی صحت OTP و شماره تلفن در سشن
+            session_otp = request.session.get("otp")
+            session_phone = request.session.get("phone")
 
-    if sms_code == '0000':  # Demo mode
+            if str(session_otp) != str(otp) or session_phone != phone:
+                return JsonResponse({"success": False, "error": "Invalid OTP or phone number."})
 
-        # Try to authenticate the user
-        user = authenticate(request, username=phone_number, password=phone_number)
-
-        if user is not None:
-            # User exists, log them in
-            login(request, user)
-            print("loggedin")
-            return JsonResponse({'success': True})
-        else:
-            # Check if user with phone number already exists
-            if Client.objects.filter(phone_number=phone_number).exists():
-                # User exists but failed to authenticate; handle this case if needed
-                return JsonResponse({'success': False, 'error': 'User already exists but could not authenticate.'})
-            else:
-                # Create a new user
-                user = Client.objects.create(username=phone_number, phone_number=phone_number)
-                user.set_password(phone_number)  # Set the password to the phone number
+            # بررسی وجود کاربر
+            try:
+                user = Client.objects.get(username=phone)
+            except ObjectDoesNotExist:
+                # ایجاد کاربر جدید در صورت عدم وجود
+                user = Client(username=phone)
+                user.set_password(otp)
                 user.save()
-                login(request, user)
-                print("registered and logged in")
-                return JsonResponse({'success': True})
 
-    else:
-        return JsonResponse({'success': False, 'error': 'کد نامعتبر است'})
+            # احراز هویت کاربر
+            user = authenticate(request, username=phone, password=otp)
+            if user:
+                login(request, user)
+                return JsonResponse({"success": True})
+            else:
+                return JsonResponse({"success": False, "error": "Authentication failed."})
+
+        except json.JSONDecodeError:
+            return JsonResponse({"success": False, "error": "Invalid JSON data."})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
+
+    return JsonResponse({"success": False, "error": "Invalid request method."})
 
 
 class HomeView(View):
@@ -108,3 +142,6 @@ def dashboard(request):
 
 def test(request):
     return render(request, 'users/test.html')
+
+def Login(request):
+    return render(request, 'users/login.html')

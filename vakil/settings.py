@@ -13,12 +13,16 @@ from django.contrib.messages import constants as messages
 
 from pathlib import Path
 
+
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 AUTH_USER_MODEL = 'users.Client'
 
-LOGIN_URL = '/register'
+LOGIN_URL = '/login/'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l'
