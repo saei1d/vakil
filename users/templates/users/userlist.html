@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست کاربران</title>
+    <!-- لینک به استایل‌های Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>لیست کاربران</h2>
+        <form method="POST" id="search-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="search-input">جستجو بر اساس نام یا شماره تلفن</label>
+                <input type="text" class="form-control" id="search-input" name="pk" placeholder="نام یا شماره تلفن">
+            </div>
+            <button type="submit" class="btn btn-primary">جستجو</button>
+        </form>
+
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>نام</th>
+                    <th>شماره تلفن</th>
+                </tr>
+            </thead>
+            <tbody id="user-table-body">
+                {% for user in users %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.username }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">هیچ کاربری یافت نشد</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- لینک به اسکریپت‌های جاوا اسکریپت برای Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // جاوا اسکریپت برای ارسال فرم جستجو با POST
+        $('#search-form').on('submit', function(e) {
+            e.preventDefault();
+            let searchValue = $('#search-input').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin-list/',  // آدرس صحیح سرور را وارد کنید
+                data: { pk: searchValue, csrfmiddlewaretoken: '{{ csrf_token }}' },
+                success: function(response) {
+                    let tableBody = $('#user-table-body');
+                    tableBody.empty();  // جدول را پاک می‌کند
+                    if (response.users.length > 0) {
+                        response.users.forEach((user, index) => {
+                            tableBody.append(`
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.username}</td>
+                                </tr>
+                            `);
+                        });
+                    } else {
+                        tableBody.append('<tr><td colspan="3" class="text-center">هیچ کاربری یافت نشد</td></tr>');
+                    }
+                },
+                error: function() {
+                    alert('خطا در درخواست');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
