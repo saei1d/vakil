@@ -122,13 +122,13 @@ def Shekaiatname(request):
         title = request.POST['title']
         description = request.POST['description']
         group = request.POST['group']
-        if group == 1:
+        if group == "1":
             group = "تنظیم لایحه"
-        elif group == 2:
+        elif group == "2":
             group = "تنظیم دادخواست"
-        elif group == 3:
+        elif group == "3":
             group = "تنظیم شکواییه"
-        elif group == 4:
+        elif group == "4":
             group = "تنظیم اظهارنامه"
 
         jalali_date = jdatetime.datetime.now()
@@ -143,7 +143,7 @@ def Shekaiatname(request):
             service_id=3,
             title=f"{group}",
             is_accepted=False,
-            description=f'{title}----{description}',
+            description=f'{title}--{description}',
             start_date=start_date_iso,  # Set start_date in ISO format
             end_date=end_date_iso  # Set end_date in ISO format
         )
@@ -160,7 +160,6 @@ def Shekaiatname(request):
             start_date=start_date_iso,  # Set start_date in ISO format
             end_date=end_date_iso2  # Set end_date in ISO format
         )
-        print("چت دو روزه فعال شد")
 
         return redirect('users:dashboard')  # 'dashboard' نام URL مربوط به داشبورد شماست
 

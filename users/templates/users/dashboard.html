@@ -34,38 +34,44 @@
             <div class="row gap-4 mx-auto">
                 <div class="bg-white box-profile text-black  position-relative col-12 col-md-3 card mx-auto">
                     <h5 class="card-header text-center text-gold bg-white">سرویس های فعال</h5>
-                    {% for service in services %}
-                        {% if service %}
-
+                    {% if services %}
+                        {% for service in services %}
                             <span class="p-4"> نوع سرویس : {{ service.title }}</span>
-                            <span class="p-4"> توضیحات : {{ service.description }}</span>
+                            {% if service.service_id != 3 %}
+                                <span class="p-4"> توضیحات : {{ service.description }}</span>
+                            {% endif %}
                             <span class="p-4"> تاریخ شروع : {{ service.start_date|date:"d-m-Y" }}</span>
                             <span class="p-4"> تاریخ پایان : {{ service.end_date|date:"d-m-Y" }}</span>
                             <span class="p-4">
-                            {% if service.is_accepted == 1 %}
-                                تایید شده
-                            {% else %}
-                                تایید نشده
-                            {% endif %}
+                                {% if service.is_accepted == 1 %}
+                                    تایید شده
+                                {% else %}
+                                    تایید نشده
+                                {% endif %}
                                 و
                                 {% if service.is_active == 1 %}
                                     فعال
                                 {% else %}
                                     اتمام سرویس
                                 {% endif %}
-                        </span>
+        </span>
                             <hr>
-                        {% else %}
-                            <button  class="btn-primary" href="http://localhost:8000/pricing/">خرید سرویس</button>
-                        {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <a class="btn btn-primary mt-3" href="http://localhost:8000/pricing/">خرید سرویس</a>
+                    {% endif %}
 
-                    {% endfor %}
                 </div>
                 <div class="bg-white box-profile text-black  position-relative col-12 col-md-3 card mx-auto">
                     <h5 class="bg-white card-header text-center text-gold">تراکنش </h5>
-                    {% for trans in transaction %}
-                        <p class="p-4">{{ trans.amount }} - {{ trans.created_at }} - {{ trans.transaction_type }}</p>
-                    {% endfor %}
+                    {% if transactions %}
+                        {% for trans in transaction %}
+                            <p class="p-4">{{ trans.amount }} - {{ trans.created_at }}
+                                - {{ trans.transaction_type }}</p>
+                        {% endfor %}
+                    {% else %}
+                        <p class="mt-4">شما تا کنون تراکنش نداشته اید</p>
+                    {% endif %}
                 </div>
                 <div class="bg-white box-profile text-black  position-relative col-12 col-md-3 card mx-auto">
                     <h5 class="bg-white card-header text-center text-gold">پرونده ها</h5>

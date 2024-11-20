@@ -8,6 +8,24 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="http://localhost:8000/admin-list/">لیست کاربران</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8000/admin-service/">سرویس ها <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">فرم ها</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <div class="container mt-5">
     <h2>لیست کاربران</h2>
     <form method="GET" action="{% url 'userlist' %}">
@@ -22,6 +40,7 @@
             <th>نام</th>
             <th>شماره تلفن</th>
             <th>داشبورد</th>
+            <th>سرویس ها</th>
             <th>چت</th>
         </tr>
         </thead>
@@ -36,7 +55,13 @@
                 {% else %}
                     <td>نام کاربری موجود نیست</td>
                 {% endif %}
+                {% if user.username %}
+                    <td><a href="{% url 'servicelist' username=user.username %}">تغییرات</a></td>
+                {% else %}
+                    <td>کاربر موجود نیست</td>
+                {% endif %}
                 <td>{{ user.username }}</td>
+
             </tr>
         {% empty %}
             <tr>

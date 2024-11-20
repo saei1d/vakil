@@ -1,8 +1,10 @@
 import json
+
+import jdatetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.views import View
-from django.shortcuts import render, redirect ,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -109,35 +111,51 @@ def verify_otp(request):
 
 class HomeView(View):
     def get(self, request):
-        return render(request, 'users/index.html', {'user': request.user})
+        form_data = request.session.get('form_data', {})
 
-    @method_decorator(login_required)
+        # پس از پردازش داده‌ها، می‌توانید داده‌ها را از سشن پاک کنید
+        if 'form_data' in request.session:
+            del request.session['form_data']
+
+        return render(request, "users/index.html", {
+            'name': form_data.get('name', ''),
+            'title': form_data.get('title', ''),
+            'department': form_data.get('department', ''),
+            'description': form_data.get('description', ''),
+        })
+
     def post(self, request):
-        if request.user.is_questioned:
-            return render(request, 'services/services.html', {'user': request.user})
-        else:
-            # دریافت اطلاعات از فرم
-            form_data = {
-                'name': request.POST.get('name'),
-                'title': request.POST.get('title'),
-                'department': request.POST.get('department'),
-                'description': request.POST.get('description'),
-            }
+        # if request.user.is_questioned:
+        #     return render(request, 'services/services.html', {'user': request.user})
+        # else:
+        # دریافت اطلاعات از فرم
+        form_data = {
+            'name': request.POST.get('name'),
+            'title': request.POST.get('title'),
+            'department': request.POST.get('department'),
+            'description': request.POST.get('description'),
+        }
 
-            # ایجاد FreeForm
-            free_form = FreeForm.objects.create(
-                user=request.user,
-                title=form_data['title'],
-                department=form_data['department'],
-                description=form_data['description']
-            )
+        # بررسی اینکه آیا کاربر لاگین کرده است
+        if not request.user.is_authenticated:
+            # ذخیره داده‌ها در سشن
+            request.session['form_data'] = form_data
+            return redirect('users:login')  # نام URL صفحه لاگین شما
 
-            # به‌روزرسانی وضعیت is_questioned و نام کاربر
-            request.user.is_questioned = True
-            request.user.name = form_data['name']
-            request.user.save()
+        # ایجاد FreeForm
+        free_form = FreeForm.objects.create(
+            user=request.user,
+            title=form_data['title'],
+            department=form_data['department'],
+            description=form_data['description']
+        )
 
-            return redirect('services:services')
+        # به‌روزرسانی وضعیت is_questioned و نام کاربر
+        request.user.is_questioned = True
+        request.user.name = form_data['name']
+        request.user.save()
+
+        return redirect('services:services')
 
 
 def check_login(request):
@@ -163,17 +181,26 @@ def dashboard(request, username=None):
             services = UserServiceRequest.objects.filter(user=user)
             transactions = WalletTransaction.objects.filter(user=user)
     else:
-        today = timezone.now()
         user = request.user
-        UserServiceRequest.objects.filter(user = user , end_date__lt=today).update(is_active=False)
+        noww = timezone.localtime(timezone.now())
+        current_date_shamsi = jdatetime.date.fromgregorian(date=noww.date())
+
+        # فیلتر کردن سرویس‌هایی که تاریخ پایان آن‌ها گذشته است
+        expired_services = UserServiceRequest.objects.filter(
+            user=request.user,
+            end_date__lt=current_date_shamsi.isoformat()  # تبدیل تاریخ شمسی به ISO برای مقایسه
+        )
+        expired_services.update(is_active=False)
         services = UserServiceRequest.objects.filter(user=user)
         transactions = WalletTransaction.objects.filter(user=user)
+        print(len(services), len(transactions))
 
     return render(request, 'users/dashboard.html', {
         'user': user,
         'services': services,
         'transactions': transactions,
     })
+
 
 def test(request):
     return render(request, 'users/test.html')

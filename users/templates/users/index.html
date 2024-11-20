@@ -161,7 +161,7 @@
                                 <div class="form-group">
                                     <label for="name">نام خود را وارد کنید *</label>
                                     <input type="text" name="name" id="name" class="form-control"
-                                           placeholder="نام خود را وارد کنید *" required>
+                                           placeholder="نام خود را وارد کنید *" value="{{ name }}" required>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -169,11 +169,18 @@
                                     <div class="form-group">
                                         <label for="subject">نوع سوال را انتخاب کنید</label>
                                         <select class="form-control" name="department" id="subject" required>
-                                            <option selected style="color: black;" disabled>نوع سوال را انتخاب کنید
+                                            <option value="" style="color: black;" disabled
+                                                    {% if department == "" %}selected{% endif %}>نوع سوال را انتخاب کنید
                                             </option>
-                                            <option value="1" style="color: black;">کیفری</option>
-                                            <option value="2" style="color: black;">تجارت</option>
-                                            <option value="3" style="color: black;">خانواده</option>
+                                            <option value="1" style="color: black;"
+                                                    {% if department == "1" %}selected{% endif %}>کیفری
+                                            </option>
+                                            <option value="2" style="color: black;"
+                                                    {% if department == "2" %}selected{% endif %}>تجارت
+                                            </option>
+                                            <option value="3" style="color: black;"
+                                                    {% if department == "3" %}selected{% endif %}>خانواده
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -181,8 +188,7 @@
                                     <div class="form-group">
                                         <label for="title">موضوع</label>
                                         <input type="text" name="title" id="title" class="form-control"
-                                               placeholder="موضوع"
-                                               required>
+                                               placeholder="موضوع" value="{{ title }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +197,7 @@
                                 <div class="form-group">
                                     <label for="question">سوال شما</label>
                                     <textarea class="form-control" name="description" id="question" rows="4"
-                                              placeholder="سوال شما" required></textarea>
+                                              placeholder="سوال شما" required>{{ description }}</textarea>
                                 </div>
                             </div>
 

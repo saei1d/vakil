@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست کاربران</title>
+    <!-- لینک به استایل‌های Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="p-4 mt-5">
+    <a class="btn-primary " href="http://localhost:8000/admin-list/">بازگشت</a>
+</div>
+<div class="container mt-3">
+    <table class="table table-striped ">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">تاریخ شروع</th>
+            <th scope="col">وضعیت</th>
+            <th scope="col">توضیحات</th>
+            <th scope="col">تایید شده</th>
+            <th scope="col"> موضوع</th>
+            <th scope="col">تاریخ پایان</th>
+            <th scope="col">id کاربر</th>
+            <th scope="col">ثبت تغییرات</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for service in services %}
+            <form method="POST" action="{% url 'update_service' service.id %}">
+                {% csrf_token %}
+                <tr>
+                    <td>{{ service.id }}</td>
+                    <td><input type="date" name="start_date" value="{{ service.start_date|date:'Y-m-d' }}"></td>
+                    <td>
+                        <select name="is_active">
+                            <option value="1" {% if service.is_active %}selected{% endif %}>فعال</option>
+                            <option value="0" {% if not service.is_active %}selected{% endif %}>غیرفعال</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="description" value="{{ service.description }}"></td>
+                    <td>
+                        <select name="is_accepted">
+                            <option value="1" {% if service.is_accepted %}selected{% endif %}>تایید شده</option>
+                            <option value="0" {% if not service.is_accepted %}selected{% endif %}>تایید نشده</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="title" value="{{ service.title }}"></td>
+                    <td><input type="date" name="end_date" value="{{ service.end_date|date:'Y-m-d' }}"></td>
+                    <td>{{ service.user_id }}</td>
+                    <td>
+                        <button type="submit" class="btn-danger p-2">ذخیره</button>
+                    </td>
+                </tr>
+            </form>
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+<!-- لینک به اسکریپت‌های جاوا اسکریپت برای Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+
+
+</script>
+</body>
+</html>
