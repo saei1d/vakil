@@ -1,210 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}صفحه اصلی{% endblock %}
 {% block style %}
-    @keyframes fadeIIn {
-    0% {
-    opacity: 0;
-    transform: translate(-50%, -60%); /* پاپ آپ کمی بالاتر شروع به ظاهر شدن می‌کند */
-    }
-    100% {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-    }
-    }
-
-    /* افکت محو شدن */
-    @keyframes fadeOOut {
-    0% {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-    }
-    100% {
-    opacity: 0;
-    transform: translate(-50%, -60%); /* پاپ آپ کمی بالاتر محو می‌شود */
-    }
-    }
-
-
-    .no-scroll {
-    overflow: hidden; /* جلوگیری از اسکرول */
-    }
-
-    .blur-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* پس‌زمینه نیمه شفاف */
-    backdrop-filter: blur(10px); /* بلور کردن پس‌زمینه */
-    z-index: 999; /* مطمئن شوید که این کلاس زیر پاپ‌آپ است */
-    pointer-events: auto; /* فعال‌سازی کلیک برای این پس‌زمینه */
-    }
-
-
-    /* پاپ آپ */
-    .background {
-    width: 430px;
-    height: 300px;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
-    display: none; /* Initially hidden */
-    z-index: 900; /* نمایش shape ها در زیر پاپ آپ */
-    }
-
-
-    .popup.hidden {
-    animation: fadeOut 0.5s forwards; /* برای مخفی کردن پاپ آپ */
-    display: none; /* بعد از انیمیشن پاپ آپ مخفی شود */
-    }
-
-    .popup {
-    opacity: 0;
-    animation: fadeIn 1s forwards; /* زمان و جهت انیمیشن */
-    display: none;
-    background: rgba(48, 91, 48, 0.94);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    border-radius: 15px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-    z-index: 1000; /* بالاتر از shape ها */
-    }
-
-
-    /* دکمه ضربدر */
-    .close-popup {
-    {#    width: 40px;#}
-    {#    height: 45px;#}
-    background: none;
-    color: #ee0808;
-    border: none;
-    font-size: 35px;
-    cursor: pointer;
-    }
-
-
-    form * {
-    color:black;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
-    }
-
-    form h3 {
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
-    }
-
-    label {
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
-    }
-
-    input {
-
-    display: block;
-    height: 50px;
-    width: 100%;
-    {#    background-color: rgba(255, 255, 255, 0.07);#}
-    border-radius: 5px;
-    padding: 0 10px;
-    margin-top: 3px;
-    font-size: 24px;
-    font-weight: 800;
-    text-align: center;
-
-    }
-
-    ::placeholder {
-    color: black;
-    font-size: 18px; /* سایز بزرگ‌تر برای placeholder */
-    text-align: right; /* متن placeholder در وسط */
-    }
-
-    button {
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    }
-
-    .popup.active {
-    display: block;
-    }
-
-    .background.active {
-    display: block; /* Show shapes when popup is active */
-    }
-
-    @media (max-width: 800px) {
-    /* پنهان کردن shapeها در موبایل */
-    .background .shape {
-    display: none;
-    }
-
-    /* تنظیم اندازه پاپ‌آپ در موبایل */
-    .popup {
-    margin: auto;
-    }
-    }
-
-
-
-    .loader {
-    width: 60px;
-    height: 25px;
-    aspect-ratio: 2;
-    --_g: no-repeat radial-gradient(circle closest-side, #c77c13 90%, #0000);
-    background: var(--_g) 0% 50%,
-    var(--_g) 50% 50%,
-    var(--_g) 100% 50%;
-    background-size: calc(100% / 3) 50%;
-    animation: l3 1s infinite linear;
-    }
-
-    @keyframes l3 {
-    20% {
-    background-position: 0% 0%, 50% 50%, 100% 50%
-    }
-    40% {
-    background-position: 0% 100%, 50% 0%, 100% 50%
-    }
-    60% {
-    background-position: 0% 50%, 50% 100%, 100% 0%
-    }
-    80% {
-    background-position: 0% 50%, 50% 50%, 100% 100%
-    }
-    }
-    .online-indicator {
-    width: 15px; /* عرض چراغ */
-    height: 15px; /* ارتفاع چراغ */
-    border-radius: 50%; /* دایره‌ای کردن */
-    background-color: green; /* رنگ سبز */
-    position: absolute; /* موقعیت‌دهی مطلق */
-    top: 10px; /* فاصله از بالا */
-    left: 12px; /* فاصله از چپ */
-    animation: blink 1s infinite; /* انیمیشن چشمک‌زن */
-    }
-    @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-    }
-
 
 {% endblock %}
 
@@ -363,7 +159,7 @@
                             {% csrf_token %}
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label for="name"></label>
+                                    <label for="name">نام خود را وارد کنید *</label>
                                     <input type="text" name="name" id="name" class="form-control"
                                            placeholder="نام خود را وارد کنید *" required>
                                 </div>
@@ -371,19 +167,19 @@
                             <div class="row mb-3">
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="subject"></label>
+                                        <label for="subject">نوع سوال را انتخاب کنید</label>
                                         <select class="form-control" name="department" id="subject" required>
                                             <option selected style="color: black;" disabled>نوع سوال را انتخاب کنید
                                             </option>
                                             <option value="1" style="color: black;">کیفری</option>
                                             <option value="2" style="color: black;">تجارت</option>
                                             <option value="3" style="color: black;">خانواده</option>
-                                            </select>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="title"></label>
+                                        <label for="title">موضوع</label>
                                         <input type="text" name="title" id="title" class="form-control"
                                                placeholder="موضوع"
                                                required>
@@ -393,7 +189,7 @@
 
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <label for="question"></label>
+                                    <label for="question">سوال شما</label>
                                     <textarea class="form-control" name="description" id="question" rows="4"
                                               placeholder="سوال شما" required></textarea>
                                 </div>
@@ -663,9 +459,8 @@
     <!--  support -->
     <div class="support-container">
 
-        <div class="support-button" style="text-align: center" id="supportButton">
-            <i class="bi bi-headset mx-auto mt-3" id="buttonIcon"></i>
-            <div class="online-indicator"></div> <!-- چراغ آنلاین -->
+        <div class="support-button" id="supportButton">
+            <i class="bi bi-whatsapp" id="buttonIcon"></i>
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -679,7 +474,7 @@
                 </a>
             </div>
             <div class="support-item d-flex flex-column">
-                <i class="bi bi-headset fs-1 pt-0" style="color: #25D366;"></i>
+                <i class="bi bi-whatsapp fs-1 pt-0" style="color: #25D366;"></i>
                 <a href="https://wa.me/123456789" target="_blank">
                     پشتیبانی
                 </a>
@@ -689,272 +484,9 @@
 
     <!--support-->
 
-
-    <div id="loginPopup" class="popup bodyy">
-        <div class="row align-items-center">
-            <div class="col-md-8 col-10">
-                {% load static %}
-                <img src="{% static "image/logo.png" %}" width="150px" style="padding: 10px;" alt="">
-            </div>
-
-            <div class="col-md-4 col-2 text-right">
-                <button class="close-popup" onclick="closePopup()">×</button>
-            </div>
-        </div>
-        <form id="phoneForm" method="post" novalidate>
-            {% csrf_token %}
-            <h4 class="text-center p-1 text-light">ورود به سایت</h4>
-            <div class="phone-number-input">
-                <label for="phone_number"></label>
-                <input class="mx-auto" id="phone_number" type="tel" name="phone_number"
-                       style="background-color: white;max-width: 262px" placeholder="شماره موبایل" maxlength="11"
-                       required>
-            </div>
-            <div class="p-3 pb-4 mx-auto">
-                <button type="button" id="submitPhoneBtn" style="cursor: not-allowed;height: 53px">دریافت کد</button>
-            </div>
-            {#            <p class="text-center">ارسال مجدد کد</p>#}
-        </form>
-    </div>
-
-    <div id="codePopup" class="popup bodyy" style="display: none;">
-        <div class="row align-items-center">
-            <div class="col-md-8 col-10">
-                {% load static %}
-                <img src="{% static "image/logo.png" %}" width="150px" style="padding: 10px;" alt="">
-            </div>
-
-            <div class="col-md-4 col-2 text-right">
-                <button class="close-popup" onclick="closePopup()">×</button>
-            </div>
-        </div>
-        <form id="codeForm" method="post" action="/home/" novalidate>
-            {% csrf_token %}
-            <h4 class="text-center text-light mt-2" style="font-size: 25px">ورود کد تأیید</h4>
-            <div class="code-input">
-                <label for="sms_code"></label>
-                <input class="mx-auto" id="sms_code" type="text" name="sms_code" style="max-width: 262px"
-                       placeholder="کد را وارد کنید" maxlength="4" required>
-            </div>
-            <input type="hidden" id="hiddenPhoneNumber" name="phone_number">
-            <div class="p-3 pb-4">
-                <button type="submit" id="submitCodeBtn" style="height: 53px;">
-                    <span class="btn-text" style="color: black">ورود</span>
-                    <div class="loader" style="display: none"></div>
-                </button>
-            </div>
-            <div class="button-container">
-                <button id="loginPopup" type="button">
-                    <span>دریافت کد جدید</span>
-                    <div class="timer" id="timer">02:00</div>
-                </button>
-            </div>
-
-        </form>
-    </div>
-
 {% endblock %}
 
 {% block script %}
-    let timeLeft = 120; // 2 دقیقه به ثانیه
-    const timerElement = document.getElementById('timer');
-    const button = document.getElementById('submit_button');
-    const popup = document.getElementById('loginPopup');
-    const popupMessage = document.getElementById('popupMessage');
-
-    const countdown = setInterval(function() {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-    if (timeLeft <= 0) {
-    clearInterval(countdown);
-    button.classList.add('active');
-    button.querySelector('span').textContent = 'ارسال'; // تغییر متن دکمه
-    button.onclick = function() {
-    const phoneNumber = document.getElementById('phone_number').value;
-    popupMessage.textContent = `شماره موبایل شما: ${phoneNumber}`;
-    popup.classList.add('active'); // نمایش پنجره
-    };
-    }
-    timeLeft--;
-    }, 1000); // هر ثانیه یک بار
-
-    function closePopup() {
-    popup.classList.remove('active'); // پنهان کردن پنجره
-    }
-
-
-    $(document).ready(function () {
-    $('#phone_number').on('input', function () {
-    var phoneNumber = $(this).val();
-    if (phoneNumber.length === 11 && phoneNumber.startsWith('09')) {
-    $('#submitPhoneBtn').css({
-    'background-color': 'green',
-    'color': 'white',
-    'cursor': 'pointer'
-
-    }).prop('disabled', false); // فعال‌سازی دکمه
-    } else {
-    $('#submitPhoneBtn').css({
-    'background-color': 'gray',
-    'color': 'black',
-    'cursor': 'not-allowed'
-
-    }).prop('disabled', true); // غیرفعال‌سازی دکمه
-    }
-    });
-
-    $('#submitPhoneBtn').click(function () {
-    var phoneNumber = $('#phone_number').val();
-    if (phoneNumber.length === 11) {
-    $.ajax({
-    url: '/send-code/', // آدرس URL
-    type: 'POST',
-    data: {
-    phone_number: phoneNumber,
-    csrfmiddlewaretoken: '{{ csrf_token }}' // توکن CSRF
-    },
-    success: function (response) {
-    $('#hiddenPhoneNumber').val(phoneNumber); // ذخیره شماره تلفن در فرم کد
-    $('#loginPopup').hide(); // مخفی کردن کادر شماره تلفن
-    $('#codePopup').show(); // نمایش کادر کد تأیید
-    },
-    error: function (xhr, status, error) {
-    alert('خطا در ارسال کد. لطفاً دوباره تلاش کنید.');
-    }
-    });
-    } else {
-    alert('لطفاً شماره همراه را به‌طور کامل وارد کنید.');
-    }
-    });
-
-    // جلوگیری از ارسال فرم با زدن Enter
-    $('#phoneForm').on('keydown', function (e) {
-    if (e.key === "Enter") {
-    e.preventDefault(); // جلوگیری از رفتار پیش‌فرض
-    }
-    });
-    });
-
-    $('#submitCodeBtn').click(function (event) {
-    event.preventDefault(); // جلوگیری از رفتار پیش‌فرض سابمیت فرم
-    var smsCode = $('#sms_code').val();
-    var phoneNumber = $('#hiddenPhoneNumber').val();
-
-    // مخفی کردن متن ورود و نمایش لودر بلافاصله بعد از کلیک
-    $('#submitCodeBtn .btn-text').hide(); // مخفی کردن متن "ورود"
-    $('#submitCodeBtn .loader').css('display', 'inline-block'); // نمایش لودر
-    $('#submitCodeBtn').prop('disabled', true); // غیرفعال کردن دکمه
-
-    // ایجاد تأخیر 2 ثانیه‌ای قبل از ارسال درخواست
-    setTimeout(function () {
-    $.ajax({
-    url: '/verify-code/', // آدرس URL برای تأیید کد
-    type: 'POST',
-    data: {
-    sms_code: smsCode,
-    phone_number: phoneNumber,
-    csrfmiddlewaretoken: '{{ csrf_token }}' // توکن CSRF
-    },
-    success: function (response) {
-    if (response.success) {
-    Swal.fire({
-    icon: 'success',
-    title: 'ورود موفقیت‌آمیز بود!',
-    showConfirmButton: false,
-    timer: 3000
-    });
-
-    $('#codePopup').hide(); // بستن کادر دوم
-    $('#shapesBackground').hide(); // پنهان کردن background و shape ها
-    const blurBackground = document.querySelector('.blur-background');
-    if (blurBackground) blurBackground.remove();
-    document.body.classList.remove('no-scroll');
-    } else {
-    Swal.fire({
-    icon: 'error',
-    title: 'خطا!',
-    text: response.error,
-    timer: 3000
-    });
-    }
-    },
-    error: function (xhr, status, error) {
-    alert('خطا در تأیید کد. لطفاً دوباره تلاش کنید.');
-    }
-    });
-    }, 500); // تأخیر 2 ثانیه‌ای قبل از اجرای درخواست
-    });
-
-    function closeMenuAndOpenPopup(event) {
-    event.preventDefault();
-
-    // اضافه کردن انیمیشن مخفی‌سازی
-    const menuMobile = document.querySelector('.menu-mobile');
-    menuMobile.classList.add('animate__fadeOut');
-
-    // بعد از اتمام انیمیشن، منو را کاملا مخفی کن
-    setTimeout(() => {
-    menuMobile.style.display = 'none';
-    }, 500); // مدت زمان انیمیشن 0.5 ثانیه
-
-    // باز کردن پاپ آپ
-    openPopup(event);
-    }
-
-    function openPopup(event) {
-    event.preventDefault();
-
-    // نمایش پاپ‌آپ
-    const popup = document.getElementById('loginPopup');
-    popup.style.display = 'block';
-    popup.classList.add('active');
-
-    // غیرفعال کردن اسکرول صفحه
-    document.body.classList.add('no-scroll');
-
-    // ایجاد پس‌زمینه بلور و غیرفعال کردن کلیک روی عناصر پس‌زمینه
-    const blurBackground = document.createElement('div');
-    blurBackground.classList.add('blur-background', 'active');
-    document.body.appendChild(blurBackground);
-
-    // فوکوس روی فیلد شماره تلفن
-    $('#phone_number').focus();
-    }
-
-
-    function closePopup() {
-    // مخفی کردن پاپ‌آپ
-    const popup = document.getElementById('loginPopup');
-    popup.style.display = 'none';
-    popup.classList.remove('active');
-
-    // حذف پس‌زمینه بلور
-    const blurBackground = document.querySelector('.blur-background');
-    if (blurBackground) {
-    blurBackground.remove();
-    }
-
-    // فعال‌سازی اسکرول صفحه
-    document.body.classList.remove('no-scroll');
-    }
-
-    function closePopup2() {
-    // مخفی کردن پاپ‌آپ
-    const popup = document.getElementById('loginPopup');
-    popup.style.display = 'none';
-    popup.classList.remove('active');
-
-    // حذف پس‌زمینه بلور
-    const blurBackground = document.querySelector('.blur-background');
-    if (blurBackground) {
-    blurBackground.remove();
-    }
-
-    // فعال‌سازی اسکرول صفحه
-    document.body.classList.remove('no-scroll');
-    }
 
 
     // Initialize Swiper and AOS
@@ -980,25 +512,6 @@
     }
     }
     });
-
-
-    function checkLogin() {
-    return $.ajax({
-    url: '/check-login/', // آدرس ویو جنگو که وضعیت لاگین را بررسی می‌کند
-    method: 'GET',
-    dataType: 'json',
-    });
-    }
-
-    // رویداد کلیک روی فیلد ورودی
-    $('#question').on('click', function (event) {
-    checkLogin().done(function (response) {
-    if (!response.is_logged_in) {
-    openPopup(event); // کاربر لاگین نیست، پاپ‌آپ را باز کنید
-    }
-    });
-    });
-
 
     AOS.init({once: false});
 {% endblock %}

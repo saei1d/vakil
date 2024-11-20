@@ -63,8 +63,8 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
     }
-   h2{
-        color:white;
+    h2{
+    color:white;
     }
 
     .btn-open {
@@ -279,7 +279,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" name="title" id="=title-darkhast" style="color: black"
+                                <input type="text" name="title" id="title-darkhast" style="color: black"
                                        class="form-control input-equal"
                                        placeholder="موضوع">
                             </div>
@@ -331,7 +331,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-2">
-                                <input type="text" id="date-chat" name="date" style="color: black"
+                                <input type="text" id="date" name="date" style="color: black"
                                        class="form-control input-equal"
                                        data-jdp
                                        data-jdp-min-date="today" placeholder="تاریخ شروع"/>
@@ -567,4 +567,42 @@
     }
     });
 
+
+
+
+
+    // لاگین ریکوعایرد کردن
+    document.getElementById("date").addEventListener("click", function () {
+    fetch("/check-auth/") // مسیر بررسی وضعیت کاربر
+    .then(response => response.json())
+    .then(data => {
+    if (!data.authenticated) {
+    const currentUrl = window.location.pathname + window.location.search; // مسیر فعلی
+    window.location.href = `/login/?next=${encodeURIComponent(currentUrl)}`;
+    }
+    })
+    .catch(error => console.error("Error:", error));
+    });
+    document.getElementById("title-darkhast").addEventListener("click", function () {
+    fetch("/check-auth/") // مسیر بررسی وضعیت کاربر
+    .then(response => response.json())
+    .then(data => {
+    if (!data.authenticated) {
+    const currentUrl = window.location.pathname + window.location.search; // مسیر فعلی
+    window.location.href = `/login/?next=${encodeURIComponent(currentUrl)}`;
+    }
+    })
+    .catch(error => console.error("Error:", error));
+    });
+    document.getElementById("date-chat").addEventListener("click", function () {
+    fetch("/check-auth/") // مسیر بررسی وضعیت کاربر
+    .then(response => response.json())
+    .then(data => {
+    if (!data.authenticated) {
+    const currentUrl = window.location.pathname + window.location.search; // مسیر فعلی
+    window.location.href = `/login/?next=${encodeURIComponent(currentUrl)}`;
+    }
+    })
+    .catch(error => console.error("Error:", error));
+    });
 {% endblock %}

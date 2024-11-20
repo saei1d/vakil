@@ -2,15 +2,19 @@ import json
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect ,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from service.models import FreeForm
+
+from payment.models import WalletTransaction
+from service.models import FreeForm, UserServiceRequest
 from users.models import Client
-from django.contrib.auth import logout ,login ,authenticate
+from django.contrib.auth import logout, login, authenticate
 import random
-from django.utils.timezone import now ,make_aware
-from datetime import datetime,timedelta
+from django.utils.timezone import now, make_aware
+from datetime import datetime, timedelta
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils import timezone
 
 
 def send_otp(request):
@@ -49,13 +53,14 @@ def send_otp(request):
             return JsonResponse({"success": False, "error": str(e)})
 
     return JsonResponse({"success": False, "error": "Invalid request method."})
+
+
 def verify_otp(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
             phone = data.get("phone")
             otp = data.get("otp")
-            print(otp,phone)
             # بررسی صحت داده‌های ورودی
             if not phone or not otp:
                 return JsonResponse({"success": False, "error": "Phone or OTP is missing."})
@@ -72,7 +77,9 @@ def verify_otp(request):
                 user = Client.objects.get(username=phone)
             except ObjectDoesNotExist:
                 # ایجاد کاربر جدید در صورت عدم وجود
-                user = Client(username=phone)
+                otp = request.session.get("otp")  # دریافت OTP از سشن
+                print(otp)
+                user = Client(username=phone, otp=otp)  # تنظیم otp
                 user.set_password(otp)
                 user.save()
 
@@ -80,7 +87,15 @@ def verify_otp(request):
             user = authenticate(request, username=phone, password=otp)
             if user:
                 login(request, user)
-                return JsonResponse({"success": True})
+
+                next_url = request.GET.get('next', '/')
+                print(next_url)
+                # بررسی اینکه مسیر ایمن و معتبر است
+                if url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
+                    return JsonResponse({"success": True, "next_url": next_url})
+                else:
+                    # مسیر پیش‌فرض در صورت نامعتبر بودن next
+                    return JsonResponse({"success": True, "next_url": '/home/'})
             else:
                 return JsonResponse({"success": False, "error": "Authentication failed."})
 
@@ -136,12 +151,33 @@ def logout_view(request):
     return redirect('users:home')
 
 
-def dashboard(request):
-    return render(request, 'users/dashboard.html', {'user': request.user})
+@login_required
+def dashboard(request, username=None):
+    if request.user.is_superuser:
+        if username is not None:
+            user = get_object_or_404(Client, username=username)  # بررسی وجود کاربر
+            services = UserServiceRequest.objects.filter(user=user)
+            transactions = WalletTransaction.objects.filter(user=user)
+        else:
+            user = request.user
+            services = UserServiceRequest.objects.filter(user=user)
+            transactions = WalletTransaction.objects.filter(user=user)
+    else:
+        today = timezone.now()
+        user = request.user
+        UserServiceRequest.objects.filter(user = user , end_date__lt=today).update(is_active=False)
+        services = UserServiceRequest.objects.filter(user=user)
+        transactions = WalletTransaction.objects.filter(user=user)
 
+    return render(request, 'users/dashboard.html', {
+        'user': user,
+        'services': services,
+        'transactions': transactions,
+    })
 
 def test(request):
     return render(request, 'users/test.html')
+
 
 def Login(request):
     return render(request, 'users/login.html')

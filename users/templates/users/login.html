@@ -19,6 +19,8 @@
 {% endblock %}
 
 {% block script %}
+    const urlParams = new URLSearchParams(window.location.search);
+    const nextUrl = urlParams.get('next') || '/';
 
     // گرفتن CSRF Token از کوکی
     function getCSRFToken() {
@@ -107,8 +109,9 @@
     console.log("پاسخ سرور:", data);
     if (data.success) {
     showAlert("success", "تأیید موفق", "کد تأیید شد و کاربر لاگین شد.");
+
     // در اینجا می‌توانید کاربر را به صفحه دیگری هدایت کنید
-    // window.location.href = "/dashboard/";
+    window.location.href = nextUrl; // هدایت به مسیر بعدی
     } else {
     showAlert("error", "کد نامعتبر", data.error || "کد وارد شده صحیح نیست.");
     }
@@ -119,6 +122,7 @@
     });
     });
     });
+
 
 
 

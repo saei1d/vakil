@@ -79,7 +79,7 @@
                 <span class="text-gold" style="font-size: 45px">.</span>
                 {% if not user.is_authenticated %}
                     <li>
-                        <a href="" onclick="openPopup(event)">وارد شوید</a>
+{#                        <a href="" onclick="openPopup(event)">وارد شوید</a>#}
                     </li>
                 {% else %}
                     <a href="{% url 'users:logout' %}">خروج</a>
@@ -116,7 +116,7 @@
                 <li><a href="http://localhost:8000/faq/">سوالات متداول </a></li>
                 <li><a href="http://localhost:8000/about-us/">درباره ما </a></li>
                 <li style="background: #bc945c">
-                    <a href="" onclick="closeMenuAndOpenPopup(event)">وارد شوید</a>
+{#                    <a href="" onclick="closeMenuAndOpenPopup(event)">وارد شوید</a>#}
                 </li>
 
             </ul>
@@ -180,7 +180,7 @@
                     <span class="text-gold">★</span>
                     {% if not user.is_authenticated %}
                         <li>
-                            <a href="" onclick="openPopup(event)">وارد شوید</a>
+{#                            <a href="" onclick="openPopup(event)">وارد شوید</a>#}
                         </li>
                     {% else %}
                         <a href="{% url 'users:logout' %}">خروج</a>
@@ -228,7 +228,7 @@
                 <li><a href="http://localhost:8000/faq/">سوالات متداول </a></li>
                 <li><a href="http://localhost:8000/about-us/">درباره ما </a></li>
                 <li style="background: #bc945c">
-                    <a href="" onclick="closeMenuAndOpenPopup(event)">وارد شوید</a>
+{#                    <a href="" onclick="closeMenuAndOpenPopup(event)">وارد شوید</a>#}
                 </li>
 
             </ul>

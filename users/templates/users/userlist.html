@@ -8,77 +8,99 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>لیست کاربران</h2>
-        <form method="POST" id="search-form">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="search-input">جستجو بر اساس نام یا شماره تلفن</label>
-                <input type="text" class="form-control" id="search-input" name="pk" placeholder="نام یا شماره تلفن">
-            </div>
-            <button type="submit" class="btn btn-primary">جستجو</button>
-        </form>
+<div class="container mt-5">
+    <h2>لیست کاربران</h2>
+    <form method="GET" action="{% url 'userlist' %}">
+        <input type="text" name="search" value="{{ search_query }}" placeholder="جستجوی کاربر...">
+        <button type="submit">جستجو</button>
+    </form>
 
-        <table class="table table-striped mt-4">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>نام</th>
-                    <th>شماره تلفن</th>
-                </tr>
-            </thead>
-            <tbody id="user-table-body">
-                {% for user in users %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.username }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3" class="text-center">هیچ کاربری یافت نشد</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <table class="table table-striped mt-4">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>نام</th>
+            <th>شماره تلفن</th>
+            <th>داشبورد</th>
+            <th>چت</th>
+        </tr>
+        </thead>
+        <tbody id="user-table-body">
+        {% for user in page_obj %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.username }}</td>
+                {% if user.username %}
+                    <td><a href="{% url 'users:dashboard_with_username' username=user.username %}">ورود</a></td>
+                {% else %}
+                    <td>نام کاربری موجود نیست</td>
+                {% endif %}
+                <td>{{ user.username }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">هیچ کاربری یافت نشد</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-    <!-- لینک به اسکریپت‌های جاوا اسکریپت برای Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        // جاوا اسکریپت برای ارسال فرم جستجو با POST
-        $('#search-form').on('submit', function(e) {
-            e.preventDefault();
-            let searchValue = $('#search-input').val();
+<div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">اولین</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo;</span>
+                        <span class="sr-only">قبلی</span>
+                    </a>
+                </li>
+            {% endif %}
 
-            $.ajax({
-                type: 'POST',
-                url: '/admin-list/',  // آدرس صحیح سرور را وارد کنید
-                data: { pk: searchValue, csrfmiddlewaretoken: '{{ csrf_token }}' },
-                success: function(response) {
-                    let tableBody = $('#user-table-body');
-                    tableBody.empty();  // جدول را پاک می‌کند
-                    if (response.users.length > 0) {
-                        response.users.forEach((user, index) => {
-                            tableBody.append(`
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${user.name}</td>
-                                    <td>${user.username}</td>
-                                </tr>
-                            `);
-                        });
-                    } else {
-                        tableBody.append('<tr><td colspan="3" class="text-center">هیچ کاربری یافت نشد</td></tr>');
-                    }
-                },
-                error: function() {
-                    alert('خطا در درخواست');
-                }
-            });
-        });
-    </script>
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ i }}</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&rsaquo;</span>
+                        <span class="sr-only">بعدی</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">آخرین</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+<!-- لینک به اسکریپت‌های جاوا اسکریپت برای Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+
+
+</script>
 </body>
 </html>

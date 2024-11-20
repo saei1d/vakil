@@ -8,8 +8,9 @@ urlpatterns = [
     path('verify-otp/', verify_otp, name='verify_code'),
     path('logout/', logout_view, name='logout'),
     path('check-login/', check_login, name='check_login'),
-    path('dashboard/',dashboard,name='dashboard'),
-    path('test/',test,name='test'),
-    path('login/',Login,name='login'),
+    path('dashboard/', dashboard, name='dashboard'),
+    path('dashboard/<str:username>/', dashboard, name='dashboard_with_username'),  # داشبورد برای کاربر خاص
+    path('test/', test, name='test'),
+    path('login/', Login, name='login'),
 
 ]

@@ -11,6 +11,7 @@ urlpatterns = [
     path('payam/', Payam, name='payam'),
     path('shekaiatname/', Shekaiatname, name='shekaiatname'),
     path('ekhtesasi/', Ekhtesasi, name='ekhtesasi'),
+    path('check-auth/', check_authentication, name='check-authentication'),
 
 ]
 

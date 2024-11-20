@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 AUTH_USER_MODEL = 'users.Client'
 
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l'

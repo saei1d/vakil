@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime, timedelta, time
 from django.utils import timezone
@@ -19,6 +19,7 @@ class Services(View):
 class Pricing(View):
     def get(self, request):
         return render(request, 'services/pricing.html')
+
 
 @login_required
 def Call(request):
@@ -50,10 +51,10 @@ def Call(request):
             print("error15")
             return render(request, "services/pricing.html")
 
-        elif saat < current_time_shamsi:
+        elif jalali_date == current_date_shamsi and saat < current_time_shamsi:
             print("error2")
             return render(request, "services/pricing.html")
-        elif saat < future_time:
+        elif jalali_date == current_date_shamsi and saat < future_time:
             print("error3")
 
         else:
@@ -72,7 +73,8 @@ def Call(request):
                 start_date=start_date_iso,  # Set start_date in ISO format
                 end_date=end_date_iso  # Set end_date in ISO format
             )
-            return render(request, "users/dashboard.html")
+            return redirect('users:dashboard')  # 'dashboard' نام URL مربوط به داشبورد شماست
+
 
 @login_required
 def Payam(request):
@@ -111,7 +113,8 @@ def Payam(request):
                 start_date=start_date_iso,  # Set start_date in ISO format
                 end_date=end_date_iso  # Set end_date in ISO format
             )
-            return render(request, "users/dashboard.html")
+            return redirect('users:dashboard')  # 'dashboard' نام URL مربوط به داشبورد شماست
+
 
 @login_required
 def Shekaiatname(request):
@@ -119,11 +122,18 @@ def Shekaiatname(request):
         title = request.POST['title']
         description = request.POST['description']
         group = request.POST['group']
+        if group == 1:
+            group = "تنظیم لایحه"
+        elif group == 2:
+            group = "تنظیم دادخواست"
+        elif group == 3:
+            group = "تنظیم شکواییه"
+        elif group == 4:
+            group = "تنظیم اظهارنامه"
 
         jalali_date = jdatetime.datetime.now()
 
         end_service = jalali_date + timedelta(days=30)  # Convert to integer if necessary
-        #
 
         start_date_iso = jalali_date.isoformat()
         end_date_iso = end_service.isoformat()
@@ -131,13 +141,12 @@ def Shekaiatname(request):
         user_service_shekaiat = UserServiceRequest.objects.create(
             user=request.user,
             service_id=3,
-            title=f"{group}-{title}",
-            is_accepted=True,
-            description=description,
+            title=f"{group}",
+            is_accepted=False,
+            description=f'{title}----{description}',
             start_date=start_date_iso,  # Set start_date in ISO format
             end_date=end_date_iso  # Set end_date in ISO format
         )
-        print("برای وکیل ارسال شد")
 
         end_service2 = jalali_date + timedelta(days=2)  # Convert to integer if necessary
         end_date_iso2 = end_service2.isoformat()
@@ -146,14 +155,15 @@ def Shekaiatname(request):
             user=request.user,
             service_id=2,
             title="چت مختص تنظیم اوراق قضایی",
-            is_accepted=True,
+            is_accepted=False,
             description={f'یک روز'},
             start_date=start_date_iso,  # Set start_date in ISO format
             end_date=end_date_iso2  # Set end_date in ISO format
         )
         print("چت دو روزه فعال شد")
 
-        return render(request, "users/dashboard.html")
+        return redirect('users:dashboard')  # 'dashboard' نام URL مربوط به داشبورد شماست
+
 
 @login_required
 def Ekhtesasi(request):
@@ -192,4 +202,11 @@ def Ekhtesasi(request):
                 start_date=start_date_iso,  # Set start_date in ISO format
                 end_date=end_date_iso  # Set end_date in ISO format
             )
-            return render(request, "users/dashboard.html")
+            return redirect('users:dashboard')  # 'dashboard' نام URL مربوط به داشبورد شماست
+
+
+from django.http import JsonResponse
+
+
+def check_authentication(request):
+    return JsonResponse({'authenticated': request.user.is_authenticated})
