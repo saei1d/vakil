@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Accordion</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .accordion-body {
+            background-color: #001f3f; /* Background color of accordion body */
+            color: white; /* Text color of the answer */
+        }
+        .accordion-button {
+            text-align: right; /* Align text to the right */
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            border: none; /* Remove border */
+            outline: none; /* Remove outline */
+            text-decoration: none; /* Remove underline */
+        }
+        .icon {
+            transition: transform 0.3s ease; /* Transition for icon rotation */
+        }
+        .collapsed .icon {
+            transform: rotate(180deg); /* Rotate icon when collapsed */
+        }
+        .card {
+            border: none; /* Remove border from the card */
+            margin-bottom: 10px; /* Add margin between cards */
+        }
+        .accordion .collapse {
+            border: none; /* Remove border from the collapse element */
+        }
+        .accordion-button:focus {
+            box-shadow: none; /* Remove focus shadow */
+        }
+        .accordion-button:hover {
+            text-decoration: none; /* Ensure no underline on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center">سوالات متداول</h2>
+    <div class="accordion" id="faqAccordion">
+        <!-- Accordion Item 1 -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <button class="btn btn-link accordion-button" type="button" data-toggle="collapse"
+                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <span>سوال ۱: توضیحات درباره موضوع</span>
+                        <i class="icon fas fa-chevron-down"></i> <!-- Icon for dropdown -->
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#faqAccordion">
+                <div class="card-body accordion-body">
+                    پاسخ به سوال ۱: اینجا توضیحات مربوط به سوال ۱ قرار می‌گیرد.
+                </div>
+            </div>
+        </div>
+        <!-- Accordion Item 2 -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <button class="btn btn-link accordion-button" type="button" data-toggle="collapse"
+                            data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <span>سوال ۲: توضیحات درباره موضوع دیگر</span>
+                        <i class="icon fas fa-chevron-down"></i> <!-- Icon for dropdown -->
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqAccordion">
+                <div class="card-body accordion-body">
+                    پاسخ به سوال ۲: اینجا توضیحات مربوط به سوال ۲ قرار می‌گیرد.
+                </div>
+            </div>
+        </div>
+        <!-- Accordion Item 3 -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <button class="btn btn-link accordion-button" type="button" data-toggle="collapse"
+                            data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <span>سوال ۳: توضیحات درباره موضوع سوم</span>
+                        <i class="icon fas fa-chevron-down"></i> <!-- Icon for dropdown -->
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqAccordion">
+                <div class="card-body accordion-body">
+                    پاسخ به سوال ۳: اینجا توضیحات مربوط به سوال ۳ قرار می‌گیرد.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

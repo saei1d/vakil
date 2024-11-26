@@ -91,6 +91,7 @@ TEMPLATES = [
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',  # کلاس css برای نمایش پیام‌های خطا
 }
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 WSGI_APPLICATION = 'vakil.wsgi.application'
 

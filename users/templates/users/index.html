@@ -91,7 +91,6 @@
         <div class="container-2 mt2">
             <div class="row justify-content-between align-items-center">
                 <div class="col-md-5 text-md-start text-center mb-3">
-                    <li><a href="" onclick="openPopup(event)">وارد شوید</a></li>
                     <img src="{% static "image/icon1.png" %}" alt="">
                     <h2 class="my-4" style="font-size: 48px;">در کنار شما، مبارزه
                         <br>
@@ -155,8 +154,10 @@
                 <!-- form contect -->
                 <div class="col-md-6 mt-md-0 mt-5 ">
                     <div class="form-section">
-                        <form method="post">
+                        <form method="post" id="freeform">
                             {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label for="name">نام خود را وارد کنید *</label>
@@ -520,4 +521,37 @@
     });
 
     AOS.init({once: false});
+
+
+
+    // بررسی وجود پارامتر در URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('redirected')) {
+    // نمایش سوئی alert
+    Swal.fire({
+    title: 'تأیید نهایی',
+    text: 'لطفاً در صورت تأیید نهایی ارسال کنید.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'تأیید',
+    cancelButtonText: 'لغو'
+    }).then((result) => {
+    if (result.isConfirmed) {
+    // اگر کاربر تأیید کرد، اسکرول به عنصر با ID 'freeform'
+    const element = document.getElementById('freeform');
+    if (element) {
+    element.scrollIntoView({
+    behavior: 'smooth', // اسکرول نرم
+    block: 'start' // شروع اسکرول از بالای عنصر
+    });
+    }
+
+    // حذف پارامتر از URL پس از استفاده (اختیاری)
+    urlParams.delete('redirected');
+    window.history.replaceState({}, document.title, window.location.pathname + '?' + urlParams.toString());
+    }
+    });
+    }
+
+
 {% endblock %}

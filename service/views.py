@@ -69,7 +69,7 @@ def Call(request):
                 service_id=1,
                 title="تماس تلفنی",
                 is_accepted=True,
-                description={f'{moddat} ساعت '},
+                description={f'  در زمان {saat} و به مدت {moddat} ساعت با شما تماس خواهیم گرفت '},
                 start_date=start_date_iso,  # Set start_date in ISO format
                 end_date=end_date_iso  # Set end_date in ISO format
             )

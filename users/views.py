@@ -7,7 +7,7 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from django.contrib import messages
 from payment.models import WalletTransaction
 from service.models import FreeForm, UserServiceRequest
 from users.models import Client
@@ -140,7 +140,10 @@ class HomeView(View):
         if not request.user.is_authenticated:
             # ذخیره داده‌ها در سشن
             request.session['form_data'] = form_data
-            return redirect('users:login')  # نام URL صفحه لاگین شما
+            messages.info(request, 'فرم شما موقتا ذخیره شد، بعد از ثبت نام آن را مجددا ارسال کنید.')
+            next_url = request.POST.get('next', '/')
+            print(next_url)
+            return redirect(f'/login/?next={next_url}')
 
         # ایجاد FreeForm
         free_form = FreeForm.objects.create(
@@ -155,7 +158,7 @@ class HomeView(View):
         request.user.name = form_data['name']
         request.user.save()
 
-        return redirect('services:services')
+        return redirect('service:pricing')
 
 
 def check_login(request):

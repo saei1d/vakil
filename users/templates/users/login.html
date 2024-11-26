@@ -19,6 +19,18 @@
 {% endblock %}
 
 {% block script %}
+    {% if messages %}
+        document.addEventListener('DOMContentLoaded', function() {
+        {% for message in messages %}
+            Swal.fire({
+            title: 'اطلاعیه',
+            text: '{{ message }}',
+            icon: 'info',
+            confirmButtonText: 'باشه'
+            });
+        {% endfor %}
+        });
+    {% endif %}
     const urlParams = new URLSearchParams(window.location.search);
     const nextUrl = urlParams.get('next') || '/';
 
@@ -109,9 +121,9 @@
     console.log("پاسخ سرور:", data);
     if (data.success) {
     showAlert("success", "تأیید موفق", "کد تأیید شد و کاربر لاگین شد.");
-
-    // در اینجا می‌توانید کاربر را به صفحه دیگری هدایت کنید
-    window.location.href = nextUrl; // هدایت به مسیر بعدی
+    const redirectUrl = new URL(nextUrl, window.location.origin);
+    redirectUrl.searchParams.set('redirected', 'true'); // اضافه کردن پارامتر
+    window.location.href = redirectUrl; // هدایت به مسیر بعدی
     } else {
     showAlert("error", "کد نامعتبر", data.error || "کد وارد شده صحیح نیست.");
     }
