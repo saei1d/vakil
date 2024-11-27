@@ -19,6 +19,7 @@ def faq(request):
 def blog(request):
     return render(request, 'blog/blog.html')
 
+
 def blogpage(request):
     return render(request, 'blog/blog-page.html')
 
@@ -30,9 +31,6 @@ def contact(request):
 def post_list(request):
     posts = Post.objects.filter(is_published=True).order_by("-published_date")
     return render(request, "blog/post_list.html", {"posts": posts})
-
-
-
 
 
 def post_detail(request, slug):
