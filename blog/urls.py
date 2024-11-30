@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from .views import *
 
@@ -8,7 +8,7 @@ urlpatterns = [
     path('about-us/', aboutus, name='about-us'),
     path('faq/', faq, name='faq'),
     path('blog/', blog, name='blog'),
-    path('blog-page/', blogpage, name='blogpage'),
+    re_path(r'^blog-page/(?P<slug>.+)/$', blogpage, name='blogpage'),  # Allows any character
     # path('contact/', contact, name='contact'),
 
 ]

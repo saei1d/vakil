@@ -13,7 +13,7 @@ class Post(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     author = models.ForeignKey(Client, on_delete=models.CASCADE)
     content = models.TextField()
-    published_date = models.DateTimeField(default=now)
+    published_date = models.DateField(default=now)
     is_published = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):

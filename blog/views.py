@@ -17,11 +17,16 @@ def faq(request):
 
 
 def blog(request):
-    return render(request, 'blog/blog.html')
+    blog = Post.objects.all()
+    for post in blog:
+        print(post.id)
+        print(post.published_date)
+    return render(request, 'blog/blog.html', {'blog': blog})
 
 
-def blogpage(request):
-    return render(request, 'blog/blog-page.html')
+def blogpage(request, slug):
+    blog = get_object_or_404(Post, slug=slug)
+    return render(request, 'blog/blog-page.html', {'blog': blog})
 
 
 def contact(request):
