@@ -115,7 +115,7 @@
   /* For Internet Explorer and Edge */
 }
 .swiper-css-mode > .swiper-wrapper::-webkit-scrollbar {
-  display: none;
+  /*display: none;*/
 }
 .swiper-css-mode > .swiper-wrapper > .swiper-slide {
   scroll-snap-align: start start;

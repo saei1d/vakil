@@ -1,7 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}صفحه اصلی{% endblock %}
 {% block style %}
+    .green-light {
+    position: absolute;
+    bottom: 6px; /* تنظیم مکان برای قرارگیری روی سیم */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    border-radius: 50%;
+    box-shadow: 0 0 5px green;
+    animation: blink 2s infinite;
+    }
 
+    @keyframes blink {
+    0%, 100% {
+    opacity: 1;
+    }
+    50% {
+    opacity: 0;
+    }
+    }
 {% endblock %}
 
 {% block content %}
@@ -16,16 +36,13 @@
                          height="700px" alt="">
                     <div class="text-slider text-center">
                         {% load static %}
-                        <img src="{% static "image/slider-img1.png" %}" class="aos-item" data-aos-easing="zoom-out"
-                             data-aos-delay="3000" data-aos="fade-down" data-aos-duration="3000" alt="">
-                        <h1 class="my-2 aos-item h1-res" style="font-size: 64px;" data-aos="fade-up"
-                            data-aos-easing="zoom-out" data-aos-delay="3000" data-aos-duration="2000">
+                        <img src="{% static "image/sliderlogo.png" %}" class="p-2" alt="">
+                        <h1 class="my-2 h1-res" style="font-size: 64px;">
                             بیش از ۳۰ سال استراتژیک
                             <br>
                             مشاوره حقوقی
                         </h1>
-                        <img src="{% static "image/slider-img2.png" %}" data-aos="fade-up" data-aos-easing="zoom-out"
-                             data-aos-delay="3000" data-aos-duration="2000" style="width: 200px !important;" alt="">
+                        <img src="{% static "image/slider-img2.png" %}" style="width: 200px !important;" alt="">
                     </div>
                 </div>
                 <div class="swiper-slide swiper-slide-2">
@@ -35,18 +52,13 @@
                          height="700px" alt="">
                     <div class="text-slider text-center">
                         {% load static %}
-                        <img src="{% static "image/slider-img1.png" %}" class="aos-item" data-aos-easing="zoom-out"
-                             data-aos-delay="3000" data-aos="fade-down" data-aos-duration="3000" alt="">
-                        <h1 class="my-2 aos-item h1-res" style="font-size: 64px;" data-aos="fade-up"
-                            data-aos-easing="zoom-out" data-aos-delay="3000" data-aos-duration="2000">
+                        <img src="{% static "image/sliderlogo.png" %}" class="p-2" alt="">
+                        <h1 class="my-2 h1-res" style="font-size: 64px;">
                             بیش از ۳۰ سال استراتژیک
                             <br>
                             مشاوره حقوقی
                         </h1>
-                        {% load static %}
-                        <img src="{% static "image/slider-img2.png" %}" class="aos-item" data-aos-easing="zoom-out"
-                             data-aos-delay="3000" data-aos="fade-down" data-aos-duration="3000"
-                             style="width: 200px !important;" alt="">
+                        <img src="{% static "image/slider-img2.png" %}" style="width: 200px !important;" alt="">
                     </div>
                 </div>
 
@@ -467,7 +479,10 @@
     <div class="support-container">
 
         <div class="support-button" id="supportButton">
-            <i class="bi bi-whatsapp" id="buttonIcon"></i>
+            {% load static %}
+            <img src="{% static 'image/support.png' %}" width="68px" alt="">
+            <div class="green-light"></div> <!-- چراغ چشمک‌زن -->
+
         </div>
 
         <div class="overlay" id="overlay"></div>

@@ -1346,6 +1346,27 @@ footer .list-unstyled li .bi-chevron-left {
     z-index: 989;
 }
 
+.green-light {
+    position: absolute;
+    bottom: 10px; /* تنظیم مکان برای قرارگیری روی سیم */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    border-radius: 50%;
+    box-shadow: 0 0 10px green;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
 
 .support-button {
     background-color: #b6884f;
