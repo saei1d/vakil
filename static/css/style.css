@@ -376,7 +376,7 @@ ul {
 .bg-befor::before {
     content: "";
     position: absolute;
-    background-image: url("../image/bg-layer1.png");
+    background-image: url("../image/bgimage.png");
 
     top: 32px;
     right: -29px;
