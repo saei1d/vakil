@@ -39,63 +39,20 @@
             <div class="row justify-content-between mt-5">
                 <!-- Blog Right (Main Content) -->
                 <div class="col-md-8 text-md-start text-center ">
-                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
-                        {% load static %}
-                        <img src="{% static "image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
-                        <div class="card-body">
-                            <h3 class="text-gold my-3">به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است</h3>
-                            <p class="card-text text-muted small">21 خرداد 1403</p>
-                            <p class="card-text text-muted my-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
-                                چاپ و با استفاده
-                                از طراحان گرافیک است...</p>
-                            <a href="#"
-
-                               class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه
-                                مطلب</a>
+                    {% for b in blog %}
+                        <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
+                            {% load static %}
+                            <img src="{% static "image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
+                            <div class="card-body">
+                                <h3 class="text-gold my-3">{{ b.title }}</h3>
+                                <p class="card-text text-muted small">{{ b.published_date|date:"Y m d" }}</p>
+                                <p class="card-text text-muted my-3">
+                                    {{ b.content|truncatechars:200 }}
+                                </p>
+                                <a href="{% url 'blog:blogpage' b.slug %}"  class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه مطلب</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
-                        <img src="{% static " image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
-                        <div class="card-body">
-                            <h3 class="text-gold my-3">به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است</h3>
-                            <p class="card-text text-muted small">21 خرداد 1403</p>
-                            <p class="card-text text-muted my-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
-                                چاپ و با استفاده
-                                از طراحان گرافیک است...</p>
-                            <a href="#"
-
-                               class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه
-                                مطلب</a>
-                        </div>
-                    </div>
-                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
-                        <img src="{% static " image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
-                        <div class="card-body">
-                            <h3 class="text-gold my-3">به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است</h3>
-                            <p class="card-text text-muted small">21 خرداد 1403</p>
-                            <p class="card-text text-muted my-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
-                                چاپ و با استفاده
-                                از طراحان گرافیک است...</p>
-                            <a href="#"
-
-                               class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه
-                                مطلب</a>
-                        </div>
-                    </div>
-                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
-                        <img src="{% static " image/post1-1.jpg" %} " class="card-img-top" alt="Blog Image">
-                        <div class="card-body">
-                            <h3 class="text-gold my-3">به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است</h3>
-                            <p class="card-text text-muted small">21 خرداد 1403</p>
-                            <p class="card-text text-muted my-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
-                                چاپ و با استفاده
-                                از طراحان گرافیک است...</p>
-                            <a href="#"
-
-                               class="fs-14 d-inline-block mt-3 p-3 py-2 btn-form-3">ادامه
-                                مطلب</a>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <!-- Blog Left (Sidebar) -->

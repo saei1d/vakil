@@ -7,7 +7,7 @@ class Client(AbstractUser):
     name = models.CharField(max_length=120, null=True, blank=True)
     username = models.CharField(max_length=11, unique=True)  # تغییر فیلد username برای ذخیره شماره تلفن
     is_questioned = models.BooleanField(default=False)
-    otp = models.IntegerField()
+    otp = models.IntegerField(null=True, blank=True)
     timestamp = models.DateTimeField(default=now)
 
 
