@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}سوالات متداول{% endblock %}
 {% block banner %}
-    <div class="tbanner">
+    <div class="banner">
         <div class="text-center" style="padding-top: 150px;">
             <h2>سوالات متداول</h2>
             <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
@@ -26,110 +26,154 @@
 
 <!-- faq -->
 {% block content %}
-    <Section>
-        <div class="container ">
+    <section>
+        <div class="container">
             <div class="row justify-content-between mt-5">
-                <!-- faq contect -->
-                <div class="col-md-8 text-md-start text-center  p-5">
+                <!-- بخش سوالات -->
+                <div class=" text-md-start text-center p-5">
                     {% load static %}
-                    <img src="{% static "image/icon1.png" %} " alt="">
+                    <img src="{% static "image/icon1.png" %}" alt="">
                     <h1 class="my-4">آیا سوالی در ذهن دارید؟</h1>
                     <p>لطفا سوالات زیر را بخوانید و اگر نتوانستید پاسخ خود را پیدا کنید، لطفا سوال خود را برای ما ارسال
-                        کنید
-                        ما در اسرع وقت به شما پاسخ خواهیم داد</p>
+                        کنید. ما در اسرع وقت به شما پاسخ خواهیم داد.</p>
+                    <div class="row">
+                        <div class="mt col-md-8">
+                            <!-- سوالات عمومی -->
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-question-circle bg-gold text-black p-3 py-2 fs-4"></i>
+                                <h4>سوالات عمومی</h4>
+                            </div>
+                            <div class="accordion mt-4">
+                                <!-- سوالات -->
+                                <div class="accordion-item-2">
+                                    <div class="accordion-header d-flex justify-content-between align-items-center"
+                                         onclick="toggleAccordion(this)">
+                                        چگونه می‌توانم از خدمات مشاوره تلفنی استفاده کنم؟
+                                        <i class="bi bi-chevron-down"></i>
+                                    </div>
+                                    <div class="accordion-body">
+                                        شما میتوانید با رفتن به صفحه سرویس‌ها، یک زمان برای تماس وکیل با خودتون رو تعیین
+                                        کنید. در صورتیکه نیاز به تماس سریع دارید، با پشتیبانی هماهنگ کنید.
+                                    </div>
+                                </div>
+                                <div class="accordion-item-2">
+                                    <div class="accordion-header d-flex justify-content-between align-items-center"
+                                         onclick="toggleAccordion(this)">روند تنظیم لایحه شکایت یا دادخواست چگونه است؟<i
+                                            class="bi bi-chevron-down"></i></div>
+                                    <div class="accordion-body">
+                                        برای تنظیم شکوائیه و یا دادخواست پس از برقراری ارتباط با درخواست کننده و دریافت
+                                        اطلاعات پرونده و بررسی مدارک شکوائیه یا دادخواست تنظیم می گردد.
+                                    </div>
+                                </div>
+                                <div class="accordion-item-2">
+                                    <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                         onclick="toggleAccordion(this)">هزینه خدمات مختلف سایت چگونه محاسبه می‌شود؟<i
+                                            class="bi bi-chevron-down"></i></div>
+                                    <div class="accordion-body">
+                                        هزینه ها بر مبنای حجم کار تعیین می گردد و مبلغ حق المشاوره ، حداقل تعیین شده
+                                        است.
+                                    </div>
+                                </div>
+                                <div class="accordion-item-2">
+                                    <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                         onclick="toggleAccordion(this)">آیا امکان دریافت خدمات وکیل اختصاصی در شهر خودم
+                                        وجود دارد؟<i
+                                                class="bi bi-chevron-down"></i></div>
+                                    <div class="accordion-body">
+                                        امکان پیگیری و قبول وکالت در شهرهای تهران ، قم ، کرج ، اراک وجود دارد و سایر
+                                        شهرها
+                                        نیز حسب اقتضاء ( موضوع پرونده ) امکان پذیر است.
+                                    </div>
+                                </div>
+                                <div class="accordion-item-2">
+                                    <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                         onclick="toggleAccordion(this)">چطور می‌توانم با پشتیبانی سایت تماس بگیرم؟<i
+                                            class="bi bi-chevron-down"></i></div>
+                                    <div class="accordion-body">
+                                        از طریق شماره درج شده در صفحه اصلی
+                                    </div>
+                                </div>
 
-                    <!-- faq -->
-                    <div class="mt">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-question-circle bg-gold text-black p-3 py-2 fs-4"></i>
-                            <h4>سوالات عمومی</h4>
+                            </div>
+
+                            <div class="mt">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-question-circle bg-gold text-black p-3 py-2 fs-4"></i>
+                                    <h4>دیگر سوالات </h4>
+                                </div>
+
+                                <div class="accordion mt-4">
+                                    <div class="accordion-item-2">
+                                        <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                             onclick="toggleAccordion(this)">برای تنظیم شکایت حقوقی به چه اطلاعاتی نیاز
+                                            دارید؟<i
+                                                    class="bi bi-chevron-down"></i></div>
+                                        <div class="accordion-body">
+                                            ابتدا توضیح کامل راجع به موضوع مورد مطالبه و بعد تنظیم دادخواست بر اساس ادله
+                                            و
+                                            مدارک موجود
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item-2">
+                                        <div class="accordion-header d-flex justify-content-between align-items-center"
+                                             onclick="toggleAccordion(this)">مدت زمان لازم برای آماده شدن دادخواست من
+                                            چقدر
+                                            است؟<i
+                                                    class="bi bi-chevron-down"></i></div>
+                                        <div class="accordion-body">
+                                            بسته به موضوع هر پرونده متفاوت است ولی معمولا بین ۱ تا ۵ روز
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item-2" id="ghavanin">
+                                        <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                             onclick="toggleAccordion(this)">قوانین و مقررات مد نظر سایت چیست؟<i
+                                                class="bi bi-chevron-down"></i></div>
+                                        <div class="accordion-body">
+
+                                            1- تمام هزینه های پرداخت شده برای خدمات غیرقابل بازگشت هستند
+                                            <br>
+                                            2-مشاوره صرفا بر اساس اطلاعات دریافت شده از متقاضی صورت میگیرد.
+                                        </div>
+                                        <div class="accordion-item-2">
+                                            <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                                 onclick="toggleAccordion(this)">آیا وکلای شما تخصص خاصی در زمینه‌های
+                                                حقوقی
+                                                مختلف دارند؟<i
+                                                        class="bi bi-chevron-down"></i></div>
+                                            <div class="accordion-body">
+                                                وکلای همکاری کننده دارای پروانه پایه یک دادگستری و مدرک کارشناسی ارشد با
+                                                گرایش های حقوق خصوصی و جزا و جرم شناسی هستند
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item-2">
+                                            <div class="accordion-header  d-flex justify-content-between align-items-center"
+                                                 onclick="toggleAccordion(this)">اگر از نتیجه پرونده راضی نبودم، چگونه
+                                                می‌توانم شکایت یا پیگیری کنم؟<i
+                                                        class="bi bi-chevron-down"></i></div>
+                                            <div class="accordion-body">
+                                                هیچ وکیلی نمی تواند نتیجه را تضمین کند ، وظیفه وکیل دادگستری تلاش برای
+                                                احقاق
+                                                حق و اجرای عدالت است .
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- تکرار سایر آیتم‌ها -->
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="accordion mt-4">
-                            <div class="accordion-item-2">
-                                <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                     onclick="toggleAccordion(this)"> چرا نیاز به وکیل دارید؟<i
-                                        class="bi bi-chevron-down"></i></div>
-                                <div class="accordion-body">
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.
-                                </div>
-                            </div>
-                            <div class="accordion-item-2">
-                                <div class="accordion-header d-flex justify-content-between align-items-center"
-                                     onclick="toggleAccordion(this)">چرا نیاز به وکیل دارید؟<i
-                                        class="bi bi-chevron-down"></i></div>
-                                <div class="accordion-body">
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.
-                                </div>
-                            </div>
-                            <div class="accordion-item-2">
-                                <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                     onclick="toggleAccordion(this)">چرا نیاز به وکیل دارید؟<i
-                                        class="bi bi-chevron-down"></i></div>
-                                <div class="accordion-body">
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.
-                                </div>
+                        <!-- form contect -->
+                        <div class="col-md-4 mt-md-0 mt-5 ">
+
+                            <div class="bg-befor3 position-relative ">
+                                <img src="{% static "image/lawyer-thinking.jpg" %} " width="100%"
+                                     style="border-bottom: 5px solid #BC945C;" alt="">
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="mt">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-question-circle bg-gold text-black p-3 py-2 fs-4"></i>
-                            <h4>دیگر سوالات </h4>
-                        </div>
-
-                        <div class="accordion mt-4">
-                            <div class="accordion-item-2">
-                                <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                     onclick="toggleAccordion(this)"> چرا نیاز به وکیل دارید؟<i
-                                        class="bi bi-chevron-down"></i></div>
-                                <div class="accordion-body">
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.
-                                </div>
-                            </div>
-                            <div class="accordion-item-2">
-                                <div class="accordion-header d-flex justify-content-between align-items-center"
-                                     onclick="toggleAccordion(this)">چرا نیاز به وکیل دارید؟<i
-                                        class="bi bi-chevron-down"></i></div>
-                                <div class="accordion-body">
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.
-                                </div>
-                            </div>
-                            <div class="accordion-item-2">
-                                <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                     onclick="toggleAccordion(this)">چرا نیاز به وکیل دارید؟<i
-                                        class="bi bi-chevron-down"></i></div>
-                                <div class="accordion-body">
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.
-                                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.
-                                </div>
-                            </div>
-                            <!-- تکرار سایر آیتم‌ها -->
-                        </div>
-
                     </div>
                 </div>
-                <!-- form contect -->
-                <div class="col-md-4 mt-md-0 mt-5 ">
-
-                    <div class="bg-befor3 position-relative ">
-                        <img src="{% static "image/img12.jpg" %} " width="100%"
-                             style="border-bottom: 5px solid #BC945C;" alt="">
-                    </div>
             </div>
-            </div>
-        </div>
-    </Section>
+    </section>
     <!-- contect -->
 
 
@@ -150,35 +194,35 @@
 
 {% block script %}
 
-function debounce(func, delay) {
+    function debounce(func, delay) {
     let timeout;
     return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
     };
-}
+    }
 
-// آکاردئون
-const headers = document.querySelectorAll('.accordion-header');
-if (headers) {
+    // آکاردئون
+    const headers = document.querySelectorAll('.accordion-header');
+    if (headers) {
     document.addEventListener('DOMContentLoaded', function () {
-        headers.forEach(header => {
-            header.addEventListener('click', debounce(function () {
-                const body = this.nextElementSibling;
-                body.classList.toggle('active');
+    headers.forEach(header => {
+    header.addEventListener('click', debounce(function () {
+    const body = this.nextElementSibling;
+    body.classList.toggle('active');
 
-                // اضافه کردن کلاس به هدر کلیک‌شده
-                this.classList.add('accordion-bg');
+    // اضافه کردن کلاس به هدر کلیک‌شده
+    this.classList.add('accordion-bg');
 
-                // حذف کلاس از سایر هدرها
-                headers.forEach(otherHeader => {
-                    if (otherHeader !== this) {
-                        otherHeader.classList.remove('accordion-bg');
-                        otherHeader.nextElementSibling.classList.remove('active');
-                    }
-                });
-            }, 200)); // تأخیر را به دلخواه تنظیم کنید
-        });
+    // حذف کلاس از سایر هدرها
+    headers.forEach(otherHeader => {
+    if (otherHeader !== this) {
+    otherHeader.classList.remove('accordion-bg');
+    otherHeader.nextElementSibling.classList.remove('active');
+    }
     });
-}
+    }, 200)); // تأخیر را به دلخواه تنظیم کنید
+    });
+    });
+    }
 {% endblock %}

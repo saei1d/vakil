@@ -36,7 +36,9 @@
         <nav class=" d-flex justify-content-between mt-3 align-items-center">
             <div class="col-md-1">
                 {% load static %}
-                <img href="http://localhost:8000/home/" src="{% static "image/newlogo.png" %}" width="190px" alt="">
+                <a href="http://localhost:8000/home/">
+                    <img src="/static/image/newlogo.png" width="160px" alt="">
+                </a>
             </div>
             <div class="col-md-7 d-flex justify-content-end gap-4 align-items-center">
                 <p class="fs-14 fw-lighter" style="color:rgba(255,255,255,0.3);">
@@ -56,17 +58,17 @@
                     <a href="http://localhost:8000/home/"
                        class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه اصلی</a>
                 </li>
-{#                <span class="text-gold" style="font-size: 45px">.</span>#}
+                {#                <span class="text-gold" style="font-size: 45px">.</span>#}
                 <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                 <li>
                     <a href="http://localhost:8000/service/"
                        class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات ما</a>
                 </li>
                 <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
-                        <li>
-                            <a href="http://localhost:8000/pricing/"
-                               class="{% if request.path == '/pricing/' %}activelink{% endif %}">سرویس ها</a>
-                        </li>
+                <li>
+                    <a href="http://localhost:8000/pricing/"
+                       class="{% if request.path == '/pricing/' %}activelink{% endif %}">سرویس ها</a>
+                </li>
                 <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                 <li>
                     <a href="http://localhost:8000/faq/" class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات
@@ -83,12 +85,14 @@
                         <a href="http://localhost:8000/login/">ورود به حساب</a>
                     </li>
                 {% else %}
-                    <a href="{% url 'users:logout' %}">خروج</a>
+                    <a href="{% url 'users:dashboard' %}">پنل کاربری</a>
                 {% endif %}
             </ul>
 
-            <a href="" class="btn-header"><i class="fa fa-balance-scale me-2 fw-bold"></i> ارزیابی رایگان</a>
+            <a href="http://localhost:8000/home/#free" class="btn-header"><i
+                    class="fa fa-balance-scale me-2 fw-bold"></i>پرسش رایگان</a>
         </nav>
+        {#                    <a href="{% url 'users:logout' %}">خروج</a>#}
 
         <!-- menue desktop-->
     </header>
@@ -101,7 +105,9 @@
         <nav class="d-flex justify-content-between py-4 px-3 align-items-center" style="background-color: #101a0e;">
             <div class="col-md-1">
                 {% load static %}
-                <img src="{% static "image/newlogo.png" %}" width="160px" alt="">
+                <a href="http://localhost:8000/home/">
+                    <img src="/static/image/newlogo.png" width="160px" alt="">
+                </a>
             </div>
             <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4"></i>
         </nav>
@@ -116,9 +122,15 @@
                 <li><a href="http://localhost:8000/pricing/">سرویس ها</a></li>
                 <li><a href="http://localhost:8000/faq/">سوالات متداول </a></li>
                 <li><a href="http://localhost:8000/about-us/">درباره ما </a></li>
-                <li style="background: #bc945c">
+                {% if not user.is_authenticated %}
+                    <li>
                         <a href="http://localhost:8000/login/">ورود به حساب</a>
-                </li>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'users:dashboard' %}">پنل کاربری</a>
+                    </li>
+                {% endif %}
 
             </ul>
             <div class="icon-menu w-100 text-center">
@@ -132,7 +144,6 @@
         </nav>
     </header>
 {% else %}
-    <html style="background-color: #171717 !important;">
 
     <!-- navbar desktop -->
     <header class="position-relative desktop" style="z-index: 10; background-color: #101A0E;">
@@ -140,7 +151,9 @@
             <!-- nav top -->
             <nav class=" d-flex justify-content-between mt-2 py-2 align-items-center">
                 <div class="col-md-1">
-                    <img href="http://localhost:8000/home/" src="{% static "image/newlogo.png" %}" width="190px" alt="">
+                    <a href="http://localhost:8000/home/">
+                        <img src="/static/image/newlogo.png" width="160px" alt="">
+                    </a>
                 </div>
                 <div class="col-md-7 d-flex justify-content-end gap-4 align-items-center">
                     <p class="fs-14 fw-lighter"
@@ -159,38 +172,53 @@
              justify-content-between mt-2  align-items-center" style="background-color: #182615;">
                 <ul class="d-flex justify-content-between gap-3 ps-5 align-items-center">
                     <li>
-                        <a href="http://localhost:8000/home/" class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه اصلی </a>
+                        <a href="http://localhost:8000/home/"
+                           class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه اصلی </a>
                     </li>
 
-                <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                     <li>
-                        <a href="http://localhost:8000/service/" class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات ما</a>
+                        <a href="http://localhost:8000/service/"
+                           class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات ما</a>
                     </li>
-                <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
                     <li>
-                        <a href="http://localhost:8000/pricing/" class="{% if request.path == '/pricing/' %}activelink{% endif %}">سرویس ها</a>
+                        <a href="http://localhost:8000/pricing/"
+                           class="{% if request.path == '/pricing/' %}activelink{% endif %}">سرویس ها</a>
                     </li>
-                <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                     <li>
-                        <a href="http://localhost:8000/faq/" class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات متداول </a>
+                        <a href="http://localhost:8000/faq/"
+                           class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات متداول </a>
                     </li>
-                <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
                     <li>
-                        <a href="http://localhost:8000/about-us/" class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما </a>
+                        <a href="http://localhost:8000/about-us/"
+                           class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما </a>
                     </li>
-                <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                     {% if not user.is_authenticated %}
                         <li>
-                        <a href="http://localhost:8000/login/" class="{% if request.path == '/login/' %}activelink{% endif %}">ورود به حساب</a>
+                            <a href="http://localhost:8000/login/"
+                               class="{% if request.path == '/login/' %}activelink{% endif %}">ورود به حساب</a>
                         </li>
                     {% else %}
-                        <a href="{% url 'users:logout' %}">خروج</a>
+                        {% if request.path == '/dashboard/' %}
+                            <li>
+                                <a href="{% url 'users:logout' %}">خروج از حساب</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'users:dashboard' %}"
+                                   class="{% if request.path == '/dashboard/' %}activelink{% endif %}">پنل کاربری</a>
+                            </li>
+                        {% endif %}
 
                     {% endif %}
 
                 </ul>
 
-                <a href="" class="btn-header"> <i class="fa fa-balance-scale me-2 fw-bold"></i> ارزیابی رایگان </a>
+                <a href="" class="btn-header"> <i class="fa fa-balance-scale me-2 fw-bold"></i> سوال رایگان </a>
             </nav>
             <!-- menue desktop-->
         </div>
@@ -209,7 +237,9 @@
         <!-- nav top -->
         <nav class=" d-flex justify-content-between py-4 px-5 align-items-center" style="background-color: #101a0e;">
             <div class="col-md-1">
-                <img src="{% static "image/newlogo.png" %}" width="160px" alt="">
+                <a href="http://localhost:8000/home/">
+                    <img src="/static/image/newlogo.png" width="160px" alt="">
+                </a>
             </div>
             <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4"></i>
         </nav>
@@ -228,9 +258,24 @@
                 <li><a href="http://localhost:8000/pricing/">سرویس ها</a></li>
                 <li><a href="http://localhost:8000/faq/">سوالات متداول </a></li>
                 <li><a href="http://localhost:8000/about-us/">درباره ما </a></li>
-                <li style="background: #bc945c">
-                        <a href="http://localhost:8000/login/">ورود به حساب</a>
-                </li>
+                {% if not user.is_authenticated %}
+                    <li>
+                        <a href="http://localhost:8000/login/"
+                           class="{% if request.path == '/login/' %}activelink{% endif %}">ورود به حساب</a>
+                    </li>
+                {% else %}
+                    {% if request.path == '/dashboard/' %}
+                        <li>
+                            <a href="{% url 'users:logout' %}">خروج از حساب</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'users:dashboard' %}"
+                               class="{% if request.path == '/dashboard/' %}activelink{% endif %}">پنل کاربری</a>
+                        </li>
+                    {% endif %}
+
+                {% endif %}
 
             </ul>
 
@@ -266,7 +311,7 @@
 
         <div class="row">
             <div class="col-md-4">
-                <img src="{% static "image/logo-footer.png" %}" width="200" alt="">
+                <img src="{% static "image/logoblack.png" %}" width="200" alt="">
                 <p class="text-black text-jus my-4 col-md-11 fw-semibold">وکلا همیشه آزادند تا انجمن های داوطلبانه
                     خود را تشکیل دهند، جدای
                     از هرگونه مجوز یا عضویت اجباری که ممکن است توسط قوانین حوزه قضایی آنها لازم باشد.</p>
@@ -286,28 +331,28 @@
                     <div class="col-md-5">
                         <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">اطلاعات تماس</h5>
                         <ul class="list-unstyled mt-4">
-                            <li class="mb-5 d-flex gap-4">
-                                <i class="bi bi-telephone-fill text-gold px-3 py-2 fs-4"
-                                   style="border: 1px solid #bc945c3b;"></i>
+                            <li class="mb-4 d-flex gap-4">
+                                <img alt="" src="{% static "image/call.png" %}" width="44px" height="44"
+                                     class="text-gold ">
                                 <div>
                                     <p class="text-gold">تلفن: </p>
-                                    <h5 class="fw-light mt-2">02112345678</h5>
+                                    <h5 style="color: white" class="fw-light mt-2">02112345678</h5>
                                 </div>
                             </li>
-                            <li class="mb-5 d-flex gap-4">
-                                <i class="bi bi-envelope-fill text-gold px-3 py-2 fs-4"
-                                   style="border: 1px solid #bc945c3b;"></i>
+                            <li class="mb-4 d-flex gap-4">
+                                <img alt="" src="{% static "image/email-100.png" %}" width="44px" height="44"
+                                     class="text-gold ">
                                 <div>
                                     <p class="text-gold">ایمیل: </p>
-                                    <h5 class="fw-light mt-2">info@lawyerylaw.com</h5>
+                                    <h5 style="color: white" class="fw-light mt-2">info@lawyerylaw.com</h5>
                                 </div>
                             </li>
                             <li class="mb-5 d-flex gap-4">
-                                <i class="bi bi-geo-alt-fill text-gold px-3 py-2 fs-4"
-                                   style="border: 1px solid #bc945c3b;"></i>
+                                <img alt="" src="{% static "image/location-100.png" %}" width="44px" height="44"
+                                     class="text-gold ">
                                 <div>
                                     <p class="text-gold">آدرس: </p>
-                                    <h5 class="fw-light mt-2">ایران، تهران</h5>
+                                    <h5 style="color: white" class="fw-light mt-2">ایران، تهران</h5>
                                 </div>
                             </li>
                         </ul>
@@ -350,5 +395,5 @@
     {% block script %}
     {% endblock %}
 </script>
-</html>
 </body>
+</html>

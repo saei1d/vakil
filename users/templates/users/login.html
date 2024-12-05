@@ -1,34 +1,229 @@
-{% extends 'base.html' %}
-{% block title %}داشبورد کاربر{% endblock %}
-{% block content %}
+{#{% extends 'base.html' %}#}
+{#{% block title %}داشبورد کاربر{% endblock %}#}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ورود به آوای حق</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/font.css' %}">
 
-    <div id="otp-container">
+    <style>
+        {#{% block style %}#}
+
+        body {
+            direction: rtl;
+            margin: 0;
+            font-family: 'Ravi', serif;
+            background: linear-gradient(to bottom, #101a0e, #428535);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .otp-container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 80%;
+            max-width: 1200px;
+            background: #182615;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .otp-left, .otp-right {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .otp-left {
+            background: #2b4825
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .otp-left h1 {
+            margin: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .otp-left p {
+            font-size: 16px;
+            line-height: 0;
+        }
+
+
+        .otp-right {
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .otp-right h2 {
+
+            color: #333;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        form input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        form button {
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #c7944c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        form button:hover {
+            background-color: #428535;
+        }
+
+        @media screen and (max-width: 768px) {
+            .otp-container {
+                flex-direction: column;
+            }
+
+            .otp-left, .otp-right {
+                padding: 20px;
+            }
+
+            .otp-left h1 {
+                font-size: 20px;
+            }
+
+        }
+
+
+        #otp-form {
+            display: none;
+        }
+
+        #taeid {
+            margin-top: 10px;
+            color: black;
+
+        }
+
+        #checkbox2 {
+            width: 15px;
+            height: 15px;
+        }
+
+        #ghavanin2 {
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        {#{% endblock %}#}
+    </style>
+
+</head>
+<body>
+{#{% block content %}#}
+
+<div class="otp-container">
+    <div class="otp-left">
+        <div class="otp-logo">
+            {% load static %}
+            <img src="{% static "image/newlogo.png" %}" width="200" height="75" alt="لوگوی وکیل">
+        </div>
+        <h1>به وکیل آنلاین خوش آمدید</h1>
+        <p>برای مشاهده <a style="text-decoration: none; color: #c7944c;" href="http://localhost:8000/home/">صفحه
+            اصلی</a> کلیک کنید</p>
+    </div>
+    <div class="otp-right p-3">
+        <h2>ورود به حساب کاربری</h2>
         <form id="phone-form">
-            <label for="phone">شماره تلفن:</label>
-            <input type="text" id="phone" name="phone" required>
+            <input
+                    style="margin-bottom: 20px"
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    placeholder="09xxxxxxxxx"
+                    required
+                    maxlength="11"
+                    pattern="09[0-9]{9}"
+                    title="شماره موبایل باید با 09 شروع شده و 11 رقم باشد."
+            >
             <button type="button" id="send-code">ارسال کد</button>
         </form>
-
-        <form id="otp-form" style="display: none;">
-            <label for="otp">کد تأیید:</label>
-            <input type="text" id="otp" name="otp" required disabled>
-            <button type="submit" id="verify-code" disabled>تأیید</button>
+        <form id="otp-form" style="margin-top: 20px;">
+            <label id="taeid" for="otp">کد پیامک شده را وارد کنید:</label>
+            <input type="text" style="width: 92%" id="otp" name="otp" placeholder="1234" required disabled>
+            <div>
+                <input id="checkbox2" required type="checkbox">
+                <label id="ghavanin2" for="checkbox"> <a href="#" id="ghavanin">قوانین و مقررات</a> را
+                    پذیرفته ام</label>
+            </div>
+            <button type="submit" id="verify-code" style="width: inherit;" disabled>تایید</button>
         </form>
     </div>
+</div>
 
-{% endblock %}
+{#{% endblock %}#}
 
-{% block script %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    {#{% block script %}#}
     {% if messages %}
-        document.addEventListener('DOMContentLoaded', function() {
-        {% for message in messages %}
-            Swal.fire({
-            title: 'اطلاعیه',
-            text: '{{ message }}',
-            icon: 'info',
-            confirmButtonText: 'باشه'
-            });
-        {% endfor %}
+        document.addEventListener('DOMContentLoaded', function () {
+            {% for message in messages %}
+                Swal.fire({
+                    title: 'اطلاعیه',
+                    text: '{{ message }}',
+                    icon: 'info',
+                    confirmButtonText: 'باشه'
+                });
+            {% endfor %}
         });
     {% endif %}
     const urlParams = new URLSearchParams(window.location.search);
@@ -36,107 +231,123 @@
 
     // گرفتن CSRF Token از کوکی
     function getCSRFToken() {
-    const name = "csrftoken";
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
-    if (cookie.trim().startsWith(name + "=")) {
-    return cookie.trim().substring(name.length + 1);
+        const name = "csrftoken";
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            if (cookie.trim().startsWith(name + "=")) {
+                return cookie.trim().substring(name.length + 1);
+            }
+        }
+        return null;
     }
-    }
-    return null;
-    }
+
     const csrftoken = getCSRFToken();
 
     // نمایش پیام با SweetAlert
     function showAlert(type, title, text) {
-    Swal.fire({
-    icon: type, // 'success', 'error', 'warning', 'info'
-    title: title,
-    text: text,
-    confirmButtonText: 'باشه'
-    });
+        Swal.fire({
+            icon: type, // 'success', 'error', 'warning', 'info'
+            title: title,
+            text: text,
+            confirmButtonText: 'باشه'
+        });
     }
 
     // ارسال کد OTP
     document.addEventListener("DOMContentLoaded", function () {
-    // رویداد کلیک برای ارسال کد OTP
-    document.getElementById("send-code").addEventListener("click", function () {
-    const phone = document.getElementById("phone").value;
-    if (!phone || phone.length !== 11 || !phone.startsWith("09")) {
-    showAlert("warning", "شماره تلفن نامعتبر", "لطفاً شماره تلفن معتبر وارد کنید.");
-    return;
-    }
+        // رویداد کلیک برای ارسال کد OTP
+        document.getElementById("send-code").addEventListener("click", function () {
+            const phone = document.getElementById("phone").value;
+            if (!phone || phone.length !== 11 || !phone.startsWith("09")) {
+                showAlert("warning", "شماره تلفن نامعتبر", "لطفاً شماره تلفن معتبر وارد کنید.");
+                return;
+            }
 
-    // ارسال درخواست به سرور
-    console.log("در حال ارسال درخواست ارسال کد...");
-    fetch("/send-otp/", {
-    method: "POST",
-    headers: {
-    "Content-Type": "application/json",
-    "X-CSRFToken": csrftoken
-    },
-    body: JSON.stringify({ phone: phone })
+            // ارسال درخواست به سرور
+            console.log("در حال ارسال درخواست ارسال کد...");
+            fetch("/send-otp/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({phone: phone})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("پاسخ سرور:", data);
+                    if (data.success) {
+                        showAlert("success", "ارسال موفق", "کد تأیید با موفقیت ارسال شد!");
+                        document.getElementById("otp-form").style.display = "block";
+                        document.getElementById("otp").disabled = false;
+                        document.getElementById("verify-code").disabled = false;
+                    } else {
+                        showAlert("error", "خطا در ارسال کد", data.error || "ارسال کد با خطا مواجه شد.");
+                    }
+                })
+                .catch(error => {
+                    console.error("خطا:", error);
+                    showAlert("error", "خطای سیستم", "خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+                });
+        });
+
+        // رویداد ارسال برای تأیید کد OTP
+        document.getElementById("otp-form").addEventListener("submit", function (e) {
+            e.preventDefault(); // جلوگیری از ارسال پیش‌فرض فرم
+            const phone = document.getElementById("phone").value;
+            const otp = document.getElementById("otp").value;
+
+            if (!otp || otp.length !== 4) {
+                showAlert("warning", "کد تأیید نامعتبر", "لطفاً کد تأیید معتبر وارد کنید.");
+                return;
+            }
+
+            // ارسال درخواست تأیید کد
+            console.log("در حال ارسال درخواست تأیید کد...");
+            fetch("/verify-otp/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({phone: phone, otp: otp})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("پاسخ سرور:", data);
+                    if (data.success) {
+                        showAlert("success", "تأیید موفق", "کد تأیید شد و کاربر لاگین شد.");
+
+                        // بررسی وجود پارامتر `next` در URL
+                        const urlParams = new URLSearchParams(window.location.search);
+                        if (urlParams.has('next')) {
+                            const nextUrl = urlParams.get('next');
+                            const redirectUrl = new URL(nextUrl, window.location.origin);
+                            redirectUrl.searchParams.set('redirected', 'true'); // اضافه کردن پارامتر
+                            window.location.href = redirectUrl; // هدایت به مسیر بعدی
+                        } else {
+                            // هدایت به صفحه اصلی اگر پارامتر `next` وجود ندارد
+                            window.location.href = "http://localhost:8000/home/";
+                        }
+                    } else {
+                        showAlert("error", "کد نامعتبر", data.error || "کد وارد شده صحیح نیست.");
+                    }
+                })
+                .catch(error => {
+                    console.error("خطا:", error);
+                    showAlert("error", "خطای سیستم", "خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+                });
+        });
     })
-    .then(response => response.json())
-    .then(data => {
-    console.log("پاسخ سرور:", data);
-    if (data.success) {
-    showAlert("success", "ارسال موفق", "کد تأیید با موفقیت ارسال شد!");
-    document.getElementById("otp-form").style.display = "block";
-    document.getElementById("otp").disabled = false;
-    document.getElementById("verify-code").disabled = false;
-    } else {
-    showAlert("error", "خطا در ارسال کد", data.error || "ارسال کد با خطا مواجه شد.");
-    }
-    })
-    .catch(error => {
-    console.error("خطا:", error);
-    showAlert("error", "خطای سیستم", "خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
-    });
-    });
-
-    // رویداد ارسال برای تأیید کد OTP
-    document.getElementById("otp-form").addEventListener("submit", function (e) {
-    e.preventDefault(); // جلوگیری از ارسال پیش‌فرض فرم
-    const phone = document.getElementById("phone").value;
-    const otp = document.getElementById("otp").value;
-
-    if (!otp || otp.length !== 4) {
-    showAlert("warning", "کد تأیید نامعتبر", "لطفاً کد تأیید معتبر وارد کنید.");
-    return;
-    }
-
-    // ارسال درخواست تأیید کد
-    console.log("در حال ارسال درخواست تأیید کد...");
-    fetch("/verify-otp/", {
-    method: "POST",
-    headers: {
-    "Content-Type": "application/json",
-    "X-CSRFToken": csrftoken
-    },
-    body: JSON.stringify({ phone: phone, otp: otp })
-    })
-    .then(response => response.json())
-    .then(data => {
-    console.log("پاسخ سرور:", data);
-    if (data.success) {
-    showAlert("success", "تأیید موفق", "کد تأیید شد و کاربر لاگین شد.");
-    const redirectUrl = new URL(nextUrl, window.location.origin);
-    redirectUrl.searchParams.set('redirected', 'true'); // اضافه کردن پارامتر
-    window.location.href = redirectUrl; // هدایت به مسیر بعدی
-    } else {
-    showAlert("error", "کد نامعتبر", data.error || "کد وارد شده صحیح نیست.");
-    }
-    })
-    .catch(error => {
-    console.error("خطا:", error);
-    showAlert("error", "خطای سیستم", "خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
-    });
-    });
+    ;
+    document.getElementById("ghavanin").addEventListener("click", function (event) {
+        event.preventDefault(); // جلوگیری از رفتار پیش‌فرض لینک
+        window.location.href = "http://localhost:8000/faq/#ghavanin";
     });
 
 
-
-
-{% endblock script %}
+    {#{% endblock script %}#}
+</script>
+</body>
+</html>
 

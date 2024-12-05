@@ -360,7 +360,18 @@
     </div>
 {% endblock %}
 {% block script %}
-
+    {% if messages %}
+        document.addEventListener('DOMContentLoaded', function () {
+        {% for message in messages %}
+            Swal.fire({
+            title: 'اطلاعیه',
+            text: '{{ message }}',
+            icon: 'info',
+            confirmButtonText: 'باشه'
+            });
+        {% endfor %}
+        });
+    {% endif %}
     // Accordion
     const headers = document.querySelectorAll('.accordion-header');
     if (headers) {

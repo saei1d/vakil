@@ -2,7 +2,10 @@ from django.shortcuts import render
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView
+from django.views import View
 from .models import Post, Comment
+from .form import *
 
 
 # Create your views here.
@@ -34,7 +37,10 @@ def contact(request):
 
 
 def post_list(request):
-    posts = Post.objects.filter(is_published=True).order_by("-published_date")
+    posts = Post.objects.filter(is_published=True).order_by('-published_date')
+    for post in posts:
+        print(post.id)
+
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
@@ -78,3 +84,16 @@ def reply_comment(request, comment_id):
                 return redirect("post_detail", slug=parent_comment.post.slug)
         return render(request, "blog/reply_comment.html", {"comment": parent_comment})
     return redirect("post_detail", slug=parent_comment.post.slug)
+
+
+class PostCreate(View):
+    def get(self, request):
+        form = PostForm()
+        return render(request, 'blog/post_form.html', {'form': form})
+
+    def post(self, request):
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:blog')
+        return render(request, 'blog/post_form.html', {"form": form})

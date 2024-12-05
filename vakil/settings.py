@@ -13,8 +13,6 @@ from django.contrib.messages import constants as messages
 
 from pathlib import Path
 
-
-
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +46,8 @@ INSTALLED_APPS = [
     'service.apps.ServiceConfig',
     'payment.apps.PaymentConfig',
     'blog',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 ASGI_APPLICATION = "vakil.asgi.application"
@@ -135,6 +135,7 @@ USE_I18N = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
@@ -145,3 +146,15 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"  # برای پردازش تصاویر
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'width': '100%',
+        'height': '300',
+        "extraPlugins": "uploadimage",  # افزونه آپلود تصویر
+    },
+}

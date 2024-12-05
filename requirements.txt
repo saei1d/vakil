@@ -3,3 +3,4 @@ channels
 Pillow
 jdatetime
 pytz
+django-ckeditor==6.7.0

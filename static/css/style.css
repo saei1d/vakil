@@ -189,11 +189,13 @@ ul {
     color: black !important;
 }
 
-
 .banner {
-    background-image: url("../image/slider2.jpg");
+    background-image: url("../image/slider1.jpg");
     height: 370px;
     margin-top: -30px;
+    object-fit: cover;
+    background-repeat: no-repeat; /* جلوگیری از تکرار */
+    background-size: cover; /* تصویر کل بخش را پوشش دهد */
 }
 
 

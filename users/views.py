@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
+
+from blog.models import Post
 from payment.models import WalletTransaction
 from service.models import FreeForm, UserServiceRequest
 from users.models import Client
@@ -112,6 +114,7 @@ def verify_otp(request):
 class HomeView(View):
     def get(self, request):
         form_data = request.session.get('form_data', {})
+        post = Post.objects.filter(homepage=True, is_published=True).order_by('-id')[:3]  # ترتیب معکوس و فقط سه مورد آخر
 
         # پس از پردازش داده‌ها، می‌توانید داده‌ها را از سشن پاک کنید
         if 'form_data' in request.session:
@@ -122,12 +125,12 @@ class HomeView(View):
             'title': form_data.get('title', ''),
             'department': form_data.get('department', ''),
             'description': form_data.get('description', ''),
+            'post': post,  # ارسال متغیر post به قالب
         })
 
+
     def post(self, request):
-        # if request.user.is_questioned:
-        #     return render(request, 'services/services.html', {'user': request.user})
-        # else:
+
         # دریافت اطلاعات از فرم
         form_data = {
             'name': request.POST.get('name'),
@@ -146,19 +149,26 @@ class HomeView(View):
             return redirect(f'/login/?next={next_url}')
 
         # ایجاد FreeForm
-        free_form = FreeForm.objects.create(
-            user=request.user,
-            title=form_data['title'],
-            department=form_data['department'],
-            description=form_data['description']
-        )
+        if request.user.is_questioned:
+            messages.info(request,
+                          'شما قبلا یکبار از این فرم استفاده کرده اید برای خرید سرویس از این صفحه استفاده کنید')
+            return render(request, 'services/pricing.html', {'user': request.user})
+        else:
+            free_form = FreeForm.objects.create(
+                user=request.user,
+                title=form_data['title'],
+                department=form_data['department'],
+                description=form_data['description']
+            )
 
-        # به‌روزرسانی وضعیت is_questioned و نام کاربر
-        request.user.is_questioned = True
-        request.user.name = form_data['name']
-        request.user.save()
+            # به‌روزرسانی وضعیت is_questioned و نام کاربر
+            request.user.is_questioned = True
+            request.user.name = form_data['name']
+            request.user.save()
+            messages.info(request,
+                          'سوال شما برای وکیل ارسال شد و تا قبل 24 ساعت پاسخ آنرا دریافت خواهید کرد درصورت نیاز و ارتباط سریعتر با وکیل میتونید با تهیه سرویس تماس تلفنی با وکیل در ارتباط باشید')
 
-        return redirect('service:pricing')
+            return redirect('service:pricing')
 
 
 def check_login(request):
