@@ -322,9 +322,16 @@
                         const urlParams = new URLSearchParams(window.location.search);
                         if (urlParams.has('next')) {
                             const nextUrl = urlParams.get('next');
-                            const redirectUrl = new URL(nextUrl, window.location.origin);
-                            redirectUrl.searchParams.set('redirected', 'true'); // اضافه کردن پارامتر
-                            window.location.href = redirectUrl; // هدایت به مسیر بعدی
+
+                            // بررسی اینکه آیا `next` شامل `/home/` است
+                            if (nextUrl.includes('/home/')) {
+                                window.location.href = "http://localhost:8000/home/#free";
+                            } else {
+                                // هدایت به مسیر اصلی پارامتر `next`
+                                const redirectUrl = new URL(nextUrl, window.location.origin);
+                                redirectUrl.searchParams.set('redirected', 'true'); // اضافه کردن پارامتر
+                                window.location.href = redirectUrl; // هدایت به مسیر بعدی
+                            }
                         } else {
                             // هدایت به صفحه اصلی اگر پارامتر `next` وجود ندارد
                             window.location.href = "http://localhost:8000/home/";
@@ -332,6 +339,7 @@
                     } else {
                         showAlert("error", "کد نامعتبر", data.error || "کد وارد شده صحیح نیست.");
                     }
+
                 })
                 .catch(error => {
                     console.error("خطا:", error);

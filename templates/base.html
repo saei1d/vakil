@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/Responsive.css' %}">
-    <!--    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,6 +19,94 @@
     {% block link %}
     {% endblock %}
     <style>
+        .green-light {
+            position: absolute;
+            bottom: 15px; /* تنظیم مکان برای قرارگیری روی سیم */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 05px;
+            height: 10px;
+            background-color: green;
+            border-radius: 50%;
+            box-shadow: 0 0 5px green;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .support-message {
+            position: fixed; /* ثابت برای حرکت نکردن با اسکرول */
+            bottom: 80px; /* کمی بالای آیکون */
+            right: 20px; /* نزدیک به آیکون */
+            background-color: #f1f1f1;
+            color: #000000;
+            border: 1px solid #ddd;
+            border-radius: 15px 15px 15px 15px; /* سه گوشه گرد */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 12px; /* فضای داخلی بیشتر */
+            z-index: 1000;
+            display: none; /* پیش‌فرض مخفی */
+            width: 250px; /* عرض مناسب */
+            font-size: 16px; /* متن بزرگ‌تر */
+            line-height: 1.6;
+            text-align: center; /* وسط‌چین */
+            transform: translateX(-10px); /* کمی به چپ برای اشاره بهتر */
+        }
+
+        .support-message::after {
+            content: ""; /* ایجاد فلش پایین کادر */
+            position: absolute;
+            bottom: -10px; /* پایین‌تر از کادر */
+            right: 20px; /* در جهت آیکون */
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 10px 0 10px; /* فلش مثلثی */
+            border-color: #f1f1f1 transparent transparent transparent; /* رنگ فلش */
+        }
+
+        .support-message span {
+            display: block;
+            font-weight: bold;
+        }
+
+        .close-message {
+            position: absolute;
+            top: -10px; /* بالاتر از کادر */
+            right: -10px; /* خارج از کادر */
+            background: #fff;
+            border: 1px solid #ddd;
+            color: #ff0000;
+            font-size: 18px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%; /* دکمه گرد */
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-message:hover {
+            color: #333;
+            background: #f1f1f1;
+        }
+
+        .support-container {
+            position: fixed; /* ثابت کردن آیکون */
+            bottom: 20px; /* فاصله از پایین */
+            right: 20px; /* فاصله از راست */
+            z-index: 999;
+        }
+
         {% block style %}
         {% endblock %}
 
@@ -117,34 +204,43 @@
         <nav class="menu-mobile animate__animated">
             <i class="bi bi-x"></i>
             <ul class="d-flex justify-content-between flex-column gap-3">
-                <li><a href="http://localhost:8000/home/">صفحه اصلی </a></li>
-                <li><a href="http://localhost:8000/service/">خدمات ما</a></li>
-                <li><a href="http://localhost:8000/pricing/">سرویس ها</a></li>
-                <li><a href="http://localhost:8000/faq/">سوالات متداول </a></li>
-                <li><a href="http://localhost:8000/about-us/">درباره ما </a></li>
+                <a href="http://localhost:8000/home/">
+                    <li>صفحه اصلی</li>
+                </a>
+                <a href="http://localhost:8000/service/">
+                    <li>خدمات ما</li>
+                </a>
+                <a href="http://localhost:8000/pricing/">
+                    <li>سرویس ها</li>
+                </a>
+                <a href="http://localhost:8000/faq/">
+                    <li>سوالات متداول</li>
+                </a>
+                <a href="http://localhost:8000/about-us/">
+                    <li>درباره ما</li>
+                </a>
                 {% if not user.is_authenticated %}
-                    <li>
-                        <a href="http://localhost:8000/login/">ورود به حساب</a>
-                    </li>
+
+                    <a href="http://localhost:8000/login/">
+                        <li>ورود به حساب</li>
+                    </a>
                 {% else %}
-                    <li>
-                        <a href="{% url 'users:dashboard' %}">پنل کاربری</a>
-                    </li>
+                    <a href="{% url 'users:dashboard' %}">
+                        <li>پنل کاربری</li>
+                    </a>
                 {% endif %}
 
             </ul>
             <div class="icon-menu w-100 text-center">
                 <div class="d-flex justify-content-center mb-4">
-                    <a href="#" class="text-warning mx-2"><i class="bi bi-linkedin"></i></a>
-                    <a href="#" class="text-warning mx-2"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.instagram.com/avahagh.ir/profilecard/?igsh=MW4wM3BvZndjaW0yOQ=="
+                       class="text-warning mx-2"><i class="bi bi-instagram"></i></a>
                     <a href="#" class="text-warning mx-2"><i class="bi bi-telegram"></i></a>
                 </div>
-                <p>Copyright </p>
             </div>
         </nav>
     </header>
 {% else %}
-
     <!-- navbar desktop -->
     <header class="position-relative desktop" style="z-index: 10; background-color: #101A0E;">
         <div class="container-2">
@@ -253,39 +349,47 @@
         <nav class="menu-mobile animate__animated">
             <i class="bi bi-x"></i>
             <ul class="d-flex justify-content-between flex-column gap-3">
-                <li><a href="http://localhost:8000/home/">صفحه اصلی </a></li>
-                <li><a href="http://localhost:8000/service/">خدمات ما</a></li>
-                <li><a href="http://localhost:8000/pricing/">سرویس ها</a></li>
-                <li><a href="http://localhost:8000/faq/">سوالات متداول </a></li>
-                <li><a href="http://localhost:8000/about-us/">درباره ما </a></li>
+                <a href="http://localhost:8000/home/">
+                    <li>صفحه اصلی</li>
+                </a>
+                <a href="http://localhost:8000/service/">
+                    <li>خدمات ما</li>
+                </a>
+                <a href="http://localhost:8000/pricing/">
+                    <li>سرویس ها</li>
+                </a>
+                <a href="http://localhost:8000/faq/">
+                    <li>سوالات متداول</li>
+                </a>
+                <a href="http://localhost:8000/about-us/">
+                    <li>درباره ما</li>
+                </a>
                 {% if not user.is_authenticated %}
-                    <li>
-                        <a href="http://localhost:8000/login/"
-                           class="{% if request.path == '/login/' %}activelink{% endif %}">ورود به حساب</a>
-                    </li>
+
+                    <a href="http://localhost:8000/login/">
+                        <li>ورود به حساب</li>
+                    </a>
                 {% else %}
                     {% if request.path == '/dashboard/' %}
-                        <li>
-                            <a href="{% url 'users:logout' %}">خروج از حساب</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{% url 'users:dashboard' %}"
-                               class="{% if request.path == '/dashboard/' %}activelink{% endif %}">پنل کاربری</a>
-                        </li>
-                    {% endif %}
+                        <a href="{% url 'users:logout' %}">
+                            <li>خروج از حساب</li>
+                        </a>
 
+                    {% else %}
+                        <a href="{% url 'users:dashboard' %}">
+                            <li>پنل کاربری</li>
+                        </a>
+                    {% endif %}
                 {% endif %}
 
             </ul>
 
             <div class="icon-menu w-100 text-center">
                 <div class="d-flex justify-content-center mb-4">
-                    <a href="#" class="text-warning mx-2"><i class="bi bi-linkedin"></i></a>
-                    <a href="#" class="text-warning mx-2"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-warning mx-2"><i class="bi bi-twitter"></i></a>
+                    <a href="https://www.instagram.com/avahagh.ir/profilecard/?igsh=MW4wM3BvZndjaW0yOQ=="
+                       class="text-warning mx-2"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-warning mx-2"><i class="bi bi-telegram"></i></a>
                 </div>
-                <p>Copyright </p>
             </div>
         </nav>
     </header>
@@ -317,12 +421,13 @@
                     از هرگونه مجوز یا عضویت اجباری که ممکن است توسط قوانین حوزه قضایی آنها لازم باشد.</p>
 
                 <div class="mt-5 d-flex gap-3 footer-icon">
-                    <a href="" data-text="Facebook"><i class="bi bi-facebook text-gold p-1 px-2"
-                                                       style="border: 1px solid #bc945c94 ;"></i></a>
-                    <a href="" data-text="Instagram"><i class="bi bi-instagram text-gold p-1 px-2"
+                    <a href="#" data-text="Telegram"><i class="bi bi-telegram text-gold p-1 px-2"
                                                         style="border: 1px solid #bc945c94 ;"></i></a>
-                    <a href="" data-text="Twitter"><i class="bi bi-twitter text-gold p-1 px-2"
-                                                      style="border: 1px solid #bc945c94 ;"></i></a>
+                    <a href="https://www.instagram.com/avahagh.ir/profilecard/?igsh=MW4wM3BvZndjaW0yOQ=="
+                       data-text="Instagram"><i class="bi bi-instagram text-gold p-1 px-2"
+                                                style="border: 1px solid #bc945c94 ;"></i></a>
+                    {#                    <a href="" data-text="Twitter"><i class="bi bi-twitter text-gold p-1 px-2"#}
+                    {#                                                      style="border: 1px solid #bc945c94 ;"></i></a>#}
                 </div>
 
             </div>
@@ -344,7 +449,7 @@
                                      class="text-gold ">
                                 <div>
                                     <p class="text-gold">ایمیل: </p>
-                                    <h5 style="color: white" class="fw-light mt-2">info@lawyerylaw.com</h5>
+                                    <h5 style="color: white" class="fw-light mt-2">avahagh.ir@gmail.com</h5>
                                 </div>
                             </li>
                             <li class="mb-5 d-flex gap-4">
@@ -361,18 +466,14 @@
                     <div class="col-md-7">
                         <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">دسترسی سریع</h5>
                         <ul class="list-unstyled mt-4 fs-12">
-                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">مرکز موسسه
-                                حقوقی</a></li>
-                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">ابزار موسسه
-                                حقوقی</a></li>
-                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">تماس با موسسه
-                                حقوقی</a></li>
-                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">مواردهای
-                                قانون</a></li>
-                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">کتابخانه
-                                منابع</a></li>
-                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a href="#">مرکز
-                                پشتیبانی</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
+                                    href="http://localhost:8000/service/">خدمات ما</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
+                                    href="http://localhost:8000/pricing/">سرویس ها</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
+                                    href="http://localhost:8000/blog/">وبلاگ</a></li>
+                            <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
+                                    href="http://localhost:8000/faq/">سوالات متداول</a></li>
                         </ul>
                     </div>
 
@@ -381,6 +482,46 @@
         </div>
     </div>
 </footer>
+
+
+<!--  support -->
+
+<div class="support-message" id="supportMessage">
+    <button class="close-message" id="closeMessage">&times;</button>
+    <span>پشتیبانی انلاین از ساعت 8 تا 24 🌿
+</span>
+</div>
+
+
+<div class="support-container">
+
+    <div class="support-button" id="supportButton">
+        {% load static %}
+        <img src="{% static 'image/supporterwhite.png' %}" width="50px" alt="">
+        <div class="green-light"></div> <!-- چراغ چشمک‌زن -->
+
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="support-menu justify-content-between row align-items-center" id="supportMenu">
+        <div class="col text-center">
+            <a href="javascript:void(0);" id="telegramLink">
+                <img src="{% static 'image/telegramsupport.png' %}" width="50px" height="50px" alt="premiumsupport">
+            </a>
+            <p class="mt-2">ارتباط با وکیل</p>
+        </div>
+        <div class="col text-center">
+            <div style="gap: 2px" class=" d-flex align-items-center">
+                <a href="https://eitaa.com/avahagh"><img src="{% static 'image/eitaalogo.png' %}" width="50px"
+                                                         height="50px" alt="supporteita"></a>
+                <a href="https://t.me/avahagh"><img src="{% static 'image/telegramsupport.png' %}" width="50px"
+                                                    height="50px" alt="supporttelegram"></a>
+            </div>
+            <p style="margin-left: 32px;" class="mt-2">پشتیبانی</p>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -392,6 +533,59 @@
 {% load static %}
 <script src="{% static "js/script.js" %}"></script>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const supportMessage = document.getElementById("supportMessage");
+        const closeMessage = document.getElementById("closeMessage");
+
+        // بررسی اینکه آیا پیام قبلاً نمایش داده شده است یا نه
+        if (!sessionStorage.getItem("supportMessageShown")) {
+            // نمایش پیام بعد از 15 ثانیه
+            setTimeout(() => {
+                supportMessage.style.display = "block";
+                sessionStorage.setItem("supportMessageShown", "true"); // ذخیره وضعیت نمایش پیام
+            }, 15000);
+        }
+
+        // بستن پیام با دکمه ضربدر
+        closeMessage.addEventListener("click", () => {
+            supportMessage.style.display = "none";
+        });
+    });
+
+
+    document.getElementById('telegramLink').addEventListener('click', function () {
+        fetch('/check-text-service/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.login_required) {
+                    Swal.fire({
+                        title: 'لطفا ابتدا ثبت نام کنید',
+                        text: 'برای استفاده از این سرویس، شما باید وارد حساب کاربری خود شوید.',
+                        icon: 'info',
+                        confirmButtonText: 'رفتن به صفحه ورود',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = 'http://localhost:8000/login/';
+                        }
+                    });
+                } else if (data.has_text_service) {
+                    window.location.href = 'https://t.me/xxx';
+                } else {
+                    Swal.fire({
+                        title: 'سرویس پیام متنی فعال نیست',
+                        text: 'برای خرید سرویس پیام متنی به صفحه قیمت‌ها مراجعه کنید.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'رفتن به قیمت‌ها',
+                        cancelButtonText: 'لغو',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = 'http://localhost:8000/pricing/';
+                        }
+                    });
+                }
+            });
+    });
     {% block script %}
     {% endblock %}
 </script>

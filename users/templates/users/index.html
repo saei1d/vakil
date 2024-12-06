@@ -1,27 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}صفحه اصلی{% endblock %}
 {% block style %}
-    .green-light {
-    position: absolute;
-    bottom: 15px; /* تنظیم مکان برای قرارگیری روی سیم */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 05px;
-    height: 10px;
-    background-color: green;
-    border-radius: 50%;
-    box-shadow: 0 0 5px green;
-    animation: blink 1s infinite;
-    }
 
-    @keyframes blink {
-    0%, 100% {
-    opacity: 1;
-    }
-    50% {
-    opacity: 0;
-    }
-    }
 {% endblock %}
 
 {% block content %}
@@ -63,15 +43,15 @@
         <div class="container-2 box-hed">
             <div class="row flex-row-reverse">
                 {% for p in post %}
-                <div class="col-md-4">
-                    <div class="custom-card">
-                        <h6>{{ p.title }}</h6>
-                        <h5>{{ p.price }}</h5>
-                        <p>{{ p.summery }}
-                        </p>
-                        <a href="#" class=" btn-custom">پرونده کامل را بخوانید</a>
+                    <div class="col-md-4">
+                        <div class="custom-card">
+                            <h6>{{ p.title }}</h6>
+                            <h5>{{ p.price }}</h5>
+                            <p>{{ p.summery }}
+                            </p>
+                            <a href="{% url 'blog:blogpage' p.slug %}" class=" btn-custom">پرونده کامل را بخوانید</a>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
         </div>
@@ -277,7 +257,8 @@
             </a>
         </div>
         <div class="text-center ">
-            <a href="http://localhost:8000/service/" class="w-100 btn-hover d-inline-block p-3 text-black bg-gold">مشاهده همه خدمات حقوقی</a>
+            <a href="http://localhost:8000/service/" class="w-100 btn-hover d-inline-block p-3 text-black bg-gold">مشاهده
+                همه خدمات حقوقی</a>
         </div>
     </section>
     <!-- box category -->
@@ -456,7 +437,8 @@
 
 
             <div class="mt-5 text-center">
-                <a href="http://localhost:8000/blog/" class="bg-gold text-black p-2 btn-form">مشاهده تمام مطالب وبلاگ </a>
+                <a href="http://localhost:8000/blog/" class="bg-gold text-black p-2 btn-form">مشاهده تمام مطالب
+                    وبلاگ </a>
             </div>
         </div>
     </section>
@@ -472,35 +454,6 @@
     </div>
     <!-- fix phone mob -->
 
-
-    <!--  support -->
-    <div class="support-container">
-
-        <div class="support-button" id="supportButton">
-            {% load static %}
-            <img src="{% static 'image/supporterwhite.png' %}" width="50px" alt="">
-            <div class="green-light"></div> <!-- چراغ چشمک‌زن -->
-
-        </div>
-
-        <div class="overlay" id="overlay"></div>
-
-        <div class="support-menu justify-content-around " id="supportMenu">
-
-            <div class="support-item d-flex flex-column">
-                <i class="bi bi-telegram fs-1 pt-0" style="color: #0078FF;"></i>
-                <a href="https://telegram.me/example" target="_blank">
-                    وکیل
-                </a>
-            </div>
-            <div class="support-item d-flex flex-column">
-                <i class="bi bi-whatsapp fs-1 pt-0" style="color: #25D366;"></i>
-                <a href="https://wa.me/123456789" target="_blank">
-                    پشتیبانی
-                </a>
-            </div>
-        </div>
-    </div>
 
     <!--support-->
 

@@ -37,7 +37,7 @@ def send_otp(request):
                 if now() < last_sent_time + timedelta(minutes=2):
                     return JsonResponse({
                         "success": False,
-                        "error": "You can request another OTP after 2 minutes."
+                        "error": "شمابه تازگی کد دریافت کردید و برای تغییر شماره یا کد مجدد باید 2 دقیقه صبر کنید"
                     })
 
             # تولید و ارسال OTP
@@ -114,7 +114,8 @@ def verify_otp(request):
 class HomeView(View):
     def get(self, request):
         form_data = request.session.get('form_data', {})
-        post = Post.objects.filter(homepage=True, is_published=True).order_by('-id')[:3]  # ترتیب معکوس و فقط سه مورد آخر
+        post = Post.objects.filter(homepage=True, is_published=True).order_by('-id')[
+               :3]  # ترتیب معکوس و فقط سه مورد آخر
 
         # پس از پردازش داده‌ها، می‌توانید داده‌ها را از سشن پاک کنید
         if 'form_data' in request.session:
@@ -127,7 +128,6 @@ class HomeView(View):
             'description': form_data.get('description', ''),
             'post': post,  # ارسال متغیر post به قالب
         })
-
 
     def post(self, request):
 
@@ -169,12 +169,6 @@ class HomeView(View):
                           'سوال شما برای وکیل ارسال شد و تا قبل 24 ساعت پاسخ آنرا دریافت خواهید کرد درصورت نیاز و ارتباط سریعتر با وکیل میتونید با تهیه سرویس تماس تلفنی با وکیل در ارتباط باشید')
 
             return redirect('service:pricing')
-
-
-def check_login(request):
-    if request.user.is_authenticated:
-        return JsonResponse({'is_logged_in': True})
-    return JsonResponse({'is_logged_in': False})
 
 
 def logout_view(request):
@@ -221,3 +215,15 @@ def test(request):
 
 def Login(request):
     return render(request, 'users/login.html')
+
+
+def check_text_service(request):
+    if request.user.is_authenticated:
+        has_text_service = UserServiceRequest.objects.filter(
+            user=request.user,
+            service__name='text',
+            is_active=True
+        ).exists()
+        return JsonResponse({'has_text_service': has_text_service})
+    else:
+        return JsonResponse({'has_text_service': False, 'login_required': True})
