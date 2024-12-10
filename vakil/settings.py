@@ -98,12 +98,24 @@ WSGI_APPLICATION = 'vakil.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',  # نام دیتابیس
+        'USER': 'root',      # نام کاربری
+        'PASSWORD': 'wViAJiLUYY0vIOxRuEQCme43',      # رمز عبور (در صورت وجود)
+        'HOST': 'vakil',     # آدرس سرور
+        'PORT': '5432',      # پورت PostgreSQL
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
