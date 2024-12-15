@@ -1,3 +1,5 @@
 db.sqlite3
 *.iml
 *.xml
+*.pyc
+__pycache__/

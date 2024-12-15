@@ -107,14 +107,15 @@ WSGI_APPLICATION = 'vakil.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',  # نام دیتابیس
-        'USER': 'root',      # نام کاربری
-        'PASSWORD': 'wViAJiLUYY0vIOxRuEQCme43',      # رمز عبور (در صورت وجود)
-        'HOST': 'vakil',     # آدرس سرور
-        'PORT': '5432',      # پورت PostgreSQL
+        'ENGINE': 'django.db.backends.mysql',  # استفاده از MySQL
+        'NAME': 'saei1d$vakil',  # نام دیتابیس (می‌توانید این را تغییر دهید)
+        'USER': 'saei1d',      # نام کاربری
+        'PASSWORD': 'rootroot',  # رمز عبور (در صورت وجود)
+        'HOST': 'saei1d.mysql.pythonanywhere-services.com',     # آدرس سرور
+        'PORT': '3306',      # پورت MySQL
     }
 }
+
 
 
 # Password validation
