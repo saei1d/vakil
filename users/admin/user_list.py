@@ -1,55 +1,202 @@
-from django.http import JsonResponse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from service.models import UserServiceRequest
+from service.models import UserServiceRequest, Service
 from users.models import Client
-from django.core.paginator import Paginator
+import logging
 
+# Set up logging
+logger = logging.getLogger(__name__)
 
+def is_admin(user):
+    """Check if user is a superuser or staff"""
+    return user.is_superuser or user.is_staff
+
+@login_required
+@user_passes_test(is_admin)
 def user_list(request):
-    if not request.user.is_superuser:
-        return JsonResponse({'error': 'دسترسی غیرمجاز'}, status=403)
+    """
+    Display a list of users with search and pagination functionality.
+    Only accessible to admin users.
+    """
+    try:
+        # Search functionality
+        search_query = request.POST.get('pk', '') if request.method == "POST" else request.GET.get('search', '')
 
-    # جستجو
-    search_query = request.POST.get('pk', '') if request.method == "POST" else request.GET.get('search', '')
+        if search_query:
+            users = Client.objects.filter(
+                Q(username__icontains=search_query) | 
+                Q(name__icontains=search_query) |
+                Q(email__icontains=search_query)
+            ).order_by('-date_joined')
+        else:
+            users = Client.objects.all().order_by('-date_joined')  # Sort by newest first
 
-    if search_query:
-        users = Client.objects.filter(username__icontains=search_query) | Client.objects.filter(
-            name__icontains=search_query)
-    else:
-        users = Client.objects.all()  # نمایش تمام کاربران
+        # Pagination
+        page_number = request.GET.get('page', 1)
+        items_per_page = 25  # Number of users per page
+        
+        paginator = Paginator(users, items_per_page)
+        
+        try:
+            page_obj = paginator.page(page_number)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
 
-    # پیجینیشن
-    paginator = Paginator(users, 25)  # 25 کاربر در هر صفحه
-    page_number = request.GET.get('page')  # شماره صفحه از URL
-    page_obj = paginator.get_page(page_number)  # دریافت صفحه مورد نظر
+        context = {
+            'page_obj': page_obj,
+            'search_query': search_query,
+            'total_users': users.count(),
+        }
+        
+        return render(request, 'users/userlist.html', context)
+    
+    except Exception as e:
+        logger.error(f"Error in user_list view: {str(e)}")
+        messages.error(request, "خطایی در نمایش لیست کاربران رخ داد. لطفا دوباره تلاش کنید.")
+        return redirect('userlist')
 
-    return render(request, 'users/userlist.html', {
-        'page_obj': page_obj,
-        'search_query': search_query  # ارسال کوئری جستجو به قالب
-    })
-
-
+@login_required
+@user_passes_test(is_admin)
 def service_list(request, username):
-    if not request.user.is_superuser:
-        return JsonResponse({'error': 'دسترسی غیرمجاز'}, status=403)
-    user = Client.objects.get(username=username)
-    services = UserServiceRequest.objects.filter(user=user)
-    return render(request, 'users/servicelist.html', {'services': services})
+    """
+    Display a list of services for a specific user.
+    Only accessible to admin users.
+    """
+    try:
+        user = get_object_or_404(Client, username=username)
+        services = UserServiceRequest.objects.filter(user=user).order_by('-start_date')
+        available_services = Service.objects.all()
+        
+        context = {
+            'services': services,
+            'user': user,
+            'available_services': available_services,
+        }
+        
+        return render(request, 'users/servicelist.html', context)
+    
+    except Exception as e:
+        logger.error(f"Error in service_list view for user {username}: {str(e)}")
+        messages.error(request, "خطایی در نمایش لیست سرویس‌ها رخ داد. لطفا دوباره تلاش کنید.")
+        return redirect('userlist')
 
-
+@login_required
+@user_passes_test(is_admin)
 def update_service(request, pk):
-    service = get_object_or_404(UserServiceRequest, id=pk)
+    """
+    Update a service for a user.
+    Only accessible to admin users.
+    """
+    try:
+        service = get_object_or_404(UserServiceRequest, id=pk)
+        
+        if request.method == 'POST':
+            # Get form data with validation
+            start_date = request.POST.get('start_date')
+            end_date = request.POST.get('end_date')
+            is_active = request.POST.get('is_active') == '1'
+            is_accepted = request.POST.get('is_accepted') == '1'
+            title = request.POST.get('title', '')
+            description = request.POST.get('description', '')
+            
+            # Update service
+            service.start_date = start_date
+            service.end_date = end_date
+            service.is_active = is_active
+            service.is_accepted = is_accepted
+            service.title = title
+            service.description = description
+            
+            service.save()
+            
+            messages.success(request, "سرویس با موفقیت به‌روزرسانی شد.")
+            return redirect('servicelist', username=service.user.username)
+        
+        context = {
+            'service': service,
+        }
+        
+        return render(request, 'users/update_service.html', context)
+    
+    except Exception as e:
+        logger.error(f"Error in update_service view for service {pk}: {str(e)}")
+        messages.error(request, "خطایی در به‌روزرسانی سرویس رخ داد. لطفا دوباره تلاش کنید.")
+        return redirect('userlist')
 
-    if request.method == 'POST':
-        service.start_date = request.POST.get('start_date')
-        service.is_active = request.POST.get('is_active') == '1'
-        service.description = request.POST.get('description')
-        service.is_accepted = request.POST.get('is_accepted') == '1'
-        service.title = request.POST.get('title')
-        service.end_date = request.POST.get('end_date')
+@login_required
+@user_passes_test(is_admin)
+def add_service(request, username):
+    """
+    Add a new service for a user.
+    Only accessible to admin users.
+    """
+    try:
+        user = get_object_or_404(Client, username=username)
+        available_services = Service.objects.all()
+        
+        if request.method == 'POST':
+            service_id = request.POST.get('service')
+            start_date = request.POST.get('start_date')
+            end_date = request.POST.get('end_date')
+            title = request.POST.get('title', '')
+            description = request.POST.get('description', '')
+            
+            service_type = get_object_or_404(Service, id=service_id)
+            
+            # Create new service
+            new_service = UserServiceRequest(
+                user=user,
+                service=service_type,
+                start_date=start_date,
+                end_date=end_date,
+                title=title,
+                description=description,
+                is_active=True,
+                is_accepted=True
+            )
+            
+            new_service.save()
+            
+            messages.success(request, "سرویس جدید با موفقیت اضافه شد.")
+            return redirect('servicelist', username=username)
+        
+        context = {
+            'user': user,
+            'available_services': available_services,
+        }
+        
+        return render(request, 'users/add_service.html', context)
+    
+    except Exception as e:
+        logger.error(f"Error in add_service view for user {username}: {str(e)}")
+        messages.error(request, "خطایی در افزودن سرویس جدید رخ داد. لطفا دوباره تلاش کنید.")
+        return redirect('servicelist', username=username)
 
-        service.save()  # ذخیره تغییرات در دیتابیس
-        return redirect('userlist')  # به صفحه لیست سرویس‌ها بروید
-
-    return render(request, 'users/servicelist.html', {'service': service})
+@login_required
+@user_passes_test(is_admin)
+def delete_service(request, pk):
+    """
+    Delete a service.
+    Only accessible to admin users.
+    """
+    try:
+        service = get_object_or_404(UserServiceRequest, id=pk)
+        username = service.user.username
+        
+        service.delete()
+        
+        messages.success(request, "سرویس با موفقیت حذف شد.")
+        return redirect('servicelist', username=username)
+    
+    except Exception as e:
+        logger.error(f"Error in delete_service view for service {pk}: {str(e)}")
+        messages.error(request, "خطایی در حذف سرویس رخ داد. لطفا دوباره تلاش کنید.")
+        return redirect('userlist')
