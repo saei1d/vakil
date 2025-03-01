@@ -1,72 +1,249 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لیست کاربران</title>
-    <!-- لینک به استایل‌های Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>مدیریت سرویس‌های کاربر</title>
+    <!-- Bootstrap RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-action {
+            margin-right: 5px;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<div class="p-4 mt-5">
-    <a class="btn-primary " href="https://saei1d.pythonanywhere.com/admin-list/">بازگشت</a>
-</div>
-<div class="container mt-3">
-    <table class="table table-striped ">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">تاریخ شروع</th>
-            <th scope="col">وضعیت</th>
-            <th scope="col">توضیحات</th>
-            <th scope="col">تایید شده</th>
-            <th scope="col"> موضوع</th>
-            <th scope="col">تاریخ پایان</th>
-            <th scope="col">id کاربر</th>
-            <th scope="col">ثبت تغییرات</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for service in services %}
-            <form method="POST" action="{% url 'update_service' service.id %}">
-                {% csrf_token %}
-                <tr>
-                    <td>{{ service.id }}</td>
-                    <td><input type="date" name="start_date" value="{{ service.start_date|date:'Y-m-d' }}"></td>
-                    <td>
-                        <select name="is_active">
-                            <option value="1" {% if service.is_active %}selected{% endif %}>فعال</option>
-                            <option value="0" {% if not service.is_active %}selected{% endif %}>غیرفعال</option>
-                        </select>
-                    </td>
-                    <td><input type="text" name="description" value="{{ service.description }}"></td>
-                    <td>
-                        <select name="is_accepted">
-                            <option value="1" {% if service.is_accepted %}selected{% endif %}>تایید شده</option>
-                            <option value="0" {% if not service.is_accepted %}selected{% endif %}>تایید نشده</option>
-                        </select>
-                    </td>
-                    <td><input type="text" name="title" value="{{ service.title }}"></td>
-                    <td><input type="date" name="end_date" value="{{ service.end_date|date:'Y-m-d' }}"></td>
-                    <td>{{ service.user_id }}</td>
-                    <td>
-                        <button type="submit" class="btn-danger p-2">ذخیره</button>
-                    </td>
-                </tr>
-            </form>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'userlist' %}">پنل مدیریت وکیل</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'userlist' %}">
+                            <i class="fas fa-users"></i> لیست کاربران
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-cogs"></i> مدیریت سرویس‌ها
+                        </a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    <i class="fas fa-user"></i> {{ request.user.username }}
+                </span>
+            </div>
+        </div>
+    </nav>
 
-        {% endfor %}
+    <div class="container">
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
 
-        </tbody>
-    </table>
-</div>
-<!-- لینک به اسکریپت‌های جاوا اسکریپت برای Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
+        <!-- User Info Card -->
+        {% if user %}
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-user-circle"></i> اطلاعات کاربر
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>نام:</strong> {{ user.name|default:"ثبت نشده" }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>شماره تلفن:</strong> {{ user.username }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>تاریخ عضویت:</strong> {{ user.date_joined|date:"Y/m/d" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
+        <!-- Add New Service Button -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>لیست سرویس‌های کاربر</h2>
+            <a href="{% url 'add_service' username=user.username %}" class="btn btn-success">
+                <i class="fas fa-plus"></i> افزودن سرویس جدید
+            </a>
+        </div>
 
-</script>
+        <!-- Services Table -->
+        <div class="card">
+            <div class="card-body">
+                {% if services %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">شناسه</th>
+                                <th scope="col">نوع سرویس</th>
+                                <th scope="col">موضوع</th>
+                                <th scope="col">تاریخ شروع</th>
+                                <th scope="col">تاریخ پایان</th>
+                                <th scope="col">وضعیت</th>
+                                <th scope="col">تایید شده</th>
+                                <th scope="col">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in services %}
+                            <tr>
+                                <td>{{ service.id }}</td>
+                                <td>{{ service.service.name }}</td>
+                                <td>{{ service.title|truncatechars:30 }}</td>
+                                <td>{{ service.start_date|date:"Y/m/d" }}</td>
+                                <td>{{ service.end_date|date:"Y/m/d" }}</td>
+                                <td>
+                                    {% if service.is_active %}
+                                        <span class="badge bg-success">فعال</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">غیرفعال</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if service.is_accepted %}
+                                        <span class="badge bg-success">تایید شده</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">در انتظار تایید</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary btn-action" data-bs-toggle="modal" data-bs-target="#editModal{{ service.id }}">
+                                        <i class="fas fa-edit"></i> ویرایش
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger btn-action" data-bs-toggle="modal" data-bs-target="#deleteModal{{ service.id }}">
+                                        <i class="fas fa-trash"></i> حذف
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Edit Modal -->
+                            <div class="modal fade" id="editModal{{ service.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ service.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel{{ service.id }}">ویرایش سرویس</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form method="POST" action="{% url 'update_service' service.id %}">
+                                            {% csrf_token %}
+                                            <div class="modal-body">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="title{{ service.id }}" class="form-label">موضوع</label>
+                                                        <input type="text" class="form-control" id="title{{ service.id }}" name="title" value="{{ service.title }}" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="service_type{{ service.id }}" class="form-label">نوع سرویس</label>
+                                                        <input type="text" class="form-control" value="{{ service.service.name }}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="start_date{{ service.id }}" class="form-label">تاریخ شروع</label>
+                                                        <input type="date" class="form-control" id="start_date{{ service.id }}" name="start_date" value="{{ service.start_date|date:'Y-m-d' }}" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="end_date{{ service.id }}" class="form-label">تاریخ پایان</label>
+                                                        <input type="date" class="form-control" id="end_date{{ service.id }}" name="end_date" value="{{ service.end_date|date:'Y-m-d' }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="is_active{{ service.id }}" class="form-label">وضعیت</label>
+                                                        <select class="form-select" id="is_active{{ service.id }}" name="is_active">
+                                                            <option value="1" {% if service.is_active %}selected{% endif %}>فعال</option>
+                                                            <option value="0" {% if not service.is_active %}selected{% endif %}>غیرفعال</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="is_accepted{{ service.id }}" class="form-label">وضعیت تایید</label>
+                                                        <select class="form-select" id="is_accepted{{ service.id }}" name="is_accepted">
+                                                            <option value="1" {% if service.is_accepted %}selected{% endif %}>تایید شده</option>
+                                                            <option value="0" {% if not service.is_accepted %}selected{% endif %}>در انتظار تایید</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="description{{ service.id }}" class="form-label">توضیحات</label>
+                                                    <textarea class="form-control" id="description{{ service.id }}" name="description" rows="3">{{ service.description }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                                <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal{{ service.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ service.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel{{ service.id }}">حذف سرویس</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>آیا از حذف این سرویس اطمینان دارید؟</p>
+                                            <p><strong>موضوع:</strong> {{ service.title }}</p>
+                                            <p><strong>نوع سرویس:</strong> {{ service.service.name }}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                            <a href="{% url 'delete_service' service.id %}" class="btn btn-danger">حذف</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> هیچ سرویسی برای این کاربر ثبت نشده است.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
