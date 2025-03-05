@@ -13,9 +13,11 @@ import logging
 # Set up logging
 logger = logging.getLogger(__name__)
 
+
 def is_admin(user):
     """Check if user is a superuser or staff"""
     return user.is_superuser or user.is_staff
+
 
 @login_required
 @user_passes_test(is_admin)
@@ -24,13 +26,15 @@ def user_list(request):
     Display a list of users with search and pagination functionality.
     Only accessible to admin users.
     """
+
+
     try:
         # Search functionality
         search_query = request.POST.get('pk', '') if request.method == "POST" else request.GET.get('search', '')
 
         if search_query:
             users = Client.objects.filter(
-                Q(username__icontains=search_query) | 
+                Q(username__icontains=search_query) |
                 Q(name__icontains=search_query) |
                 Q(email__icontains=search_query)
             ).order_by('-date_joined')
@@ -40,9 +44,9 @@ def user_list(request):
         # Pagination
         page_number = request.GET.get('page', 1)
         items_per_page = 25  # Number of users per page
-        
+
         paginator = Paginator(users, items_per_page)
-        
+
         try:
             page_obj = paginator.page(page_number)
         except PageNotAnInteger:
@@ -55,13 +59,14 @@ def user_list(request):
             'search_query': search_query,
             'total_users': users.count(),
         }
-        
+
         return render(request, 'users/userlist.html', context)
-    
+
     except Exception as e:
         logger.error(f"Error in user_list view: {str(e)}")
         messages.error(request, "خطایی در نمایش لیست کاربران رخ داد. لطفا دوباره تلاش کنید.")
         return redirect('userlist')
+
 
 @login_required
 @user_passes_test(is_admin)
@@ -74,19 +79,20 @@ def service_list(request, username):
         user = get_object_or_404(Client, username=username)
         services = UserServiceRequest.objects.filter(user=user).order_by('-start_date')
         available_services = Service.objects.all()
-        
+
         context = {
             'services': services,
             'user': user,
             'available_services': available_services,
         }
-        
+
         return render(request, 'users/servicelist.html', context)
-    
+
     except Exception as e:
         logger.error(f"Error in service_list view for user {username}: {str(e)}")
         messages.error(request, "خطایی در نمایش لیست سرویس‌ها رخ داد. لطفا دوباره تلاش کنید.")
         return redirect('userlist')
+
 
 @login_required
 @user_passes_test(is_admin)
@@ -97,7 +103,7 @@ def update_service(request, pk):
     """
     try:
         service = get_object_or_404(UserServiceRequest, id=pk)
-        
+
         if request.method == 'POST':
             # Get form data with validation
             start_date = request.POST.get('start_date')
@@ -106,7 +112,7 @@ def update_service(request, pk):
             is_accepted = request.POST.get('is_accepted') == '1'
             title = request.POST.get('title', '')
             description = request.POST.get('description', '')
-            
+
             # Update service
             service.start_date = start_date
             service.end_date = end_date
@@ -114,22 +120,23 @@ def update_service(request, pk):
             service.is_accepted = is_accepted
             service.title = title
             service.description = description
-            
+
             service.save()
-            
+
             messages.success(request, "سرویس با موفقیت به‌روزرسانی شد.")
             return redirect('servicelist', username=service.user.username)
-        
+
         context = {
             'service': service,
         }
-        
+
         return render(request, 'users/update_service.html', context)
-    
+
     except Exception as e:
         logger.error(f"Error in update_service view for service {pk}: {str(e)}")
         messages.error(request, "خطایی در به‌روزرسانی سرویس رخ داد. لطفا دوباره تلاش کنید.")
         return redirect('userlist')
+
 
 @login_required
 @user_passes_test(is_admin)
@@ -141,16 +148,16 @@ def add_service(request, username):
     try:
         user = get_object_or_404(Client, username=username)
         available_services = Service.objects.all()
-        
+
         if request.method == 'POST':
             service_id = request.POST.get('service')
             start_date = request.POST.get('start_date')
             end_date = request.POST.get('end_date')
             title = request.POST.get('title', '')
             description = request.POST.get('description', '')
-            
+
             service_type = get_object_or_404(Service, id=service_id)
-            
+
             # Create new service
             new_service = UserServiceRequest(
                 user=user,
@@ -162,23 +169,24 @@ def add_service(request, username):
                 is_active=True,
                 is_accepted=True
             )
-            
+
             new_service.save()
-            
+
             messages.success(request, "سرویس جدید با موفقیت اضافه شد.")
             return redirect('servicelist', username=username)
-        
+
         context = {
             'user': user,
             'available_services': available_services,
         }
-        
+
         return render(request, 'users/add_service.html', context)
-    
+
     except Exception as e:
         logger.error(f"Error in add_service view for user {username}: {str(e)}")
         messages.error(request, "خطایی در افزودن سرویس جدید رخ داد. لطفا دوباره تلاش کنید.")
         return redirect('servicelist', username=username)
+
 
 @login_required
 @user_passes_test(is_admin)
@@ -190,12 +198,12 @@ def delete_service(request, pk):
     try:
         service = get_object_or_404(UserServiceRequest, id=pk)
         username = service.user.username
-        
+
         service.delete()
-        
+
         messages.success(request, "سرویس با موفقیت حذف شد.")
         return redirect('servicelist', username=username)
-    
+
     except Exception as e:
         logger.error(f"Error in delete_service view for service {pk}: {str(e)}")
         messages.error(request, "خطایی در حذف سرویس رخ داد. لطفا دوباره تلاش کنید.")

@@ -10,6 +10,5 @@ class Client(AbstractUser):
     otp = models.IntegerField(null=True, blank=True)
     timestamp = models.DateTimeField(default=now)
 
-
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
