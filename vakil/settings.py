@@ -120,12 +120,12 @@ WSGI_APPLICATION = 'vakil.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgres',  # استفاده از MySQL
-        'NAME': 'postgreszrf_db',  # نام دیتابیس (می‌توانید این را تغییر دهید)
-        'USER': 'postgres',      # نام کاربری
-        'PASSWORD': 'mBaz3SdReySSXi$1Zk7x',  # رمز عبور (در صورت وجود)
-        'HOST': 'postgres-tqc-service',     # آدرس سرور
-        'PORT': '5432',      # پورت MySQL
+        'ENGINE': 'django.db.backends.postgresql',  # اصلاح شده
+        'NAME': 'postgreszrf_db',  # نام دیتابیس
+        'USER': 'postgres',        # نام کاربری
+        'PASSWORD': 'mBaz3SdReySSXi$1Zk7x',  # رمز عبور
+        'HOST': 'postgres-tqc-service',  # آدرس سرور
+        'PORT': '5432',
     }
 }
 
