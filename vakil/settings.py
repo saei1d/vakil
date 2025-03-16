@@ -13,7 +13,15 @@ from django.contrib.messages import constants as messages
 
 from pathlib import Path
 
-CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'https://localhost:8000',
+    'http://avahagh.ir',
+    'https://avahagh.ir',
+    'http://avahagh.runflare.run',
+    'https://avahagh.runflare.run',
+
+]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
