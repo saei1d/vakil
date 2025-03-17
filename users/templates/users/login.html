@@ -173,7 +173,7 @@
             <img src="{% static "image/newlogo.png" %}" width="200" height="75" alt="لوگوی وکیل">
         </div>
         <h1>به وکیل آنلاین خوش آمدید</h1>
-        <p>برای مشاهده <a style="text-decoration: none; color: #c7944c;" href="https://saei1d.pythonanywhere.com/home/">صفحه
+        <p>برای مشاهده <a style="text-decoration: none; color: #c7944c;" href="https://avahagh.ir/home/">صفحه
             اصلی</a> کلیک کنید</p>
     </div>
     <div class="otp-right p-3">
@@ -325,7 +325,7 @@
 
                             // بررسی اینکه آیا `next` شامل `/home/` است
                             if (nextUrl.includes('/home/')) {
-                                window.location.href = "https://saei1d.pythonanywhere.com/home/#free";
+                                window.location.href = "https://avahagh.ir/home/#free";
                             } else {
                                 // هدایت به مسیر اصلی پارامتر `next`
                                 const redirectUrl = new URL(nextUrl, window.location.origin);
@@ -334,7 +334,7 @@
                             }
                         } else {
                             // هدایت به صفحه اصلی اگر پارامتر `next` وجود ندارد
-                            window.location.href = "https://saei1d.pythonanywhere.com/home/";
+                            window.location.href = "https://avahagh.ir/home/";
                         }
                     } else {
                         showAlert("error", "کد نامعتبر", data.error || "کد وارد شده صحیح نیست.");
@@ -350,7 +350,7 @@
     ;
     document.getElementById("ghavanin").addEventListener("click", function (event) {
         event.preventDefault(); // جلوگیری از رفتار پیش‌فرض لینک
-        window.location.href = "https://saei1d.pythonanywhere.com/faq/#ghavanin";
+        window.location.href = "https://avahagh.ir/faq/#ghavanin";
     });
 
 
