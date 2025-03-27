@@ -1,14 +1,15 @@
 from django import forms
-from .models import Post
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from .models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
-    content = forms.CharField(widget=CKEditorUploadingWidget())
-
     class Meta:
         model = Post
-        fields = ['title', 'content', 'published_date', 'author', 'homepage', 'is_published','slug','price','summery']
-        widgets = {
-            'published_date': forms.DateInput(attrs={'type': 'date'}),
-        }
+        fields = ['title', 'content', 'category', 'subcategory', 'is_published', 'image', 'slug', 'summery',
+                  'published_date', 'author','price']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']

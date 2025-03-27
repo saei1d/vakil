@@ -2,8 +2,19 @@ from django.urls import path
 from .views import *
 
 app_name = 'users'
+
+from django.shortcuts import redirect
+
+
+def redirect_to_home(request):
+    return redirect('home/')
+
+
 urlpatterns = [
+    path('', redirect_to_home),
+
     path('home/', HomeView.as_view(), name='home'),
+
     path('send-otp/', send_otp, name='send_code'),
     path('verify-otp/', verify_otp, name='verify_code'),
     path('logout/', logout_view, name='logout'),

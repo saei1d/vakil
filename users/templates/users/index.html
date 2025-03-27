@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}صفحه اصلی{% endblock %}
+{% block title %}موسسه حقوقی آوای حق | بهترین وکلای ایران در خدمت شما{% endblock %}
 {% block style %}
+<style>
+
+</style>
 
 {% endblock %}
 
@@ -10,30 +13,26 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide swiper-slide-2">
                     {% load static %}
-                    <img src="{% static "image/slider2.jpg" %}" height="700px" alt="">
+                    <img src="{% static "image/slider2.jpg" %}" height="700" width="1920" alt="موسسه حقوقی آوای حق">
                     <div class="text-slider mb-5 text-center">
                         {% load static %}
-                        <img src="{% static "image/sliderlogo.png" %}" width="850px" class="p-2 mb-4" alt="">
-                        <h1 class="my-2 h1-res mb-4" style="font-size: 64px;">
-                            با سابقه بیش از 10 سال
-                            <br>
-                            اراعه خدمات حقوقی
-                        </h1>
-                        <img src="{% static "image/slider-img2.png" %}" style="width: 200px !important;" alt="">
+                        <img src="{% static "image/sliderlogo.png" %}" width="850" height="170" class="p-2 mb-4" alt="لوگو موسسه حقوقی آوای حق">
+                            <h1 class="my-2 h1-res mb-4" style="font-size: 64px; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+                                حق شما، تخصص ما - با بیش از ۱۰ سال تجربه موفق
+                            </h1>
+                        <img src="{% static "image/slider-img2.png" %}" style="width: 200px !important;" height="60" alt="نماد موسسه حقوقی">
                     </div>
                 </div>
                 <div class="swiper-slide mb-5 swiper-slide-2">
                     {% load static %}
-                    <img src="{% static "image/slider1.jpg" %}" height="700px" alt="">
+                    <img src="{% static "image/slider1.jpg" %}" height="700" width="1920" alt="موسسه حقوقی آوای حق">
                     <div class="text-slider mb-5 text-center">
                         {% load static %}
-                        <img src="{% static "image/sliderlogo.png" %}" width="850px" class="p-2 mb-4" alt="">
-                        <h1 class="my-2 h1-res mb-4" style="font-size: 64px;">
-                            با سابقه بیش از 10 سال
-                            <br>
-                            اراعه خدمات حقوقی
-                        </h1>
-                        <img src="{% static "image/slider-img2.png" %}" style="width: 200px !important;" alt="">
+                        <img src="{% static "image/sliderlogo.png" %}" width="650" height="130" class="p-2 mb-4" alt="لوگو موسسه حقوقی آوای حق">
+                        <h2 class="my-2 h1-res mb-4" style="font-size: 64px; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+                            تیم حقوقی برتر ایران در کنار شماست
+                        </h2>
+                        <img src="{% static "image/slider-img2.png" %}" style="width: 200px !important;" height="60" alt="نماد موسسه حقوقی">
                     </div>
                 </div>
 
@@ -45,11 +44,11 @@
                 {% for p in post %}
                     <div class="col-md-4">
                         <div class="custom-card">
-                            <h6>{{ p.title }}</h6>
-                            <h5>{{ p.price }}</h5>
+                            <h3>{{ p.title }}</h3>
+                            <h4>{{ p.price }}</h4>
                             <p>{{ p.summery }}
                             </p>
-                            <a href="{% url 'blog:blogpage' p.slug %}" class=" btn-custom">پرونده کامل را بخوانید</a>
+                            <a href="{% url 'blog:blogpage' p.slug %}" class="btn-custom">مطالعه موفقیت‌های ما</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -59,27 +58,70 @@
     <!-- slider -->
 
 
+    <!-- box category -->
+    <section class="category-section mt2 py-5">
+        <h2 class="text-khadamat-home text-center mb-4 px-3" style="font-size: 2rem;">تخصص ما، آرامش خاطر شما</h2>
+        <div class="category text-center">
+            <a href="https://avahagh.ir/pricing/" title="خدمات حقوقی">
+                <div class="bg-white box-category">
+                    <img src="{% static "image/salary.png" %}" alt="خدمات حقوقی" width="50" height="50">
+                    <h3 class="mt-3">دعاوی حقوقی</h3>
+                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold d-none d-md-inline"></i>
+                </div>
+            </a>
+
+            <a href="https://avahagh.ir/pricing/" title="خدمات حقوقی تصادف">
+                <div class="bg-white box-category">
+                    <img src="{% static "image/accident.png" %}" alt="خدمات حقوقی تصادف" width="50" height="50">
+                    <h3 class="mt-3">دعاوی تصادفات</h3>
+                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold d-none d-md-inline"></i>
+                </div>
+            </a>
+
+            <a href="https://avahagh.ir/pricing/" title="خدمات دفاع جنایی">
+                <div class="bg-white box-category">
+                    <img src="{% static "image/criminaldefense.png" %}" alt="خدمات دفاع جنایی" width="50" height="50">
+                    <h3 class="mt-3">دفاع کیفری</h3>
+                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold d-none d-md-inline"></i>
+                </div>
+            </a>
+
+            <a href="https://avahagh.ir/pricing/" title="خدمات حقوقی ورشکستگی">
+                <div class="bg-white box-category">
+                    <img src="{% static "image/bankcrupt.png" %}" alt="خدمات حقوقی ورشکستگی" width="50" height="50">
+                    <h3 class="mt-3">امور ورشکستگی</h3>
+                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold d-none d-md-inline"></i>
+                </div>
+            </a>
+
+            <a href="" title="خدمات حقوقی صدمات شخصی">
+                <div class="bg-white box-category">
+                    <img src="{% static "image/falling-man (1).png" %}" alt="خدمات حقوقی صدمات شخصی" width="50" height="50">
+                    <h3 class="mt-3">جبران خسارت</h3>
+                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold d-none d-md-inline"></i>
+                </div>
+            </a>
+        </div>
+        <div class="text-center">
+            <a href="https://avahagh.ir/service/" class="w-100 btn-hover d-inline-block p-3 text-black bg-gold" title="مشاهده خدمات حقوقی">دریافت مشاوره رایگان</a>
+        </div>
+    </section>
+    <!-- box category -->
+
+
     <!-- about  -->
     <section>
         <div class="container-2 mt2">
             <div class="row justify-content-between align-items-center">
                 <div class="col-md-5 text-md-start text-center mb-3">
-                    <img src="{% static "image/icon1.png" %}" alt="">
-                    <h2 class="my-4" style="font-size: 48px;">برای رسیدن به حقتان
-                        <br>
-                        در کنار شما هستیم
-                    </h2>
-                    <p>
-                        با همکاری گروهی از وکلای مجرب و کار آزموده
-                        <br>
-شما را در راه رسیدن به حق و حقوقتان یاری میکنیم                        <br>
-                        <br>
-با تمام توان و بهره گیری از وکلای متخصص و دارای مهارت مشکلات حقوقی شمارا حل خواهیم کرد                    </p>
-                    <img src="{% static "image/signature1.png" %}" class="mt-5" alt="">
+                    <img src="{% static "image/icon1.png" %}" alt="آیکون موسسه حقوقی" width="100" height="100">
+                    <h2 class="my-4 text-wrap" style="font-size: 48px; line-height: 1.6;">تضمین پیروزی شما در دادگاه</h2>
+                    <p style="line-height: 1.6;">با تیمی متشکل از برترین وکلای کشور، ما نه تنها از حقوق شما دفاع می‌کنیم، بلکه برای پیروزی شما می‌جنگیم. تجربه موفق ما در صدها پرونده پیچیده، تضمینی برای موفقیت شماست.</p>
+                    <img src="{% static "image/signature1.png" %}" class="mt-5" alt="امضا موسسه حقوقی" width="200" height="100">
                 </div>
                 <div class="col-md-4 ">
                     <div class="bg-befor position-relative">
-                        <img src="{% static "image/indeximage1.jpg" %}" width="100%" alt="">
+                        <img src="{% static "image/indeximage1.jpg" %}" width="100%" height="auto" alt="تصویر موسسه حقوقی">
                     </div>
                 </div>
             </div>
@@ -96,23 +138,21 @@
                 <!-- info contect -->
                 <div class="col-md-5 text-md-start text-center ">
                     <div class="contact-info">
-                        <h2 style="font-size: 40px;">برای بازگرداندن زندگی خود آماده‌اید؟</h2>
-                        <p class="my-4">ما آماده جنگیدن برای شما هستیم. ما آماده‌ایم که متحد شما باشیم. و ما هم اکنون
-                            آماده شروع کار
-                            هستیم. زمان را از دست ندهید. همین امروز با ما تماس بگیرید.</p>
+                        <h2 style="font-size: 40px; line-height: 1.6;">اولین قدم برای احقاق حق خود را بردارید</h2>
+                        <p class="my-4" style="line-height: 1.6;">هر لحظه تاخیر می‌تواند به ضرر شما باشد. تیم حرفه‌ای ما ۲۴ ساعته آماده مشاوره و راهنمایی شماست. همین حالا تماس بگیرید و از مشاوره رایگان ما بهره‌مند شوید.</p>
                         <div class="row">
                             <div class="mt-4 d-flex align-items-center col-md-12 col-6 flex-column flex-md-row gap-3  justify-content-md-start justify-content-center">
-                                <img src="{% static "image/supporter.png" %}" width="50px" alt="">
+                                <img src="{% static "image/supporter.png" %}" width="50" height="50" alt="پشتیبانی">
                                 <div>
-                                    <p class="text-gold mb-2">تماس اضطراری</p>
-                                    <h6> 025-2705199</h6>
+                                    <p class="text-gold mb-2">مشاوره فوری</p>
+                                    <h3>025-2705199</h3>
                                 </div>
                             </div>
                             <div class="ئف-3 mt-4 d-flex col-6 align-items-center flex-column flex-md-row gap-3 justify-content-md-start justify-content-center">
-                                <img src="{% static "image/clock.png" %}" width="50px" alt="">
+                                <img src="{% static "image/clock.png" %}" width="50" height="50" alt="ساعت کاری">
                                 <div>
-                                    <p class="text-gold mb-2">ساعات کاری</p>
-                                    <h6> ۲۴/۷ در دسترس</h6>
+                                    <p class="text-gold mb-2">در دسترس</p>
+                                    <h5>۲۴ ساعته، ۷ روز هفته</h5>
                                 </div>
                             </div>
                         </div>
@@ -129,51 +169,51 @@
                             <input type="hidden" name="next" value="{{ request.path }}">
 
                             <div class="row mb-3">
-                                <div class="form-group">
-                                    <label for="name">نام خود را وارد کنید *</label>
+                                <div class="form-group position-relative">
                                     <input type="text" name="name" id="name" class="form-control"
-                                           value="{{ name }}" required>
+                                           value="{{ name }}" required placeholder=" ">
+                                    <label for="name" class="form-label position-absolute transition-label">نام شما</label>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="subject">نوع سوال را انتخاب کنید</label>
+                                    <div class="form-group position-relative">
                                         <select class="form-control" name="department" id="subject" required>
                                             <option value="" style="color: black;" disabled
-                                                    {% if department == "" %}selected{% endif %}>زمینه سوال
+                                                    {% if department == "" %}selected{% endif %}>انتخاب کنید
                                             </option>
                                             <option value="1" style="color: black;"
-                                                    {% if department == "1" %}selected{% endif %}>کیفری
+                                                    {% if department == "1" %}selected{% endif %}>دعاوی کیفری
                                             </option>
                                             <option value="2" style="color: black;"
-                                                    {% if department == "2" %}selected{% endif %}>تجارت
+                                                    {% if department == "2" %}selected{% endif %}>دعاوی تجاری
                                             </option>
                                             <option value="3" style="color: black;"
-                                                    {% if department == "3" %}selected{% endif %}>خانواده
+                                                    {% if department == "3" %}selected{% endif %}>دعاوی خانواده
                                             </option>
                                         </select>
+                                        <label for="subject" class="form-label position-absolute transition-label">موضوع پرونده</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="title">موضوع</label>
+                                    <div class="form-group position-relative">
                                         <input type="text" name="title" id="title" class="form-control"
-                                               value="{{ title }}" required>
+                                               value="{{ title }}" required placeholder=" ">
+                                        <label for="title" class="form-label position-absolute transition-label">عنوان مشکل حقوقی</label>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <div class="form-group">
-                                    <label for="question">سوال شما</label>
+                                <div class="form-group position-relative">
                                     <textarea class="form-control" name="description" id="question" rows="4"
-                                              required>{{ description }}</textarea>
+                                              required placeholder=" ">{{ description }}</textarea>
+                                    <label for="question" class="form-label position-absolute transition-label">شرح مختصر مشکل</label>
                                 </div>
                             </div>
 
                             <div class="text-md-start text-center">
-                                <button type="submit" class="btn-form">ارسال</button>
+                                <button type="submit" class="btn-form">درخواست مشاوره رایگان</button>
                             </div>
                         </form>
 
@@ -185,16 +225,13 @@
             </div>
 
             <div class="text-center mt-5">
-                <img src="{% static "image/emptylogo.png" %}" width="300" height="60" alt="">
-                <h2 class="my-5 lh-lg">
-موفقیت در هر پرونده ای مستلزم اراعه راهکار                    <br>
-دقیق و درست توسط وکیل آگاه و مجرب                    <br>
-و کارشناس و مشاور حقوقی کار بلد است                </h2>
+                <img src="{% static "image/emptylogo.png" %}" width="300" height="60" alt="لوگو موسسه حقوقی">
+                <h2 class="my-5" style="line-height: 1.6;">با تکیه بر دانش و تجربه، پیروزی شما را تضمین می‌کنیم</h2>
                 <div class="d-flex gap-4 justify-content-center">
-                    <a href="https://avahagh.ir/home/#free" class="bg-gold p-3 px-4 text-black">
-                        ارزیابی رایگان </a>
-                    <a href="https://avahagh.ir/about-us/" class="border-gold p-3 px-4 text-gold">
-                        اطلاعات بیشتر </a>
+                    <a href="https://avahagh.ir/home/#free" class="bg-gold p-3 px-4 text-black" title="مشاوره رایگان">
+                        دریافت مشاوره رایگان </a>
+                    <a href="https://avahagh.ir/about-us/" class="border-gold p-3 px-4 text-gold" title="درباره ما">
+                        آشنایی با موفقیت‌های ما </a>
                 </div>
             </div>
 
@@ -203,100 +240,45 @@
     <!-- contect -->
 
 
-    <!-- box category -->
-    <section class="category-section py-5">
-        <div class="category text-center">
-            <a href="https://avahagh.ir/pricing/">
-                <div class="bg-white box-category">
-                    <img src="{% static "image/salary.png" %}" alt="حقوق" width="50px">
-                    <h5 class="mt-3">حقوق</h5>
-                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
-                </div>
-            </a>
-
-            <a href="https://avahagh.ir/pricing/">
-
-                <div class="bg-white box-category">
-                    <img src="{% static "image/accident.png" %}" alt="تصادف" width="50px">
-                    <h5 class="mt-3">تصادف</h5>
-                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
-                </div>
-            </a>
-
-            <a href="https://avahagh.ir/pricing/">
-
-                <div class="bg-white box-category">
-                    <img src="{% static "image/criminaldefense.png" %}" alt="دفاع جنایی" width="50px">
-                    <h5 class="mt-3">دفاع جنایی</h5>
-                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
-                </div>
-            </a>
-
-            <a href="https://avahagh.ir/pricing/">
-
-                <div class="bg-white box-category">
-                    <img src="{% static "image/bankcrupt.png" %}" alt="ورشکستگی" width="50px">
-                    <h5 class="mt-3">ورشکستگی</h5>
-                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
-                </div>
-            </a>
-
-            <a href="">
-
-                <div class="bg-white box-category">
-                    <img src="{% static "image/falling-man (1).png" %}" alt="صدمه شخصی" width="50px">
-                    <h5 class="mt-3">صدمه شخصی</h5>
-                    <i class="bi bi-arrow-left mt-5 d-inline-block fs-2 text-gold"></i>
-                </div>
-            </a>
-        </div>
-        <div class="text-center ">
-            <a href="https://avahagh.ir/service/" class="w-100 btn-hover d-inline-block p-3 text-black bg-gold">مشاهده
-                همه خدمات حقوقی</a>
-        </div>
-    </section>
-    <!-- box category -->
-
-
     <!-- amar  -->
     <section class=" py-5">
         <div class="container-2">
             <div class="row align-items-center justify-content-between">
                 <div class="col-md-5 bg-befor mb-5 position-relative">
-                    <img src="{% static "image/indeximage2.jpg" %}" alt="Gavel Image" width="100%">
+                    <img src="{% static "image/indeximage2.jpg" %}" alt="تصویر موسسه حقوقی" width="100%" height="auto">
                 </div>
                 <div class="col-md-6 ">
-                    <h2 class="fs-1 lh-lg ps-5">و در پایان <br>ما پیروز خواهیم شد.</h2>
+                    <h2 class="fs-1" style="line-height: 1.6;">نتایج درخشان ما، تضمین موفقیت شما</h2>
                     <div class="cases ">
                         <div class="case d-flex gap-3">
                             <div class="ps-5">
-                                <img src="{% static "image/icons8-law-100.png" %}" width="60px" alt="">
+                                <img src="{% static "image/icons8-law-100.png" %}" width="60" height="60" alt="آیکون قانون">
                             </div>
                             <div>
-                                <h3>$۱۹,۱۵۰,۰۰۰</h3>
-                                <h6>پرونده تصادف کامیون</h6>
-                                <p>لورم ایپسوم متن ساختگی...</p>
+                                <h3>۱۹ میلیارد تومان</h3>
+                                <h4>جبران خسارت تصادف</h4>
+                                <p>موفقیت در یکی از پیچیده‌ترین پرونده‌های تصادفات</p>
                             </div>
                         </div>
                         <div class="case d-flex gap-3">
                             <div class="ps-5">
-                                <img src="{% static "image/icons8-law-100.png" %}" width="60px" alt="">
+                                <img src="{% static "image/icons8-law-100.png" %}" width="60" height="60" alt="آیکون قانون">
                             </div>
                             <div>
-                                <h3>$۶,۳۲۰,۰۰۰</h3>
-                                <h6>تصادف موتور سیکلت</h6>
-                                <p>لورم ایپسوم متن ساختگی...</p>
+                                <h3>۶.۳ میلیارد تومان</h3>
+                                <h4>پرونده تصادف موتورسیکلت</h4>
+                                <p>احقاق حق موکل در کمتر از ۶ ماه</p>
                             </div>
 
                         </div>
                         <div class="case d-flex gap-3">
                             <div class="ps-5">
-                                <img src="{% static "image/icons8-law-100.png" %}" width="60px" alt="">
+                                <img src="{% static "image/icons8-law-100.png" %}" width="60" height="60" alt="آیکون قانون">
                             </div>
                             <div>
-                                <h3>$۱۱,۸۰۰,۰۰۰</h3>
-                                <h6>صدمه شخصی</h6>
-                                <p>لورم ایپسوم متن ساختگی...</p>
+                                <h3>۱۱.۸ میلیارد تومان</h3>
+                                <h4>پرونده خسارت شخصی</h4>
+                                <p>پیروزی در دادگاه تجدیدنظر</p>
                             </div>
                         </div>
                     </div>
@@ -307,82 +289,85 @@
         </div>
     </section>
     <!--  amar -->
-
-
     <!-- comment -->
     <section>
         <div class="container-2 mt2">
-            <div class="swiper mySwiper2">
+            <div class="swiper commentSwiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide p-5 text-center position-relative"
                          style="background: #182615; border-bottom: 5px solid #BC945C ;">
-                        <img src="{% static "image/icons8-user-100 (1).png" %}" class="img-comment" width="80px" alt="">
-                        <h4 class="mt-5">علی رسولی</h4>
-                        <p class="mb-3">بیمه عمر</p>
-                        <p class="my-4 lh-lg">“لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
-                            طراحان گرافیک است.
-                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
-                            تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در
-                            شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها
-                            شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی
-                            ایجاد کرد.”</p>
-
+                        <img src="{% static "image/icons8-user-100 (1).png" %}" class="img-comment" width="80" height="80" alt="تصویر موکل">
+                        <h3 class="mt-5">علی رسولی</h3>
+                        <p class="mb-3">پرونده موفق بیمه عمر</p>
+                        <p class="my-4" style="line-height: 1.6;">"از همکاری با موسسه حقوقی آوای حق بسیار راضی هستم. تیم حرفه‌ای و متعهد آنها با پیگیری مستمر و تخصص بالا، توانستند حق من را در پرونده پیچیده بیمه عمر به دست آورند. صمیمانه از تلاش‌های بی‌وقفه آنها سپاسگزارم."</p>
                         <div>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
-                            <span class="text-gold">★</span>
-
                         </div>
                     </div>
+
                     <div class="swiper-slide p-5 text-center position-relative"
                          style="background: #182615; border-bottom: 5px solid #BC945C ;">
-                        <img src="{% static "image/tst1.jpg" %}" class="img-comment" width="80px" alt="">
-                        <h4 class="mt-5">مهدی پورنیا</h4>
-                        <p class="mb-3">بیمه عمر</p>
-                        <p class="my-4 lh-lg">“لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
-                            طراحان گرافیک است.
-                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
-                            تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در
-                            شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها
-                            شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی
-                            ایجاد کرد.”</p>
-
+                        <img src="{% static "image/icons8-user-100 (1).png" %}" class="img-comment" width="80" height="80" alt="تصویر موکل">
+                        <h3 class="mt-5">محمد احمدی</h3>
+                        <p class="mb-3">پرونده تصادف</p>
+                        <p class="my-4" style="line-height: 1.6;">"بعد از تصادف شدید، موسسه حقوقی آوای حق تمام مراحل پرونده را با دقت پیگیری کرد و توانست حق و حقوق من را به طور کامل دریافت کند. از تخصص و تعهد این تیم حرفه‌ای بسیار سپاسگزارم."</p>
                         <div>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
-
                         </div>
                     </div>
+
                     <div class="swiper-slide p-5 text-center position-relative"
                          style="background: #182615; border-bottom: 5px solid #BC945C ;">
-                        <img src="{% static "image/tst1.jpg" %}" class="img-comment" width="80px" alt="">
-                        <h4 class="mt-5">مهدی پورنیا</h4>
-                        <p class="mb-3">بیمه عمر</p>
-                        <p class="my-4 lh-lg">“لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
-                            طراحان گرافیک است.
-                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
-                            تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در
-                            شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها
-                            شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی
-                            ایجاد کرد.”</p>
-
+                        <img src="{% static "image/icons8-user-100 (1).png" %}" class="img-comment" width="80" height="80" alt="تصویر موکل">
+                        <h3 class="mt-5">زهرا محمدی</h3>
+                        <p class="mb-3">دعوای ملکی</p>
+                        <p class="my-4" style="line-height: 1.6;">"در یک پرونده پیچیده ملکی، وکلای آوای حق با تسلط کامل بر قوانین و مقررات، توانستند حقوق من را استیفا کنند. از حرفه‌ای گری و پشتکار این تیم متخصص بسیار ممنونم."</p>
                         <div>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
-
                         </div>
                     </div>
 
+                    <div class="swiper-slide p-5 text-center position-relative"
+                         style="background: #182615; border-bottom: 5px solid #BC945C ;">
+                        <img src="{% static "image/icons8-user-100 (1).png" %}" class="img-comment" width="80" height="80" alt="تصویر موکل">
+                        <h3 class="mt-5">رضا کریمی</h3>
+                        <p class="mb-3">پرونده کیفری</p>
+                        <p class="my-4" style="line-height: 1.6;">"در شرایط بسیار سخت، تیم حقوقی آوای حق با درایت و تخصص خود توانستند از حقوق من دفاع کنند. مشاوره‌های دقیق و پیگیری‌های مستمر آنها واقعاً ستودنی است."</p>
+                        <div>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                        </div>
+                    </div>
 
+                    <div class="swiper-slide p-5 text-center position-relative"
+                         style="background: #182615; border-bottom: 5px solid #BC945C ;">
+                        <img src="{% static "image/icons8-user-100 (1).png" %}" class="img-comment" width="80" height="80" alt="تصویر موکل">
+                        <h3 class="mt-5">مریم حسینی</h3>
+                        <p class="mb-3">دعوای خانوادگی</p>
+                        <p class="my-4" style="line-height: 1.6;">"در پرونده حساس خانوادگی، وکلای آوای حق با درک شرایط و حساسیت موضوع، با تخصص و تعهد کامل پرونده را به نتیجه رساندند. از همراهی صمیمانه آنها بسیار سپاسگزارم."</p>
+                        <div>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                            <span class="text-gold">★</span>
+                        </div>
+                    </div>
                 </div>
+                <div class="swiper-button-next" style="color: #BC945C;"></div>
+                <div class="swiper-button-prev" style="color: #BC945C;"></div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
@@ -395,44 +380,40 @@
 
     <section>
         <div class="container-2 mt2">
-            <h2 class="text-center " style="font-size: 42px;">آخرین اخبار و مطالب را بخوانید
-                <br>
-                درباره <span class="text-gold">دادگاه</span> و <span class="text-gold">قانون</span>
-            </h2>
+            <h2 class="text-center" style="font-size: 42px; line-height: 1.6;">آخرین اخبار و مقالات تخصصی <span class="text-gold">حقوقی</span></h2>
             <div class="blog  justify-content-between mt-5">
                 <div class="bg-white p-3 py-5 box-blog">
                     <div class="text-gold d-flex gap-5 fs-14 border-bottom pb-2">
-                        <span>آموزش</span>
+                        <span>حقوق تجارت</span>
                         <span>۲۱ خرداد ۱۴۰۳</span>
                     </div>
                     <h3 class="text-jus mt-4">
-                        به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است
+                        راهنمای جامع ثبت شرکت و مزایای آن
                     </h3>
                 </div>
                 <div class=" bg-white p-3 py-5 box-blog">
                     <div class="text-gold d-flex gap-5 fs-14 border-bottom pb-2">
-                        <span>آموزش</span>
+                        <span>حقوق خانواده</span>
                         <span>۲۱ خرداد ۱۴۰۳</span>
                     </div>
                     <h3 class="text-jus mt-4">
-                        به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است
+                        همه چیز درباره حضانت فرزند و حقوق والدین
                     </h3>
                 </div>
                 <div class=" bg-white p-3 py-5 box-blog">
                     <div class="text-gold d-flex gap-5 fs-14 border-bottom pb-2">
-                        <span>آموزش</span>
+                        <span>حقوق کیفری</span>
                         <span>۲۱ خرداد ۱۴۰۳</span>
                     </div>
                     <h3 class="text-jus mt-4">
-                        به دنبال بالا بودن تقاضا به دنبال رهبران کار و استخدام است
+                        نکات کلیدی در دفاع از پرونده‌های کیفری
                     </h3>
                 </div>
             </div>
 
 
             <div class="mt-5 text-center">
-                <a href="https://avahagh.ir/blog/" class="bg-gold text-black p-2 btn-form">مشاهده تمام مطالب
-                    وبلاگ </a>
+                <a href="https://avahagh.ir/blog/" class="bg-gold text-black p-2 btn-form" title="مطالب آموزشی">مطالعه مقالات تخصصی حقوقی</a>
             </div>
         </div>
     </section>
@@ -443,7 +424,7 @@
 
     <!-- fix phone mob -->
     <div class="bg-gold fix-phone">
-        <a href="tel:001800345678" title="تماس با ما 02532705199"><span> تماس با ما
+        <a href="tel:02532705199" title="تماس فوری"><span>مشاوره فوری رایگان:
                 025-2705199</span></a>
     </div>
     <!-- fix phone mob -->
@@ -455,7 +436,7 @@
 
 {% block script %}
 
-
+    <script>
     // Initialize Swiper and AOS
     var swiper = new Swiper('.mySwiper', {
     pagination: {el: '.swiper-pagination'},
@@ -513,5 +494,19 @@
     });
     }
 
+    var commentSwiper = new Swiper(".commentSwiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+</script>
 
 {% endblock %}

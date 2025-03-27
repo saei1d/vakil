@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
 
+
     {% block link %}
     {% endblock %}
     <style>
@@ -106,11 +107,10 @@
             right: 20px; /* فاصله از راست */
             z-index: 999;
         }
-
-        {% block style %}
-        {% endblock %}
-
     </style>
+
+    {% block style %}{% endblock %}
+
 </head>
 <body>
 
@@ -147,14 +147,10 @@
                 </li>
                 {#                <span class="text-gold" style="font-size: 45px">.</span>#}
                 <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+
                 <li>
                     <a href="https://avahagh.ir/service/"
-                       class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات ما</a>
-                </li>
-                <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
-                <li>
-                    <a href="https://avahagh.ir/pricing/"
-                       class="{% if request.path == '/pricing/' %}activelink{% endif %}">سرویس ها</a>
+                       class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات حقوقی</a>
                 </li>
                 <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                 <li>
@@ -168,6 +164,11 @@
                        class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما</a>
                 </li>
                 <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                <li>
+                    <a href="https://avahagh.ir/blog/"
+                       class="{% if request.path == '/blog/' %}activelink{% endif %}">وبلاگ</a>
+                </li>
+                <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
                 {% if not user.is_authenticated %}
                     <li>
                         <a href="https://avahagh.ir/login/">ورود به حساب</a>
@@ -209,13 +210,14 @@
                     <li>صفحه اصلی</li>
                 </a>
                 <a href="https://avahagh.ir/service/">
-                    <li>خدمات ما</li>
+                    <li>خدمات حقوقی</li>
                 </a>
-                <a href="https://avahagh.ir/pricing/">
-                    <li>سرویس ها</li>
-                </a>
+
                 <a href="https://avahagh.ir/faq/">
                     <li>سوالات متداول</li>
+                </a>
+                <a href="https://avahagh.ir/blog/">
+                    <li>وبلاگ</li>
                 </a>
                 <a href="https://avahagh.ir/about-us/">
                     <li>درباره ما</li>
@@ -276,19 +278,20 @@
                     <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                     <li>
                         <a href="https://avahagh.ir/service/"
-                           class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات ما</a>
+                           class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات حقوقی</a>
                     </li>
                     <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
-                    <li>
-                        <a href="https://avahagh.ir/pricing/"
-                           class="{% if request.path == '/pricing/' %}activelink{% endif %}">سرویس ها</a>
-                    </li>
-                    <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+
                     <li>
                         <a href="https://avahagh.ir/faq/"
                            class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات متداول </a>
                     </li>
                     <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
+                    <li>
+                        <a href="https://avahagh.ir/blog/"
+                           class="{% if request.path == '/blog/' %}activelink{% endif %}">وبلاگ</a>
+                    </li>
+                    <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                     <li>
                         <a href="https://avahagh.ir/about-us/"
                            class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما </a>
@@ -354,13 +357,14 @@
                     <li>صفحه اصلی</li>
                 </a>
                 <a href="https://avahagh.ir/service/">
-                    <li>خدمات ما</li>
+                    <li>خدمات حقوقی</li>
                 </a>
-                <a href="https://avahagh.ir/pricing/">
-                    <li>سرویس ها</li>
-                </a>
+
                 <a href="https://avahagh.ir/faq/">
                     <li>سوالات متداول</li>
+                </a>
+                <a href="https://avahagh.ir/blog/">
+                    <li>وبلاگ</li>
                 </a>
                 <a href="https://avahagh.ir/about-us/">
                     <li>درباره ما</li>
@@ -587,8 +591,8 @@
                 }
             });
     });
-    {% block script %}
-    {% endblock %}
 </script>
+{% block script %}{% endblock %}
+
 </body>
 </html>

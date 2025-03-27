@@ -7,4 +7,5 @@ urlpatterns = [
     path('update-service/<int:pk>/', update_service, name='update_service'),
     path('add-service/<str:username>/', add_service, name='add_service'),
     path('delete-service/<int:pk>/', delete_service, name='delete_service'),
+    path('blog-uncomplete/',uncomplete_blog, name='uncomplete_blog'),
 ]

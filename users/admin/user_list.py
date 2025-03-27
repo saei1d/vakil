@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from blog.models import Post
 from service.models import UserServiceRequest, Service
 from users.models import Client
 import logging
@@ -26,7 +27,6 @@ def user_list(request):
     Display a list of users with search and pagination functionality.
     Only accessible to admin users.
     """
-
 
     try:
         # Search functionality
@@ -208,3 +208,11 @@ def delete_service(request, pk):
         logger.error(f"Error in delete_service view for service {pk}: {str(e)}")
         messages.error(request, "خطایی در حذف سرویس رخ داد. لطفا دوباره تلاش کنید.")
         return redirect('userlist')
+
+
+def uncomplete_blog(request):
+    if request.user.is_staff:
+        blogs = Post.objects.filter(is_published=False)
+        return render(request, 'users/blog_uncomplete.html', {'blogs': blogs})
+    else:
+        return redirect('users:login')

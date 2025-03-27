@@ -20,10 +20,7 @@ def faq(request):
 
 
 def blog(request):
-    blog = Post.objects.all()
-    for post in blog:
-        print(post.id)
-        print(post.published_date)
+    blog = Post.objects.filter(is_published=True)
     return render(request, 'blog/blog.html', {'blog': blog})
 
 
@@ -44,18 +41,20 @@ def post_list(request):
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
-def post_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug, is_published=True)
-    comments = post.comments.filter(is_approved=True, parent=None)
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    comments = post.comments.filter(parent__isnull=True)
     if request.method == "POST":
-        user = request.POST.get("user")
-        content = request.POST.get("content")
-        if user and content:
-            Comment.objects.create(post=post, user=user, content=content)
-            return redirect("post_detail", slug=slug)
-    return render(
-        request, "blog/post_detail.html", {"post": post, "comments": comments}
-    )
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect('post_detail', post_id=post.id)
+    else:
+        form = CommentForm()
+    return render(request, "blog/post_detail.html", {"post": post, "comments": comments, "form": form})
 
 
 @login_required
@@ -88,12 +87,18 @@ def reply_comment(request, comment_id):
 
 class PostCreate(View):
     def get(self, request):
-        form = PostForm()
-        return render(request, 'blog/post_form.html', {'form': form})
+        if request.user.is_staff:
+            form = PostForm()
+            return render(request, 'blog/post_form.html', {'form': form})
+        else:
+            return redirect('users:login')
 
     def post(self, request):
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('blog:blog')
-        return render(request, 'blog/post_form.html', {"form": form})
+        if request.user.is_staff:
+            form = PostForm(request.POST, request.FILES)  # تغییر این خط
+            if form.is_valid():
+                form.save()
+                return redirect('blog:blog')
+            return render(request, 'blog/post_form.html', {"form": form})
+        else:
+            return redirect('login')

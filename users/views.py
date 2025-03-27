@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 
-from blog.models import Post
+from blog.models import Post, Category
 from payment.models import WalletTransaction
 from service.models import FreeForm, UserServiceRequest
 from users.models import Client
@@ -114,8 +114,7 @@ def verify_otp(request):
 class HomeView(View):
     def get(self, request):
         form_data = request.session.get('form_data', {})
-        post = Post.objects.filter(homepage=True, is_published=True).order_by('-id')[
-               :3]  # ترتیب معکوس و فقط سه مورد آخر
+        posts = Post.objects.filter(is_published=True,category=Category.CASES).order_by('published_date')[:3]
 
         # پس از پردازش داده‌ها، می‌توانید داده‌ها را از سشن پاک کنید
         if 'form_data' in request.session:
@@ -126,7 +125,7 @@ class HomeView(View):
             'title': form_data.get('title', ''),
             'department': form_data.get('department', ''),
             'description': form_data.get('description', ''),
-            'post': post,  # ارسال متغیر post به قالب
+            'post': posts,  # ارسال متغیر post به قالب
         })
 
     def post(self, request):

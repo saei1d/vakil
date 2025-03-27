@@ -21,7 +21,6 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=200)),
                 ('slug', models.SlugField(blank=True, unique=True)),
                 ('content', ckeditor_uploader.fields.RichTextUploadingField()),
-                ('homepage', models.BooleanField(default=False)),
                 ('published_date', models.DateField(default=django.utils.timezone.now)),
                 ('is_published', models.BooleanField(default=False)),
             ],

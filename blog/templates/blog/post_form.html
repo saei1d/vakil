@@ -7,11 +7,11 @@
     {{ form.media }}  <!-- این قسمت مربوط به بارگذاری JS و CSS برای CKEditor -->
 </head>
 <body>
-    <h1>ایجاد پست جدید</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">ارسال</button>
-    </form>
+<h1>ایجاد پست جدید</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">ارسال</button>
+</form>
 </body>
 </html>
