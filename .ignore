@@ -3,3 +3,6 @@ db.sqlite3
 *.xml
 *.pyc
 __pycache__/
+postgres_data/
+static_volume/
+media_volume/

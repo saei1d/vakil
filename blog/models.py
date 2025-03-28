@@ -18,6 +18,8 @@ class SubCategory(models.TextChoices):
     CRIMINAL = "criminal", "کیفری"
     CIVIL = "civil", "حقوقی"
     FAMILY = "family", "خانواده"
+    sabt = "sabt", "امور ثبتی"
+    vaghf = "vaghf", "وقف و موقوفات"
     OTHER = "other", "سایر"
 
 

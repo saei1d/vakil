@@ -35,7 +35,7 @@ LOGIN_REDIRECT_URL = '/'
 SECRET_KEY = 'django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -129,10 +129,10 @@ WSGI_APPLICATION = 'vakil.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgreszrf_db',
+        'NAME': 'postgreserd_db',
         'USER': 'postgres',
-        'PASSWORD': 'mBaz3SdReySSXi$1Zk7x',
-        'HOST': 'postgres-tqc-service',
+        'PASSWORD': 'dMQpgd6BaJXfp99D@pGs',
+        'HOST': 'postgress-ekr-service',
         'PORT': '5432',
     }
 }
