@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
+
+RUN python -m venv /env
+ENV PATH="/env/bin:$PATH"
+
 # نصب وابستگی‌های پایتون
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
