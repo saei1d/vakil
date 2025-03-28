@@ -30,7 +30,7 @@ RUN python manage.py collectstatic --noinput
 RUN python manage.py migrate
 
 # باز کردن پورت
-EXPOSE 8000
+EXPOSE 80
 
 # دستور اجرای پروژه
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "config.wsgi:application"]
