@@ -11,9 +11,7 @@ WORKDIR /app
 # نصب پیش‌نیازها
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
-    postgresql-client \
     libpq-dev \
-    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # نصب وابستگی‌های پایتون
@@ -23,13 +21,10 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # کپی کردن کد پروژه
 COPY . /app/
 
-# جمع‌آوری فایل‌های استاتیک
-RUN python manage.py collectstatic --noinput
+# جمع‌آوری فایل‌های استاتیک (اختیاری)
+RUN python manage.py collectstatic --noinput || true
 
-# اجرای مهاجرت‌های پایگاه داده
-RUN python manage.py migrate
-
-# باز کردن پورت
+# باز کردن پورت 80 (برای سازگاری با رانفلر)
 EXPOSE 80
 
 # دستور اجرای پروژه
