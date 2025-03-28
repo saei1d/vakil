@@ -459,22 +459,19 @@ ul {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
 }
-
-
 .box-category {
     padding: 70px 0px;
     color: #000000 !important;
     border-bottom: 2px solid #b6884f;
+    box-sizing: border-box;
+    border-top: 7px solid transparent;
 }
 
 .box-category:hover {
     background-color: #182615 !important;
-    transform: scale(1.15);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.5s ease;
     color: #fff !important;
     border-top: 7px solid #b88b51;
-    /* بردر بالایی */
 }
 
 
@@ -529,14 +526,14 @@ ul {
 /* comment */
 
 .swiper-pagination-bullet {
-    width: 15px;
-    border-radius: 0px;
-    height: 6px;
+    width: 10px;
+    border-radius: 50rem;
+    height: 10px;
 }
 
 .swiper-pagination-bullet-active {
     opacity: var(--swiper-pagination-bullet-opacity, 1);
-    background: #f60000;
+    background: #000000;
 }
 
 .img-comment {
