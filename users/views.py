@@ -238,7 +238,7 @@ def serve_or_create_enamad_file(request):
     # اگر فایل وجود نداشت، ایجادش کن
     if not os.path.exists(file_path):
         with open(file_path, 'w') as f:
-            f.write("این فایل برای تایید اینماد ساخته شده است.")
+            f.write("Enamad TXT")
 
     # حالا فایل را بخوان و نمایش بده
     with open(file_path, 'r') as f:
