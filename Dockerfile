@@ -34,4 +34,4 @@ RUN python manage.py collectstatic --noinput || true
 EXPOSE 80
 
 # دستور اجرای پروژه
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "config.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "vakil.wsgi:application"]
