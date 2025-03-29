@@ -13,7 +13,7 @@ services:
     environment:
       - DEBUG=False
       - SECRET_KEY="django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l"
-      - DATABASE_URL=postgresql://postgres:dMQpgd6BaJXfp99D@pGs@postgress-ekr-service:5432/postgreserd_db
+      - DATABASE_URL=postgresql://postgres:1111@postgress-ekr-service:5432/postgreserd_db
     networks:
       - app_network
 
