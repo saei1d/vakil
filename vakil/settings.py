@@ -131,7 +131,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgreserd_db',
         'USER': 'postgres',
-        'PASSWORD': 'dMQpgd6BaJXfp99D@pGs',
+        'PASSWORD': '1111',
         'HOST': 'postgress-ekr-service',
         'PORT': '5432',
     }
