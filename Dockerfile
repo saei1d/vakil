@@ -5,10 +5,8 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# تنظیم دایرکتوری کاری
 WORKDIR /app
 
-# نصب پیش‌نیازها
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
@@ -20,7 +18,6 @@ RUN apt-get update && apt-get install -y \
 RUN python -m venv /env
 ENV PATH="/env/bin:$PATH"
 
-# نصب وابستگی‌های پایتون
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
@@ -32,6 +29,10 @@ RUN python manage.py collectstatic --noinput || true
 
 # باز کردن پورت 80 (برای سازگاری با رانفلر)
 EXPOSE 80
+
+COPY docker-entrypoint.sh /app/
+RUN chmod +x /app/docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
 # دستور اجرای پروژه
 CMD ["gunicorn", "--bind", "0.0.0.0:80", "vakil.wsgi:application"]
