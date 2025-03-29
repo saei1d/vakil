@@ -25,7 +25,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /app/
 
 # جمع‌آوری فایل‌های استاتیک (اختیاری)
-RUN python manage.py collectstatic --noinput || true
+RUN python manage.py collectstatic --noinput
 
 # باز کردن پورت 80 (برای سازگاری با رانفلر)
 EXPOSE 80
