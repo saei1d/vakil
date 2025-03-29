@@ -232,7 +232,11 @@ from django.http import HttpResponse
 import os
 
 def serve_enamad_file(request):
-    file_path = os.path.join(os.path.dirname(__file__), '../66041575.txt')
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../66041575.txt')
+    if not os.path.exists(file_path):
+        return HttpResponse("File not found", status=404)
+
     with open(file_path, 'r') as f:
         content = f.read()
     return HttpResponse(content, content_type="text/plain")
+
