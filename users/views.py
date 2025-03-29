@@ -226,3 +226,13 @@ def check_text_service(request):
         return JsonResponse({'has_text_service': has_text_service})
     else:
         return JsonResponse({'has_text_service': False, 'login_required': True})
+
+
+from django.http import HttpResponse
+import os
+
+def serve_enamad_file(request):
+    file_path = os.path.join(os.path.dirname(__file__), '../66041575.txt')
+    with open(file_path, 'r') as f:
+        content = f.read()
+    return HttpResponse(content, content_type="text/plain")
