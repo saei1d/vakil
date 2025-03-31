@@ -13,13 +13,6 @@ def redirect_to_home(request):
 urlpatterns = [
     path('', redirect_to_home),
 
-
-    path("66041575.txt", serve_or_create_enamad_file),
-
-
-
-    path("home/66041575.txt", serve_or_create_enamad_file),
-
     path('home/', HomeView.as_view(), name='home'),
 
     path('send-otp/', send_otp, name='send_code'),

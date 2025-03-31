@@ -232,18 +232,5 @@ from django.http import HttpResponse
 import os
 
 
-def serve_or_create_enamad_file(request):
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../66041575.txt')
-
-    # اگر فایل وجود نداشت، ایجادش کن
-    if not os.path.exists(file_path):
-        with open(file_path, 'w') as f:
-            f.write("Enamad TXT")
-
-    # حالا فایل را بخوان و نمایش بده
-    with open(file_path, 'r') as f:
-        content = f.read()
-
-    return HttpResponse(content, content_type="text/plain")
 
 
