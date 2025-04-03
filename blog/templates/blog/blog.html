@@ -45,12 +45,24 @@
                                 <img src="/media/{{ b.image }}" class="card-img-top" alt="Blog Image">
                             {% endif %}
                             <div class="card-body">
-                                <div class="d-flex">
-                                 <h3 class="text-gold my-3">{{ b.title }}</h3>
-                                    <a href=""><i class="bi bi-pencil-square text-danger mt-3"></i></a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3 class="text-gold my-3">{{ b.title }}</h3>
+                                    {% if user.is_staff %}
+                                        <a href="{% url 'blog:PostEdit' b.id %}" class="btn btn-sm btn-outline-danger ms-2">
+                                            <i class="bi bi-pencil-square"></i> ویرایش
+                                        </a>
+                                    {% endif %}
                                 </div>
 
-                                <p class="card-text text-muted small">{{ b.published_date|date:"d/m/Y" }}</p>
+                                <div class="d-flex align-items-center mb-3">
+                                    <p class="card-text text-muted small mb-0 ms-3">
+                                        <i class="bi bi-calendar-date me-1"></i> {{ b.published_date|date:"d/m/Y" }}
+                                    </p>
+                                    <p class="card-text text-muted small mb-0">
+                                        <i class="bi bi-person me-1"></i> نویسنده: {{ b.author.get_full_name|default:b.author.username }}
+                                    </p>
+                                </div>
+                                
                                 <p class="card-text text-muted my-3">
                                     {{ b.content|truncatechars:300|safe }}
                                 </p>
@@ -64,63 +76,44 @@
                 <!-- Blog Left (Sidebar) -->
                 <div class="col-md-4 mt-md-0 mt-5">
                     <!-- Search Box -->
-                    <div class="mb-4 d-flex gap-3 p-4 py-5 bg-blog ">
-                        <input class="input-blog" type="text" placeholder="جستجو ...">
-                        <button class="bg-gold border-0 py-2 w-100 btn-form">جستجو</button>
-                    </div>
-
+                    <!-- <form method="GET" action="{% url 'blog:search' %}"> -->
+                        <div class="mb-4 d-flex gap-3 p-4 py-5 bg-blog ">
+                            <input class="input-blog" type="text" name="q" placeholder="جستجو ...">
+                            <button class="bg-gold border-0 py-2 w-100 btn-form" type="submit">جستجو</button>
+                        </div>
+                    <!-- </form> -->
                     <!-- Latest Posts -->
                     <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">جدیدترین مطالب</h6>
+                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">پر بازدید ها</h6>
                         <ul class="list-group mt-2">
+                            {% for post in blog|slice:":5" %}
                             <li class="mb-3">
-                                <a href="#" class="text-light fs-14">به دنبال بالا بودن تقاضا به دنبال رهبران کار و
-                                    استخدام
-                                    است</a>
+                                <a href="{% url 'blog:blogpage' post.slug %}" class="text-light fs-14">
+                                    {{ post.title|truncatechars:50 }}
+                                </a>
                             </li>
+                            {% empty %}
                             <li class="mb-3">
-                                <a href="#" class="text-light fs-14">ساختمان صنعتی با مالک سابق نزدیک به ۴ میلیون دلار
-                                    معامله
-                                    می‌شود</a>
+                                <span class="text-light fs-14">هنوز مطلبی منتشر نشده است</span>
                             </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">بسیاری از شرکت های حقوقی کلاس های سال اول را قوی
-                                    نگه می
-                                    دارند</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">فضای زیادی در جهان</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">با الهام از شما</a>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
-                    <!-- Latest Posts -->
+                    <!-- Latest Cases -->
                     <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">آخرین دیدگاه ها </h6>
+                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">آخرین پرونده‌ها</h6>
                         <ul class="list-group mt-2">
+                            {% for case in cases|slice:":5" %}
                             <li class="mb-3">
-                                <a href="#" class="text-light fs-14">به دنبال بالا بودن تقاضا به دنبال رهبران کار و
-                                    استخدام
-                                    است</a>
+                                <a href="{% url 'service:case_detail' case.id %}" class="text-light fs-14">
+                                    {{ case.title|truncatechars:50 }}
+                                </a>
                             </li>
+                            {% empty %}
                             <li class="mb-3">
-                                <a href="#" class="text-light fs-14">ساختمان صنعتی با مالک سابق نزدیک به ۴ میلیون دلار
-                                    معامله
-                                    می‌شود</a>
+                                <span class="text-light fs-14">هنوز پرونده‌ای ثبت نشده است</span>
                             </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">بسیاری از شرکت های حقوقی کلاس های سال اول را قوی
-                                    نگه می
-                                    دارند</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">فضای زیادی در جهان</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">با الهام از شما</a>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
 

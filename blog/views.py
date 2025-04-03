@@ -6,6 +6,7 @@ from django.views.generic import CreateView
 from django.views import View
 from .models import Post, Comment
 from .form import *
+from django.views.generic import ListView
 
 
 # Create your views here.
@@ -95,10 +96,54 @@ class PostCreate(View):
 
     def post(self, request):
         if request.user.is_staff:
-            form = PostForm(request.POST, request.FILES)  # تغییر این خط
+            form = PostForm(request.POST, request.FILES)
             if form.is_valid():
-                form.save()
+                post = form.save(commit=False)
+                post.author = request.user.client
+                post.slug = slugify(post.title)
+                post.save()
                 return redirect('blog:blog')
             return render(request, 'blog/post_form.html', {"form": form})
         else:
-            return redirect('login')
+            return redirect('users:login')
+
+
+class PostEdit(View):
+    def get(self, request, id):
+        if request.user.is_staff:
+            post = get_object_or_404(Post, id=id)
+            form = PostForm(instance=post)
+            return render(request, 'blog/post_form.html', {'form': form, 'post': post})
+        else:
+            return redirect('users:login')
+
+    def post(self, request, id):
+        if request.user.is_staff:
+            post = get_object_or_404(Post, id=id)
+            form = PostForm(request.POST, request.FILES, instance=post)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.slug = slugify(post.title)
+                post.save()
+                return redirect('blog:blog')
+            return render(request, 'blog/post_form.html', {'form': form, 'post': post})
+        else:
+            return redirect('users:login')
+
+
+class PostSearchView(ListView):
+    model = Post
+    template_name = 'blog/search_results.html'
+    context_object_name = 'posts'
+    paginate_by = 10
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            # جستجو در عنوان و محتوا
+            return Post.objects.filter(
+                Q(title__icontains=query) | 
+                Q(content__icontains=query),
+                is_published=True
+            ).order_by('-published_date')
+        return Post.objects.none()

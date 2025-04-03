@@ -12,6 +12,12 @@ urlpatterns = [
 
     path('create-blog/', PostCreate.as_view(), name='create-blog'),
 
+    path('edit-blog/<int:id>/', PostEdit.as_view(), name='PostEdit'),
+
+    path('blog/search/', PostSearchView.as_view(), name='search'),  # مسیر جستجو
+
+
+
     # path('contact/', contact, name='contact'),
 
 ]
