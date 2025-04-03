@@ -45,14 +45,36 @@ def post_list(request):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = post.comments.filter(parent__isnull=True)
+
     if request.method == "POST":
         form = CommentForm(request.POST)
+        for field, value in request.POST.items():
+            print(f"{field}: {value}")
+            
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
             comment.author = request.user
+
+            # دریافت مقدار parent از فرم
+            parent_id = request.POST.get("parent")
+            if parent_id:
+                try:
+                    parent_comment = Comment.objects.get(id=parent_id)
+                    comment.parent = parent_comment
+                except Comment.DoesNotExist:
+                    pass  # اگر parent نامعتبر بود، مقدار آن را تغییر نده
+
             comment.save()
-            return redirect('post_detail', post_id=post.id)
+
+            # چاپ اطلاعات کامنت جدید
+            print(f"کامنت جدید ایجاد شد - شناسه: {comment.id}")
+            print(f"محتوای کامنت: {comment.content}")
+            print(f"نویسنده: {comment.author}")
+            print(f"تاریخ ایجاد: {comment.created_at}")
+            print(f"پاسخ به کامنت دیگر: {comment.parent}")
+
+            return redirect("blog:blog-page", post_id=post.id)
     else:
         form = CommentForm()
     return render(request, "blog/post_detail.html", {"post": post, "comments": comments, "form": form})

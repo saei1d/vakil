@@ -16,6 +16,8 @@ urlpatterns = [
 
     path('blog/search/', PostSearchView.as_view(), name='search'),  # مسیر جستجو
 
+    path('post-detail/<int:post_id>/', post_detail, name='post_detail'),
+
 
 
     # path('contact/', contact, name='contact'),

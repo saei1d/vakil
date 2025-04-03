@@ -43,4 +43,4 @@ ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
 # دستور اجرای پروژه
 CMD ["gunicorn", "--bind", "0.0.0.0:80", "vakil.wsgi:application"]
->>>>>>> ef7a9cf565679c533787688e98d72fd28f1a1f64
+# >>>>>>> ef7a9cf565679c533787688e98d72fd28f1a1f64
