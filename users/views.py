@@ -226,3 +226,11 @@ def check_text_service(request):
         return JsonResponse({'has_text_service': has_text_service})
     else:
         return JsonResponse({'has_text_service': False, 'login_required': True})
+
+
+from django.http import HttpResponse
+import os
+
+
+
+

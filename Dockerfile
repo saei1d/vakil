@@ -5,32 +5,42 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# تنظیم دایرکتوری کاری
 WORKDIR /app
 
-# نصب پیش‌نیازها
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    postgresql-client \
+RUN apt-get update && apt-get install -y \
+    build-essential \
     libpq-dev \
-    pkg-config \
+    python3-dev \
+    gcc \
+    g++ \
     && rm -rf /var/lib/apt/lists/*
 
-# نصب وابستگی‌های پایتون
+RUN python -m venv /env
+ENV PATH="/env/bin:$PATH"
+
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # کپی کردن کد پروژه
 COPY . /app/
 
-# جمع‌آوری فایل‌های استاتیک
+# جمع‌آوری فایل‌های استاتیک (اختیاری)
 RUN python manage.py collectstatic --noinput
 
-# اجرای مهاجرت‌های پایگاه داده
-RUN python manage.py migrate
+# باز کردن پورت 80 (برای سازگاری با رانفلر)
+EXPOSE 80
 
+<<<<<<< HEAD
 # باز کردن پورت
 EXPOSE 80
 
 # دستور اجرای پروژه
 CMD ["gunicorn", "--bind", "0.0.0.0:80", "config.wsgi:application"]
+=======
+COPY docker-entrypoint.sh /app/
+RUN chmod +x /app/docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
+
+# دستور اجرای پروژه
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "vakil.wsgi:application"]
+>>>>>>> ef7a9cf565679c533787688e98d72fd28f1a1f64
