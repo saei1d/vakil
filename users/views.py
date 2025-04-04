@@ -228,9 +228,26 @@ def check_text_service(request):
         return JsonResponse({'has_text_service': False, 'login_required': True})
 
 
-from django.http import HttpResponse
-import os
+def update_name(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        if name:
+            request.user.name = name  # اصلاح دسترسی به نام کاربر
+            request.user.save()  # ذخیره تغییرات در کاربر
+            messages.success(request, "نام شما با موفقیت به‌روزرسانی شد.")
+        else:
+            messages.error(request, "لطفا نام خود را وارد کنید.")
+    return redirect('users:dashboard')  # اصلاح نام الگو به 'users:dashboard'
 
 
-
-
+def set_nickname (request,username):
+    if request.method == "POST":
+        nickname = request.POST.get("nickname")
+        if nickname:
+            user = Client.objects.get(username=username)
+            user.last_name = nickname  # ذخیره نام مستعار در فیلد lastname
+            user.save()  # ذخیره تغییرات در کاربر
+            messages.success(request, "نام مستعار شما با موفقیت به‌روزرسانی شد.")
+        else:
+            messages.error(request, "لطفا نام مستعار خود را وارد کنید.")
+    return redirect('users:dashboard')  # بازگشت به داشبورد کاربر

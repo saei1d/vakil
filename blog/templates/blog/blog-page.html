@@ -69,6 +69,12 @@
                                     </div>
                                     <div class="comment-footer">
                                         <button class="btn btn-sm btn-outline-light reply-link" onclick="showReplyForm('{{ comment.id }}', '{% if comment.author.is_staff %}{{ comment.author.get_full_name|default:comment.author.username }}{% else %}{% if comment.author.get_full_name %}{{ comment.author.get_full_name }}{% else %}کاربر سایت{% endif %}{% endif %}')">پاسخ</button>
+                                        {% if user.is_staff %}
+                                        <form action="{% url 'blog:delete_comment' comment_id=comment.id %}" method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
+                                        </form>
+                                        {% endif %}
                                     </div>
                                 
                                 {% if comment.reply %}
@@ -176,20 +182,30 @@
                 <!-- Blog Left (Sidebar) -->
                 <div class="col-md-4 mt-md-0 mt-5">
                     <!-- Search Box -->
-                    <div class="mb-4 d-flex gap-3 p-4 py-5 bg-blog ">
-                        <input class="input-blog" type="text" placeholder="جستجو ...">
-                        <button class="bg-gold border-0 py-2 w-100">جستجو</button>
+                    <div class="mb-4 d-flex flex-column p-4 py-5 bg-blog ">
+                        <input class="input-blog mb-3" type="text" name="q" placeholder="جستجو ..." style="width: 100%;">
+                        <button class="bg-gold border-0 py-2 btn-form" type="submit">جستجو</button>
                     </div>
 
                     <!-- Latest Posts -->
                     <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">مطالب مرتبط</h6>
+                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">
+                            مطالب مرتبط
+                        </h6>
                         <ul class="list-group mt-2">
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">به دنبال بالا بودن تقاضا به دنبال رهبران کار و
-                                    استخدام
-                                    است</a>
-                            </li>
+                            {% if blog %}
+                                {% for post in posts|slice:":5" %}
+                                <li class="mb-3">
+                                    <a href="{% url 'blog:blogpage' post.slug %}" class="text-light fs-14">
+                                        {{ post.title|truncatechars:50 }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="mb-3">
+                                    <span class="text-light fs-14">هنوز مطلبی منتشر نشده است</span>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
                     <!-- Latest Posts -->

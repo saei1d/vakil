@@ -80,7 +80,13 @@
 {% block banner %}
     <div class="banner">
         <div class="text-center" style="padding-top: 150px;">
-            <h2 class="text-light">خدمات حقوقی تخصصی</h2>
+            <h2 class="text-light">
+                {% if request.GET.source|slice:":box" %}
+                    خدمات حقوقی تخصصی
+                {% else %}
+                    خدمات حقوقی
+                {% endif %}
+            </h2>
             <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
                 <i class="bi bi-house-fill"></i>
                 <i class="bi bi-chevron-left"> </i>
@@ -92,7 +98,13 @@
 {% block banner-mob %}
     <div class="banner">
         <div class="text-center" style="padding-top: 150px;">
-            <h2>خدمات حقوقی تخصصی</h2>
+            <h2>
+                {% if request.GET.source|slice:":box" %}
+                    خدمات حقوقی تخصصی
+                {% else %}
+                    خدمات حقوقی
+                {% endif %}
+            </h2>
             <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
                 <i class="bi bi-house-fill"></i>
                 <i class="bi bi-chevron-left"> </i>
@@ -103,9 +115,45 @@
 {% endblock %}
 
 {% block content %}
+    <div style="margin-top: -100px; position: relative; z-index: 50;">
+    {% if request.GET.source == 'box-1' %}
+        <div class="text-center mt-4 p-4 border rounded shadow" style="background-color: #f9f9f9;">
+            <h3 class="text-gold">دعاوی حقوقی</h3>
+            <p class="text-muted" style="font-size: 1.1rem;">وکلای مجرب ما در دعاوی حقوقی آماده‌اند تا به شما در حل مشکلاتتان کمک کنند. با مشاوره‌های دقیق و راهکارهای عملی، شما را در دستیابی به حقوقتان یاری می‌کنیم. با ما تماس بگیرید و از خدمات ما بهره‌مند شوید.</p>
+        </div>
+    {% endif %}
+        {% if request.GET.source == 'box-2' %}
+            <div class="text-center mt-4 p-4 border rounded shadow" style="background-color: #f9f9f9;">
+                <h3 class="text-gold">امور اوقافی</h3>
+                <p class="text-muted" style="font-size: 1.1rem;">وکلای ما در امور اوقافی با تجربه و دانش کافی آماده‌اند تا به شما در حل مسائل مربوط به وقف و مدیریت املاک وقف شده کمک کنند. با مشاوره‌های تخصصی ما، می‌توانید از حقوق خود در این زمینه به بهترین نحو دفاع کنید.</p>
+            </div>
+        {% endif %}
+        
+        {% if request.GET.source == 'box-3' %}
+            <div class="text-center mt-4 p-4 border rounded shadow" style="background-color: #f9f9f9;">
+                <h3 class="text-gold">دفاع کیفری</h3>
+                <p class="text-muted" style="font-size: 1.1rem;">وکلای متخصص ما در زمینه دفاع کیفری آماده‌اند تا از حقوق شما در برابر اتهامات کیفری دفاع کنند. با مشاوره‌های دقیق و استراتژی‌های قانونی، ما به شما کمک می‌کنیم تا بهترین نتیجه را در پرونده‌های کیفری خود به دست آورید.</p>
+            </div>
+        {% endif %}
+        
+        {% if request.GET.source == 'box-4' %}
+            <div class="text-center mt-4 p-4 border rounded shadow" style="background-color: #f9f9f9;">
+                <h3 class="text-gold">امور ورشکستگی</h3>
+                <p class="text-muted" style="font-size: 1.1rem;">اگر با مشکلات مالی مواجه هستید، وکلای ما در امور ورشکستگی می‌توانند به شما در مدیریت و حل این مسائل کمک کنند. با مشاوره‌های ما، می‌توانید راهکارهای مناسبی برای بازگشت به وضعیت مالی سالم پیدا کنید.</p>
+            </div>
+        {% endif %}
+        
+        {% if request.GET.source == 'box-5' %}
+            <div class="text-center mt-4 p-4 border rounded shadow" style="background-color: #f9f9f9;">
+                <h3 class="text-gold">جبران خسارت</h3>
+                <p class="text-muted" style="font-size: 1.1rem;">در صورت بروز خسارت، وکلای ما می‌توانند به شما در پیگیری حقوق خود و جبران خسارت‌های وارده کمک کنند. با مشاوره‌های ما، می‌توانید از حقوق خود به بهترین نحو دفاع کنید و خسارت‌های خود را دریافت نمایید.</p>
+            </div>
+        {% endif %}
+    </div> 
     <!-- service -->
     <section class="service-section mt">
-        <div class="container-2">
+        <div class="container-2 position-relative" style="z-index: 10;">
+
 
             <div class="service-2 ">
                 <div class="bg-white box-servise position-relative text-center btn-open">
@@ -143,11 +191,9 @@
 
                             <!-- انتخاب ساعت تماس -->
                             <div class="col-md-6 mb-3">
-                                <input type="text" id="time" name="clock" style="color: #000 !important; background-color: #fff !important; border: 1px solid #d1a264;"
+                                <input type="text" id="time" name="clock" style="color: black !important; background-color: #3700ff !important; border: 1px solid #d1a264; z-index: 10;"
                                        class="form-control input-equal"
                                        data-jdp data-jdp-only-time placeholder="انتخاب ساعت مشاوره"/>
-
-                                </style>
                             </div>
 
                             <!-- انتخاب مدت زمان تماس -->
@@ -444,16 +490,6 @@
     </section>
     <!-- faq -->
 
-
-
-
-
-    <!-- fix phone -->
-    <div class="bg-gold fix-phone">
-        <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
-                                                                     style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
-                ۰۲۱۱۲۳۴۵۶۷۸</span></a>
-    </div>
 {% endblock %}
 {% block script %}
 <script>
@@ -462,10 +498,10 @@
             {% for message in messages %}
                 Swal.fire({
                     title: 'اطلاعیه',
-                    text: '{{ message }}',
+                    text: '{{ message|escapejs }}',
                     icon: 'info',
                     confirmButtonText: 'باشه'
-                });
+                }).then(() => {}); // اضافه کردن then برای جلوگیری از خطای Expression expected
             {% endfor %}
         });
     {% endif %}

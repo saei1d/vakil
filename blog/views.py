@@ -7,6 +7,7 @@ from django.views import View
 from .models import Post, Comment
 from .form import *
 from django.views.generic import ListView
+from slugify import slugify
 
 
 # Create your views here.
@@ -27,7 +28,9 @@ def blog(request):
 
 def blogpage(request, slug):
     blog = get_object_or_404(Post, slug=slug)
-    return render(request, 'blog/blog-page.html', {'blog': blog})
+    posts = Post.objects.filter(is_published=True)
+
+    return render(request, 'blog/blog-page.html', {'blog': blog,'post':posts})
 
 
 def contact(request):
@@ -108,6 +111,13 @@ def reply_comment(request, comment_id):
     return redirect("post_detail", slug=parent_comment.post.slug)
 
 
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if request.user.is_staff:  # فقط ادمین
+        comment.delete()    
+    return redirect("blog:blogpage", slug=comment.post.slug)
+
+
 class PostCreate(View):
     def get(self, request):
         if request.user.is_staff:
@@ -118,13 +128,20 @@ class PostCreate(View):
 
     def post(self, request):
         if request.user.is_staff:
+            # ایجاد یک نسخه از فرم با داده‌های ارسالی
             form = PostForm(request.POST, request.FILES)
+            
             if form.is_valid():
                 post = form.save(commit=False)
-                post.author = request.user.client
-                post.slug = slugify(post.title)
+                post.slug = slugify(post.title, to_lower=True, separator="-")
                 post.save()
+                print(f"پست با موفقیت ذخیره شد - شناسه: {post.id}")
                 return redirect('blog:blog')
+            else:
+                print("فرم معتبر نیست. خطاها:")
+                for field, errors in form.errors.items():
+                    print(f"{field}: {errors}")
+            
             return render(request, 'blog/post_form.html', {"form": form})
         else:
             return redirect('users:login')
@@ -132,6 +149,7 @@ class PostCreate(View):
 
 class PostEdit(View):
     def get(self, request, id):
+
         if request.user.is_staff:
             post = get_object_or_404(Post, id=id)
             form = PostForm(instance=post)
@@ -140,7 +158,9 @@ class PostEdit(View):
             return redirect('users:login')
 
     def post(self, request, id):
+
         if request.user.is_staff:
+
             post = get_object_or_404(Post, id=id)
             form = PostForm(request.POST, request.FILES, instance=post)
             if form.is_valid():

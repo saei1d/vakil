@@ -216,3 +216,57 @@ def uncomplete_blog(request):
         return render(request, 'users/blog_uncomplete.html', {'blogs': blogs})
     else:
         return redirect('users:login')
+
+
+
+@login_required
+@user_passes_test(is_admin)
+def promote_user(request, username):
+    """
+    ارتقای کاربر به وضعیت کارمند، سوپر یوزر یا برگرداندن به کاربر عادی.
+    فقط برای مدیران قابل دسترسی است.
+    """
+    print(username)
+    try:
+        user = get_object_or_404(Client, username=username)
+        print(user)
+        
+        # چرخه ارتقا: کاربر عادی -> کارمند -> سوپر یوزر -> کاربر عادی
+        if not user.is_staff and not user.is_superuser:
+            # کاربر عادی به کارمند تبدیل می‌شود
+            user.is_staff = True
+            user.is_superuser = False
+            status_message = "ارتقا یافت به کارمند"
+        elif user.is_staff and not user.is_superuser:
+            # کارمند به سوپر یوزر تبدیل می‌شود
+            user.is_staff = True
+            user.is_superuser = True
+            status_message = "ارتقا یافت به سوپر یوزر"
+        else:
+            # سوپر یوزر به کاربر عادی تبدیل می‌شود
+            user.is_staff = False
+            user.is_superuser = False
+            status_message = "به کاربر عادی تبدیل شد"
+        
+        user.save()
+        
+        messages.success(request, f"کاربر {user.username} با موفقیت {status_message}.")
+        
+        return redirect('userlist')
+        
+    except Exception as e:
+        logger.error(f"خطا در ارتقای کاربر {username}: {str(e)}")
+        messages.error(request, "خطایی در تغییر وضعیت کاربر رخ داد. لطفا دوباره تلاش کنید.")
+        return redirect('userlist')
+    
+
+
+
+def delete_blog(request , id):
+    if request.user.is_staff:
+        blog = get_object_or_404(Post, id=id)  # فرض بر این است که مدل Blog وجود دارد
+        blog.delete()
+        messages.success(request, "بلاگ با موفقیت حذف شد.")
+    else:
+        messages.error(request, "شما مجوز لازم برای حذف بلاگ را ندارید.")
+    return redirect('userlist')

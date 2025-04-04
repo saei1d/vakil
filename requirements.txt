@@ -8,3 +8,4 @@ psycopg2
 #psycopg2-binary==2.8.3
 #gunicorn
 #whitenoise
+python-slugify==8.0.4

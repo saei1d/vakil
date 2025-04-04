@@ -18,6 +18,8 @@ urlpatterns = [
 
     path('post-detail/<int:post_id>/', post_detail, name='post_detail'),
 
+    path('delete-comment/<int:comment_id>/', delete_comment, name='delete_comment'),
+
 
 
     # path('contact/', contact, name='contact'),
