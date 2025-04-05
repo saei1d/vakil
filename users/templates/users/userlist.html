@@ -46,6 +46,11 @@
                             <i class="fas fa-users"></i> لیست کاربران
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'uncomplete_blog' %}">
+                            <i class="fas fa-exclamation-circle"></i> بلاگ‌های ناقص
+                        </a>
+                    </li>
                 </ul>
                 <span class="navbar-text">
                     <i class="fas fa-user"></i> {{ request.user.username }}
@@ -100,6 +105,8 @@
                                 <th scope="col">نام</th>
                                 <th scope="col">شماره تلفن</th>
                                 <th scope="col">تاریخ عضویت</th>
+                                <th scope="col">نقش</th>
+                                <th scope="col">نام مستعار</th> <!-- اضافه کردن ستون نام مستعار -->
                                 <th scope="col">عملیات</th>
                             </tr>
                         </thead>
@@ -111,6 +118,22 @@
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.date_joined|date:"Y/m/d" }}</td>
                                 <td>
+                                    {% if user.is_superuser %}
+                                        <span class="badge bg-danger">ادمین</span>
+                                    {% elif user.is_staff %}
+                                        <span class="badge bg-warning text-dark">کارمند</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">کاربر عادی</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <form method="POST" action="{% url 'users:set_nickname' user.username %}"> <!-- فرم برای ست کردن نام مستعار -->
+                                        {% csrf_token %}
+                                        <input type="text" name="nickname" placeholder="نام مستعار" class="form-control" value="{{ user.last_name|default:'' }}"> <!-- فیلد نام مستعار که کاربر نمیبیند و اگر موجود بود نمایش داده میشود -->
+                                        <button type="submit" class="btn btn-sm btn-secondary">تنظیم نام مستعار</button>
+                                    </form>
+                                </td>
+                                <td>
                                     <div class="btn-group" role="group">
                                         <a href="{% url 'users:dashboard_with_username' username=user.username %}" class="btn btn-sm btn-info btn-action">
                                             <i class="fas fa-tachometer-alt"></i> داشبورد
@@ -121,12 +144,17 @@
                                         <a href="#" class="btn btn-sm btn-success btn-action">
                                             <i class="fas fa-comments"></i> چت
                                         </a>
+                                        {% if request.user.is_superuser %}
+                                        <a href="{% url 'promote_user' username=user.username %}" class="btn btn-sm btn-warning btn-action">
+                                            <i class="fas fa-user-shield"></i> ترفیع
+                                        </a>
+                                        {% endif %}
                                     </div>
                                 </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="5" class="text-center">هیچ کاربری یافت نشد</td>
+                                <td colspan="7" class="text-center">هیچ کاربری یافت نشد</td>
                             </tr>
                             {% endfor %}
                         </tbody>

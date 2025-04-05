@@ -123,7 +123,7 @@
         <nav class=" d-flex justify-content-between mt-3 align-items-center">
             <div class="col-md-1">
                 {% load static %}
-                <a href="https://avahagh.ir/home/">
+                <a href="{% url 'users:home' %}">
                     <img src="/static/image/newlogo.png" width="160px" alt="">
                 </a>
             </div>
@@ -142,43 +142,43 @@
         <nav class="menu d-flex justify-content-between mt-3 align-items-center" style="background-color: #182615;">
             <ul class="d-flex justify-content-between gap-3 ps-5 align-items-center">
                 <li>
-                    <a href="https://avahagh.ir/home/"
+                    <a href="{% url 'users:home' %}"
                        class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه اصلی</a>
                 </li>
                 {#                <span class="text-gold" style="font-size: 45px">.</span>#}
                 <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
 
                 <li>
-                    <a href="https://avahagh.ir/service/"
+                    <a href="{% url 'service:pricing' %}"
                        class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات حقوقی</a>
                 </li>
                 <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                 <li>
-                    <a href="https://avahagh.ir/faq/"
+                    <a href="{% url 'blog:faq' %}"
                        class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات
                         متداول</a>
                 </li>
                 <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
                 <li>
-                    <a href="https://avahagh.ir/about-us/"
+                    <a href="{% url 'blog:about-us' %}"
                        class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما</a>
                 </li>
                 <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                 <li>
-                    <a href="https://avahagh.ir/blog/"
+                    <a href="{% url 'blog:blog' %}"
                        class="{% if request.path == '/blog/' %}activelink{% endif %}">وبلاگ</a>
                 </li>
                 <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
                 {% if not user.is_authenticated %}
                     <li>
-                        <a href="https://avahagh.ir/login/">ورود به حساب</a>
+                        <a href="{% url 'users:login' %}">ورود به حساب</a>
                     </li>
                 {% else %}
                     <a href="{% url 'users:dashboard' %}">پنل کاربری</a>
                 {% endif %}
             </ul>
 
-            <a href="https://avahagh.ir/home/#free" class="btn-header"><i
+            <a href="{% url 'users:home' %}#free" class="btn-header"><i
                     class="fa fa-balance-scale me-2 fw-bold"></i>پرسش رایگان</a>
         </nav>
         {#                    <a href="{% url 'users:logout' %}">خروج</a>#}
@@ -194,7 +194,7 @@
         <nav class="d-flex justify-content-between py-4 px-3 align-items-center" style="background-color: #101a0e;">
             <div class="col-md-1">
                 {% load static %}
-                <a href="https://avahagh.ir/home/">
+                <a href="{% url 'users:home' %}">
                     <img src="/static/image/newlogo.png" width="160px" alt="">
                 </a>
             </div>
@@ -206,25 +206,24 @@
         <nav class="menu-mobile animate__animated">
             <i class="bi bi-x"></i>
             <ul class="d-flex justify-content-between flex-column gap-3">
-                <a href="https://avahagh.ir/home/">
+                <a href="{% url 'users:home' %}">
                     <li>صفحه اصلی</li>
                 </a>
-                <a href="https://avahagh.ir/service/">
+                <a href="{% url 'service:pricing' %}">
                     <li>خدمات حقوقی</li>
                 </a>
-
-                <a href="https://avahagh.ir/faq/">
-                    <li>سوالات متداول</li>
+                <a href="{% url 'blog:faq' %}">
+                    <li>سوالات </li>
                 </a>
-                <a href="https://avahagh.ir/blog/">
+                <a href="{% url 'blog:blog' %}">
                     <li>وبلاگ</li>
                 </a>
-                <a href="https://avahagh.ir/about-us/">
+                <a href="{% url 'blog:about-us' %}">
                     <li>درباره ما</li>
                 </a>
                 {% if not user.is_authenticated %}
 
-                    <a href="https://avahagh.ir/login/">
+                    <a href="{% url 'users:login' %}">
                         <li>ورود به حساب</li>
                     </a>
                 {% else %}
@@ -250,7 +249,7 @@
             <!-- nav top -->
             <nav class=" d-flex justify-content-between mt-2 py-2 align-items-center">
                 <div class="col-md-1">
-                    <a href="https://avahagh.ir/home/">
+                    <a href="{% url 'users:home' %}">
                         <img src="/static/image/newlogo.png" width="160px" alt="">
                     </a>
                 </div>
@@ -271,35 +270,35 @@
              justify-content-between mt-2  align-items-center" style="background-color: #182615;">
                 <ul class="d-flex justify-content-between gap-3 ps-5 align-items-center">
                     <li>
-                        <a href="https://avahagh.ir/home/"
+                        <a href="{% url 'users:home' %}"
                            class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه اصلی </a>
                     </li>
 
                     <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                     <li>
-                        <a href="https://avahagh.ir/service/"
+                        <a href="{% url 'service:pricing' %}"
                            class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات حقوقی</a>
                     </li>
                     <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
 
                     <li>
-                        <a href="https://avahagh.ir/faq/"
+                        <a href="{% url 'blog:faq' %}"
                            class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات متداول </a>
                     </li>
                     <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
                     <li>
-                        <a href="https://avahagh.ir/blog/"
+                        <a href="{% url 'blog:blog' %}"
                            class="{% if request.path == '/blog/' %}activelink{% endif %}">وبلاگ</a>
                     </li>
                     <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                     <li>
-                        <a href="https://avahagh.ir/about-us/"
+                        <a href="{% url 'blog:about-us' %}"
                            class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما </a>
                     </li>
                     <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
                     {% if not user.is_authenticated %}
                         <li>
-                            <a href="https://avahagh.ir/login/"
+                            <a href="{% url 'users:login' %}"
                                class="{% if request.path == '/login/' %}activelink{% endif %}">ورود به حساب</a>
                         </li>
                     {% else %}
@@ -332,12 +331,12 @@
 
     <!-- navbar mobile -->
 
-    <header class="position-relative mobile" style="z-index: 10;">
+    <header class="position-relative mobile" style="z-index: 5;">
 
         <!-- nav top -->
         <nav class=" d-flex justify-content-between py-4 px-5 align-items-center" style="background-color: #101a0e;">
             <div class="col-md-1">
-                <a href="https://avahagh.ir/home/">
+                <a href="{% url 'users:home' %}">
                     <img src="/static/image/newlogo.png" width="160px" alt="">
                 </a>
             </div>
@@ -348,30 +347,31 @@
         {% block banner-mob %}
 
         {% endblock %}
-
+<!-- ------------------------------------------------------------------------- -->
         <!-- menu mobile -->
-        <nav class="menu-mobile animate__animated">
+
+        <nav class="menu-mobile animate__animated" style="z-index: 100;position: fixed;">
             <i class="bi bi-x"></i>
             <ul class="d-flex justify-content-between flex-column gap-3">
-                <a href="https://avahagh.ir/home/">
+                <a href="{% url 'users:home' %}">
                     <li>صفحه اصلی</li>
                 </a>
-                <a href="https://avahagh.ir/service/">
+                <a href="{% url 'service:pricing' %}">
                     <li>خدمات حقوقی</li>
                 </a>
 
-                <a href="https://avahagh.ir/faq/">
+                <a href="{% url 'blog:faq' %}">
                     <li>سوالات متداول</li>
                 </a>
-                <a href="https://avahagh.ir/blog/">
+                <a href="{% url 'blog:blog' %}">
                     <li>وبلاگ</li>
                 </a>
-                <a href="https://avahagh.ir/about-us/">
+                <a href="{% url 'blog:about-us' %}">
                     <li>درباره ما</li>
                 </a>
                 {% if not user.is_authenticated %}
 
-                    <a href="https://avahagh.ir/login/">
+                    <a href="{% url 'users:login' %}">
                         <li>ورود به حساب</li>
                     </a>
                 {% else %}
@@ -473,13 +473,13 @@
                         <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">دسترسی سریع</h5>
                         <ul class="list-unstyled mt-4 fs-12">
                             <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
-                                    href="https://avahagh.ir/service/">خدمات حقوقی</a></li>
+                                    href="{% url 'service:pricing' %}">خدمات حقوقی</a></li>
                             <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
-                                    href="https://avahagh.ir/about-us/">درباره ما</a></li>
+                                    href="{% url 'blog:about-us' %}">درباره ما</a></li>
                             <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
-                                    href="https://avahagh.ir/blog/">وبلاگ</a></li>
+                                    href="{% url 'blog:blog' %}">وبلاگ</a></li>
                             <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
-                                    href="https://avahagh.ir/faq/">سوالات متداول</a></li>
+                                    href="{% url 'blog:faq' %}">سوالات متداول</a></li>
                         </ul>
                     </div>
 
@@ -505,7 +505,7 @@
 
 <div class="support-message" id="supportMessage">
     <button class="close-message" id="closeMessage">&times;</button>
-    <span>✨ مشاوران حقوقی ما آماده پاسخگویی به شما هستند 🕗 ساعت ۸ صبح تا ۲۴ شب 💼
+    <span>✨ مشاوران حقوقی ما در خدمت شما هستند 🕗 ۸ صبح تا ۲۴ شب 💼</span>
 </span>
 </div>
 
@@ -538,6 +538,14 @@
             <p style="margin-left: 32px;" class="mt-2">پشتیبانی</p>
         </div>
     </div>
+</div>
+
+
+
+
+<div class="bg-gold fix-phone " style="z-index: 100;">
+    <a href="tel:02532705199" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
+style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما ۳۲۷۰۵۱۹۹ - ۰۲۵ </span></a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -582,7 +590,7 @@
                         confirmButtonText: 'رفتن به صفحه ورود',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = 'https://avahagh.ir/login/';
+                            window.location.href = '{% url "users:login" %}';
                         }
                     });
                 } else if (data.has_text_service) {
@@ -597,7 +605,7 @@
                         cancelButtonText: 'لغو',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = 'https://avahagh.ir/service/';
+                            window.location.href = '{% url "service:pricing" %}';
                         }
                     });
                 }

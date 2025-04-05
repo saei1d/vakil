@@ -27,13 +27,41 @@
 {% endblock banner-mob %}
 
 {% block content %}
+    {% if not request.user.name %}
+        <div class="text-center mt-4">
+            <h5>لطفا نام کامل خود را وارد کنید:</h5>
+            <form method="POST" action="{% url 'users:update_name' %}">
+                {% csrf_token %}
+                <input type="text" name="name" class="form-control text-center" placeholder="نام کامل شما به وکلابرای تسریع در امور کمک میکند" required>
+                <button type="submit" class="btn btn-primary mt-2">ذخیره نام</button>
+            </form>
+        </div>
+    {% elif request.user.is_staff %}
+        <div class="text-center mt-4">
+            <h5>تغییر نام:</h5>
+            <form method="POST" action="{% url 'users:update_name' %}">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="نام فعلی :  {{ request.user.name }}" class="form-control text-center" required>
+                <button type="submit" class="btn btn-success mt-2">تغییر نام</button>
+            </form>
+        </div>
+    {% endif %}
+
+    {% if request.user.is_staff %}
+    <div class="text-center mt-4">
+        <a href="{% url 'userlist' %}" class="btn btn-primary">رفتن به پنل ادمین</a>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'blog:create-blog' %}" class="btn btn-primary">ساخت بلاگ جدید</a>
+    </div>
+    {% endif %}
 
     <!-- profile -->
     <section class="service-section mt-5">
         <div class="container-2 text-center">
             <div class="row gap-4 mx-auto">
                 <div style="padding: 20px;" class="bg-white box-profile text-black  position-relative col-12 col-md-3 card mx-auto">
-                    <h5 class="card-header text-center text-gold bg-white">سرویس های فعال</h5>
+                    <h5 class="card-header text-center text-gold bg-white">سرویس های ({{ user.username }})</h5>
                     {% if services %}
                         {% for service in services %}
                             <span class="p-4"> نوع سرویس : {{ service.title }}</span>
@@ -93,4 +121,18 @@
 {% endblock %}
 
 {% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if messages %}
+            {% for message in messages %}
+                Swal.fire({
+                    title: 'اطلاعیه',
+                    text: '{{ message|escapejs }}',
+                    icon: 'info',
+                    confirmButtonText: 'باشه'
+                });
+            {% endfor %}
+        {% endif %}
+    });
+</script>
 {% endblock script %}
