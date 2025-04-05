@@ -170,6 +170,16 @@ ul {
 .bi-x.rotate {
     transform: rotate(360deg);
     transition: transform 0.4s ease;
+    animation: spin 0.4s linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .btn-header {
@@ -210,7 +220,7 @@ ul {
     right: 0;
     bottom: 0;
     width: 270px;
-    z-index: 5;
+    z-index: 1000; /* این خط فقط تغییر کرده */
     height: 103vh;
 }
 
@@ -656,7 +666,7 @@ footer .list-unstyled li .bi-chevron-left {
     width: 100%;
     text-align: center;
     padding: 15px 0px;
-    z-index: 14;
+    z-index: 50;
     display: none;
 }
 
@@ -945,7 +955,6 @@ footer .list-unstyled li .bi-chevron-left {
 .se {
     /*margin-top: -121px;*/
     position: relative;
-    z-index: 23;
 }
 
 /* service.html */
