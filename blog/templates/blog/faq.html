@@ -30,67 +30,60 @@
         <div class="container">
             <div class="row justify-content-between mt-5">
                 <!-- بخش سوالات -->
-                <div class=" text-md-start text-center p-5">
+                <div class="text-md-start text-center p-5">
                     {% load static %}
-                    <img src="{% static "image/icon1.png" %}" alt="">
-                    <h1 class="my-4">آیا سوالی در ذهن دارید؟</h1>
-                    <p>لطفا سوالات زیر را بخوانید و اگر نتوانستید پاسخ خود را پیدا کنید، لطفا سوال خود را برای ما ارسال
-                        کنید. ما در اسرع وقت به شما پاسخ خواهیم داد.</p>
+                    <img src="{% static "image/icon1.png" %}" alt="آیکون سوالات متداول" title="آیکون سوالات متداول">
+                    <h1 class="my-4" style="line-height: 1.6;">سوالات متداول حقوقی - پاسخ به پرتکرارترین سوالات کاربران</h1>
+                    <p style="line-height: 1.6;">در این بخش به بررسی مهم‌ترین سوالات حقوقی کاربران می‌پردازیم. اگر پاسخ سوال خود را نیافتید، می‌توانید از طریق فرم تماس با ما، سوال خود را مطرح نمایید. کارشناسان ما در کوتاه‌ترین زمان ممکن پاسخگوی شما خواهند بود.</p>
                     <div class="row">
                         <div class="mt col-md-8">
                             <!-- سوالات عمومی -->
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-question-circle bg-gold text-black p-3 py-2 fs-4"></i>
-                                <h4>سوالات عمومی</h4>
+                                <h4>سوالات عمومی حقوقی</h4>
                             </div>
                             <div class="accordion mt-4">
                                 <!-- سوالات -->
                                 <div class="accordion-item-2">
                                     <div class="accordion-header d-flex justify-content-between align-items-center"
                                          onclick="toggleAccordion(this)">
-                                        چگونه می‌توانم از خدمات مشاوره تلفنی استفاده کنم؟
+                                        نحوه استفاده از خدمات مشاوره تلفنی حقوقی چگونه است؟
                                         <i class="bi bi-chevron-down"></i>
                                     </div>
-                                    <div class="accordion-body">
-                                        شما میتوانید با رفتن به صفحه سرویس‌ها، یک زمان برای تماس وکیل با خودتون رو تعیین
-                                        کنید. در صورتیکه نیاز به تماس سریع دارید، با پشتیبانی هماهنگ کنید.
+                                    <div class="accordion-body" style="line-height: 1.6;">
+                                        برای استفاده از مشاوره تلفنی حقوقی، کافیست به بخش سرویس‌ها مراجعه کرده و زمان مناسب برای تماس وکیل را انتخاب نمایید. در صورت نیاز به مشاوره فوری، می‌توانید با بخش پشتیبانی تماس بگیرید.
                                     </div>
                                 </div>
                                 <div class="accordion-item-2">
                                     <div class="accordion-header d-flex justify-content-between align-items-center"
-                                         onclick="toggleAccordion(this)">روند تنظیم لایحه شکایت یا دادخواست چگونه است؟<i
+                                         onclick="toggleAccordion(this)">فرآیند تنظیم لایحه و دادخواست چگونه انجام می‌شود؟<i
                                             class="bi bi-chevron-down"></i></div>
-                                    <div class="accordion-body">
-                                        برای تنظیم شکوائیه و یا دادخواست پس از برقراری ارتباط با درخواست کننده و دریافت
-                                        اطلاعات پرونده و بررسی مدارک شکوائیه یا دادخواست تنظیم می گردد.
+                                    <div class="accordion-body" style="line-height: 1.6;">
+                                        پس از بررسی کامل پرونده و دریافت مدارک لازم، وکلای متخصص ما اقدام به تنظیم شکوائیه یا دادخواست مطابق با قوانین روز کشور می‌نمایند.
                                     </div>
                                 </div>
                                 <div class="accordion-item-2">
                                     <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                         onclick="toggleAccordion(this)">هزینه خدمات مختلف سایت چگونه محاسبه می‌شود؟<i
+                                         onclick="toggleAccordion(this)">نحوه محاسبه هزینه خدمات حقوقی چگونه است؟<i
                                             class="bi bi-chevron-down"></i></div>
-                                    <div class="accordion-body">
-                                        هزینه ها بر مبنای حجم کار تعیین می گردد و مبلغ حق المشاوره ، حداقل تعیین شده
-                                        است.
+                                    <div class="accordion-body" style="line-height: 1.6;">
+                                        هزینه خدمات بر اساس نوع پرونده، پیچیدگی موضوع و زمان مورد نیاز برای رسیدگی تعیین می‌گردد. حداقل هزینه مشاوره حقوقی مطابق با تعرفه‌های مصوب کانون وکلا می‌باشد.
                                     </div>
                                 </div>
                                 <div class="accordion-item-2">
                                     <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                         onclick="toggleAccordion(this)">آیا امکان دریافت خدمات وکیل اختصاصی در شهر خودم
-                                        وجود دارد؟<i
+                                         onclick="toggleAccordion(this)">امکان استفاده از وکیل اختصاصی در شهرهای مختلف وجود دارد؟<i
                                                 class="bi bi-chevron-down"></i></div>
-                                    <div class="accordion-body">
-                                        امکان پیگیری و قبول وکالت در شهرهای تهران ، قم ، کرج ، اراک وجود دارد و سایر
-                                        شهرها
-                                        نیز حسب اقتضاء ( موضوع پرونده ) امکان پذیر است.
+                                    <div class="accordion-body" style="line-height: 1.6;">
+                                        وکلای ما در شهرهای تهران، قم، کرج و اراک به صورت حضوری خدمات ارائه می‌دهند. برای سایر شهرها نیز با توجه به نوع پرونده، امکان همکاری وجود دارد.
                                     </div>
                                 </div>
                                 <div class="accordion-item-2">
                                     <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                         onclick="toggleAccordion(this)">چطور می‌توانم با پشتیبانی سایت تماس بگیرم؟<i
+                                         onclick="toggleAccordion(this)">راه‌های ارتباط با پشتیبانی سایت کدامند؟<i
                                             class="bi bi-chevron-down"></i></div>
-                                    <div class="accordion-body">
-                                        از طریق شماره درج شده در صفحه اصلی
+                                    <div class="accordion-body" style="line-height: 1.6;">
+                                        می‌توانید از طریق شماره تلفن‌های درج شده در صفحه اصلی سایت یا فرم تماس با ما، با کارشناسان پشتیبانی در ارتباط باشید.
                                     </div>
                                 </div>
 
@@ -99,75 +92,60 @@
                             <div class="mt">
                                 <div class="d-flex align-items-center gap-2">
                                     <i class="bi bi-question-circle bg-gold text-black p-3 py-2 fs-4"></i>
-                                    <h4>دیگر سوالات </h4>
+                                    <h4>سوالات تخصصی حقوقی</h4>
                                 </div>
 
                                 <div class="accordion mt-4">
                                     <div class="accordion-item-2">
                                         <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                             onclick="toggleAccordion(this)">برای تنظیم شکایت حقوقی به چه اطلاعاتی نیاز
-                                            دارید؟<i
+                                             onclick="toggleAccordion(this)">مدارک لازم برای تنظیم شکایت حقوقی چیست؟<i
                                                     class="bi bi-chevron-down"></i></div>
-                                        <div class="accordion-body">
-                                            ابتدا توضیح کامل راجع به موضوع مورد مطالبه و بعد تنظیم دادخواست بر اساس ادله
-                                            و
-                                            مدارک موجود
+                                        <div class="accordion-body" style="line-height: 1.6;">
+                                            ابتدا می‌بایست شرح کامل موضوع و ادعاهای حقوقی خود را ارائه دهید. سپس بر اساس مدارک و مستندات موجود، دادخواست تنظیم خواهد شد.
                                         </div>
                                     </div>
                                     <div class="accordion-item-2">
                                         <div class="accordion-header d-flex justify-content-between align-items-center"
-                                             onclick="toggleAccordion(this)">مدت زمان لازم برای آماده شدن دادخواست من
-                                            چقدر
-                                            است؟<i
+                                             onclick="toggleAccordion(this)">مدت زمان تنظیم دادخواست چقدر است؟<i
                                                     class="bi bi-chevron-down"></i></div>
-                                        <div class="accordion-body">
-                                            بسته به موضوع هر پرونده متفاوت است ولی معمولا بین ۱ تا ۵ روز
+                                        <div class="accordion-body" style="line-height: 1.6;">
+                                            زمان مورد نیاز بسته به پیچیدگی پرونده متفاوت است، اما معمولاً بین 1 تا 5 روز کاری طول می‌کشد.
                                         </div>
                                     </div>
                                     <div class="accordion-item-2" id="ghavanin">
                                         <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                             onclick="toggleAccordion(this)">قوانین و مقررات مد نظر سایت چیست؟<i
+                                             onclick="toggleAccordion(this)">قوانین و مقررات حاکم بر سایت چیست؟<i
                                                 class="bi bi-chevron-down"></i></div>
-                                        <div class="accordion-body">
-
-                                            1- تمام هزینه های پرداخت شده برای خدمات غیرقابل بازگشت هستند
+                                        <div class="accordion-body" style="line-height: 1.6;">
+                                            1- کلیه هزینه‌های پرداختی غیرقابل استرداد می‌باشند
                                             <br>
-                                            2-مشاوره صرفا بر اساس اطلاعات دریافت شده از متقاضی صورت میگیرد.
+                                            2- مشاوره‌های حقوقی بر اساس اطلاعات ارائه شده توسط کاربران انجام می‌گیرد
                                         </div>
                                         <div class="accordion-item-2">
                                             <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                                 onclick="toggleAccordion(this)">آیا وکلای شما تخصص خاصی در زمینه‌های
-                                                حقوقی
-                                                مختلف دارند؟<i
+                                                 onclick="toggleAccordion(this)">تخصص وکلای همکار در چه زمینه‌هایی است؟<i
                                                         class="bi bi-chevron-down"></i></div>
-                                            <div class="accordion-body">
-                                                وکلای همکاری کننده دارای پروانه پایه یک دادگستری و مدرک کارشناسی ارشد با
-                                                گرایش های حقوق خصوصی و جزا و جرم شناسی هستند
+                                            <div class="accordion-body" style="line-height: 1.6;">
+                                                وکلای همکار ما دارای پروانه پایه یک دادگستری و مدرک کارشناسی ارشد در گرایش‌های حقوق خصوصی و جزا و جرم شناسی می‌باشند.
                                             </div>
                                         </div>
                                         <div class="accordion-item-2">
                                             <div class="accordion-header  d-flex justify-content-between align-items-center"
-                                                 onclick="toggleAccordion(this)">اگر از نتیجه پرونده راضی نبودم، چگونه
-                                                می‌توانم شکایت یا پیگیری کنم؟<i
+                                                 onclick="toggleAccordion(this)">در صورت عدم رضایت از نتیجه پرونده چه باید کرد؟<i
                                                         class="bi bi-chevron-down"></i></div>
-                                            <div class="accordion-body">
-                                                هیچ وکیلی نمی تواند نتیجه را تضمین کند ، وظیفه وکیل دادگستری تلاش برای
-                                                احقاق
-                                                حق و اجرای عدالت است .
+                                            <div class="accordion-body" style="line-height: 1.6;">
+                                                وکلا نمی‌توانند نتیجه پرونده را تضمین کنند. وظیفه اصلی وکیل، تلاش برای احقاق حق و اجرای عدالت بر اساس قوانین جاری کشور است.
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- تکرار سایر آیتم‌ها -->
                                 </div>
-
                             </div>
                         </div>
                         <!-- form contect -->
-                        <div class="col-md-4 mt-md-0 mt-5 ">
-
-                            <div class="bg-befor3 position-relative ">
-                                <img src="{% static "image/lawyer-thinking.jpg" %} " width="100%"
-                                     style="border-bottom: 5px solid #BC945C;" alt="">
+                        <div class="col-md-4 mt-md-0 mt-5">
+                            <div class="bg-befor3 position-relative">
+                                <img src="{% static "image/lawyer-thinking.jpg" %}" width="100%"
+                                     style="border-bottom: 5px solid #BC945C;" alt="تصویر وکیل در حال تفکر" title="تصویر وکیل در حال تفکر">
                             </div>
                         </div>
                     </div>

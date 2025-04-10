@@ -107,6 +107,11 @@
             right: 20px; /* فاصله از راست */
             z-index: 999;
         }
+
+
+        /* ---------------------------------------------------------------- */
+        
+        /* python manage.py runserver localhost:18080 */
     </style>
 
     {% block style %}{% endblock %}
@@ -116,6 +121,15 @@
 
 
 {% if request.path == "/home/" %}
+    <!-- نمایش برای دسکتاپ -->
+    <div class="d-none d-md-block" style="width: 100%; height: auto; margin: 0 auto; cursor: pointer;">
+        <video width="100%" height="auto" autoplay loop muted playsinline onclick="window.location.href='tel:09120774192'">
+            <source src="{% static 'image/vid.mp4' %}" type="video/mp4">
+            مرورگر شما از تگ ویدیو پشتیبانی نمی‌کند.
+        </video>
+    </div>
+
+
 
     <!-- navbar desktop -->
     <header class="container-2 position-relative desktop" style="z-index: 10;">
@@ -190,8 +204,12 @@
 
     <!-- navbar mobile -->
     <header class="position-relative mobile" style="z-index: 1000;">
+        <!-- نمایش برای موبایل -->
+        <div class="d-block d-md-none" style="width: 100%; height: auto; margin: 0 auto; cursor: pointer;z-index: 50;">
+            <video src="{% static 'image/vidmobile.mp4' %}" alt="موبایل بنر" style="width: 100%; height: auto;" onclick="window.location.href='tel:09120774192'" autoplay loop muted playsinline controlsList="nodownload" onmouseover="this.controls=false" onmouseout="this.controls=false">
+        </div>
         <!-- nav top -->
-        <nav class="d-flex justify-content-between py-4 px-3 align-items-center" style="background-color: #101a0e;">
+        <nav class="d-flex justify-content-between py-4 px-3 align-items-center" style="background-color: #101a0e;margin-top: -14px ;">
             <div class="col-md-1">
                 {% load static %}
                 <a href="{% url 'users:home' %}">

@@ -55,8 +55,8 @@
                                             {% if comment.author.is_staff %}
                                                 <p class="comment-author">ادمین گفته:</p>
                                             {% else %}
-                                                {% if comment.author.get_full_name %}
-                                                    <p class="comment-author">{{ comment.author.get_full_name }} گفته:</p>
+                                                {% if comment.author.name %}
+                                                    <p class="comment-author">{{ comment.author.name }} گفته:</p>
                                                 {% else %}
                                                     <p class="comment-author">کاربر سایت گفته:</p>
                                                 {% endif %}
@@ -84,8 +84,8 @@
                                             {% if comment.reply.author.is_staff %}
                                             <p class="comment-author">ادمین گفته:</p>
                                             {% else %}
-                                                {% if comment.reply.author.get_full_name %}
-                                                    <p class="comment-author">{{ comment.reply.author.get_full_name }} گفته:</p>
+                                                {% if comment.reply.author.name %}
+                                                    <p class="comment-author">{{ comment.reply.author.name }} گفته:</p>
                                                 {% else %}
                                                     <p class="comment-author">کاربر سایت گفته:</p>
                                                 {% endif %}

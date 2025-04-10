@@ -2,13 +2,29 @@
 {% block title %}خدمات حقوقی تخصصی{% endblock %}
 {% block style %}
     <style>
+
+    
+
     .jdp-time-container.jdp-only-time .jdp-time:first-child {
-    display: none !important;
+    display: none;
     }
 
     .jdp-time-container.jdp-only-time .jdp-time:nth-child(2)::after {
-    content: none !important;
+    display: none;
     }
+    
+    .jdp-time-container.jdp-only-time .jdp-time:nth-child(3)::after {
+    color: black !important;
+    }
+
+    .jdp-time-container.jdp-only-time .jdp-time:nth-child(2) {
+    color: black !important;
+    }
+    
+    .jdp-time-container.jdp-only-time .jdp-time:nth-child(3) {
+    color: black !important;
+    }
+
 
     .input-equal {
     height: 50px;
@@ -18,6 +34,7 @@
     .btn-hover123:hover {
     background-color: green;
     }
+
 
 
     .form-header-call {
@@ -398,43 +415,39 @@
     </section>
 
 <!--team vokala-->
-<Section>
-    <div class="container mt-5 ">
-        <div class="row justify-content-between  p-md-5 p-3 se">
+<section>
+    <div class="container mt-5">
+        <div class="row justify-content-between p-md-5 p-3">
             <!-- info contect -->
-            <div class="col-md-7 text-md-start text-center  p-md-5 p-3"
+            <div class="col-md-7 text-md-start text-center p-md-5 p-3"
                  style="background-color: #182615; border-bottom: 5px solid #BC945C;">
                 <div class="contact-info">
                     {% load static %}
-                    <img src="{% static "image/icon1.png" %}" alt="">
+                    <img src="{% static "image/icon1.png" %}" alt="آیکون موسسه حقوقی آوای حق" loading="lazy">
 
-                    <h2 class="mt-4" style="font-size: 40px;">تیم وکلای متخصص و کارآزموده
+                    <h2 class="mt-4" style="font-size: 40px; line-height: 1.6;">تیم وکلای متخصص و کارآزموده
                         <br>
                         راهکارهای حقوقی برای پیروزی شما
                     </h2>
-                    <p class="my-4 col-md-8">
-                        ما معتقدیم هر موکل با مشکلات منحصر به فرد خود، شایسته توجه ویژه و راهکارهای تخصصی است. تیم حقوقی ما متشکل از وکلای مجرب با سال‌ها تجربه در زمینه‌های مختلف حقوقی، آماده ارائه خدمات حرفه‌ای و پیگیری دقیق پرونده‌های شما هستند. ما با تکیه بر دانش حقوقی روزآمد و رویکرد موکل‌محور، در کنار شما برای احقاق حق ایستاده‌ایم.
+                    <p class="my-4 col-md-8" style="line-height: 1.6;">آوای حق با تیمی مجرب در زمینه‌های حقوق خانواده، تجارت، کیفری و مدنی، آماده ارائه مشاوره تخصصی و دفاع از حقوق شما در مراجع قضایی است. ما با دانش حقوقی به‌روز و رویکرد موکل‌محور، بهترین راهکارها را برای موفقیت پرونده شما ارائه می‌دهیم.
                     </p>
 
-                    <div class="row align-items-center mt-5 gap-5">
-                        <div
-                                class="d-flex align-items-center gap-3 justify-content-md-start justify-content-center">
-                            <img src="{% static "image/supporter.png" %}" width="50px" alt="">
+                    <div class="row align-items-center mt-5 gap-5" style="line-height: 1.6;">
+                        <div class="d-flex align-items-center gap-3 justify-content-md-start justify-content-center">
+                            <img src="{% static "image/supporter.png" %}" width="50px" alt="پشتیبانی حقوقی" loading="lazy">
                             <div>
                                 <p class="text-gold mb-2">تماس اضطراری</p>
                                 <p>۰۲۵-۳۲۷۰۵۱۹۹</p>
                             </div>
                         </div>
-                        <div
-                                class="d-flex align-items-center gap-3 justify-content-md-start justify-content-center">
-                            <img src="{% static "image/clock.png" %}" width="50px" alt="">
+                        <div class="d-flex align-items-center gap-3 justify-content-md-start justify-content-center">
+                            <img src="{% static "image/clock.png" %}" width="50px" alt="ساعات کاری" loading="lazy">
                             <div>
                                 <p class="text-gold mb-2">ساعات پاسخگویی</p>
                                 <h6> ۲۴/۷ در دسترس</h6>
                             </div>
                         </div>
                     </div>
-
 
                 </div>
             </div>
@@ -451,13 +464,12 @@
     </div>
 </Section>
 <!--team vokala-->
-
     <!-- faq -->
     <section>
         <div class="container-2 mt2">
             <div class="text-center">
-                <h2> سؤالات متداول حقوقی </h2>
-                <p class="fs-14 my-3 text-gold">
+                <h2 style="line-height: 1.6;"> سؤالات متداول حقوقی </h2>
+                <p class="fs-14 my-3 text-gold" style="line-height: 1.6;">
                     پاسخ به پرسش‌های رایج شما
                     <br>
                     توسط کارشناسان حقوقی ما
@@ -466,32 +478,39 @@
             <div class="accordion mt-5 w-50 mx-auto">
                 <div class="accordion-item-2">
                     <div class="accordion-header d-flex justify-content-between align-items-center"
-                         onclick="toggleAccordion(this)"> هزینه مشاوره حقوقی چقدر است؟<i class="bi bi-chevron-down"></i>
+                         onclick="toggleAccordion(this)" style="line-height: 1.6;"> 
+                         <span class="question-text">هزینه مشاوره حقوقی چقدر است؟</span>
+                         <i class="bi bi-chevron-down"></i>
                     </div>
-                    <div class="accordion-body">
+                    <div class="accordion-body" style="line-height: 1.6;">
                         هزینه مشاوره حقوقی بسته به نوع پرونده، پیچیدگی آن و زمان مورد نیاز متفاوت است. برای دریافت مشاوره اولیه رایگان می‌توانید با شماره دفتر تماس بگیرید تا کارشناسان ما شما را راهنمایی کنند.
                     </div>
                 </div>
                 <div class="accordion-item-2">
                     <div class="accordion-header d-flex justify-content-between align-items-center"
-                         onclick="toggleAccordion(this)">چه مدارکی برای شروع پرونده حقوقی نیاز است؟<i class="bi bi-chevron-down"></i></div>
-                    <div class="accordion-body">
+                         onclick="toggleAccordion(this)" style="line-height: 1.6;">
+                         <span class="question-text">چه مدارکی برای شروع پرونده حقوقی نیاز است؟</span>
+                         <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="accordion-body" style="line-height: 1.6;">
                         مدارک مورد نیاز بسته به نوع پرونده متفاوت است. به طور کلی، مدارک هویتی، اسناد مالکیت، قراردادها، مکاتبات قبلی و هرگونه مدرک مرتبط با موضوع پرونده مورد نیاز خواهد بود. در جلسه مشاوره اولیه، وکیل شما لیست دقیق مدارک مورد نیاز را به شما اعلام خواهد کرد.
                     </div>
                 </div>
                 <div class="accordion-item-2">
                     <div class="accordion-header d-flex justify-content-between align-items-center"
-                         onclick="toggleAccordion(this)">مدت زمان رسیدگی به پرونده‌های حقوقی چقدر است؟<i class="bi bi-chevron-down"></i></div>
-                    <div class="accordion-body">
+                         onclick="toggleAccordion(this)" style="line-height: 1.6;">
+                         <span class="question-text">مدت زمان رسیدگی به پرونده‌های حقوقی چقدر است؟</span>
+                         <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="accordion-body" style="line-height: 1.6;">
                         زمان رسیدگی به پرونده‌های حقوقی بسته به نوع دعوی، پیچیدگی موضوع و حجم کاری دادگاه‌ها متفاوت است. برخی پرونده‌ها ممکن است در چند ماه به نتیجه برسند، در حالی که پرونده‌های پیچیده‌تر ممکن است بیش از یک سال زمان ببرند. تیم حقوقی ما تلاش می‌کند با پیگیری مستمر، روند رسیدگی به پرونده شما را تسریع کند.
                     </div>
                 </div>
                 <!-- تکرار سایر آیتم‌ها -->
             </div>
-
-
         </div>
     </section>
+
     <!-- faq -->
 
 {% endblock %}

@@ -3,6 +3,73 @@
 {% block style %}
 <style>
 
+
+/* CSS */
+.button-85 {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: #FFD700; /* تغییر رنگ متن به طلایی */
+  background: #111111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  text-shadow: 0 0 5px rgba(255,215,0,0.8); /* افزودن سایه طلایی به متن */
+}
+
+.button-85:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #FFD700, /* تغییر گرادیان به رنگ طلایی */
+    #FFDF00,
+    #FFE44D,
+    #FFEE7F,
+    #FFF8B2,
+    #FFDF00,
+    #FFD700
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a; /* تغییر رنگ پس‌زمینه به تیره‌تر */
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
 </style>
 
 {% endblock %}
@@ -103,7 +170,7 @@
             </a>
         </div>
         <div class="text-center">
-            <a href="https://avahagh.ir/service/" class="w-100 btn-hover d-inline-block p-3 text-black bg-gold" title="مشاهده خدمات حقوقی">دریافت مشاوره رایگان</a>
+            <a href="{% url 'service:pricing' %}" class="w-100 btn-hover d-inline-block p-3 text-black bg-gold" title="مشاهده خدمات حقوقی">همه خدمات حقوقی</a>
         </div>
     </section>
     <!-- box category -->
@@ -112,14 +179,26 @@
     <img src="{% static "image/gif2.gif" %}" alt="توضیح تصویر" width="100%" height="600px">
 </div> -->
 
+
+
+<div class="text-center mt-5">
+    <img src="{% static "image/emptylogo.png" %}" width="300" height="60" alt="لوگو موسسه حقوقی">
+    <h2 class="my-5" style="line-height: 1.6;">با تکیه بر دانش و تجربه، در مسیر پیروزی شما گام برمی‌داریم</h2>
+    <div class="d-flex gap-4 justify-content-center">
+        <a href="#free" class=" p-3 px-4 button-85" title="مشاوره رایگان">
+            یک مشاوره رایگان </a>
+        <a href="https://avahagh.ir/about-us/" class="border-gold p-3 px-4 text-gold" title="درباره ما">
+         موفقیت‌های ما </a>
+    </div>
+</div>
     <!-- about  -->
     <section>
         <div class="container-2 mt2">
             <div class="row justify-content-between align-items-center">
                 <div class="col-md-5 text-md-start text-center mb-3">
                     <img src="{% static "image/icon1.png" %}" alt="آیکون موسسه حقوقی" width="200" height="40">
-                    <h2 class="my-4 text-wrap" style="font-size: 48px; line-height: 1.6;">تضمین پیروزی شما در دادگاه</h2>
-                    <p style="line-height: 1.6;font-size: 18px;">با تیمی متشکل از برترین وکلای کشور، ما نه تنها از حقوق شما دفاع می‌کنیم، بلکه برای پیروزی شما می‌جنگیم. تجربه موفق ما در صدها پرونده پیچیده، تضمینی برای موفقیت شماست.</p>
+                    <h2 class="my-4 text-wrap" style="font-size: 35px; line-height: 1.6;">همراه شما برای احقاق حقوق قانونی‌تان</h2>
+                    <p style="line-height: 1.6;font-size: 18px;">با تیمی متشکل از برترین وکلای کشور، ما نه تنها از حقوق شما دفاع می‌کنیم، بلکه برای پیروزی شما می‌جنگیم. تجربه موفق ما در صدها پرونده پیچیده، تضمینی برای انتخاب شماست.</p>
                     <img src="{% static "image/signature1.png" %}" class="mt-5" alt="امضا موسسه حقوقی" width="200" height="100">
                 </div>
                 <div class="col-md-4 ">
@@ -134,33 +213,84 @@
 
 
     <!-- contect -->
+    <style>
+        @keyframes goldenGlow {
+            0% {
+                box-shadow: 0 0 10px #ffd70066;
+            }
+            25% {
+                box-shadow: 10px 0 10px #ffd70066;
+            }
+            50% {
+                box-shadow: 0 10px 10px rgba(255, 215, 0, 0.5);
+            }
+            75% {
+                box-shadow: -10px 0 10px rgba(255, 215, 0, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+        }
+
+        .animated-border {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid gold;
+            animation: goldenGlow 20s linear infinite;
+        }
+
+        .animated-border::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                0deg,
+                transparent,
+                rgba(255, 215, 0, 0.4),
+                transparent
+            );
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
     <Section>
         <div class="container-2 mt2">
-            <div id="free" class="row justify-content-between p-4 mx-1 mx-md-0 p-md-5"
-                 style="background-color: #182615; border-bottom: 5px solid #BC945C;">
+            <div id="free" class="row justify-content-between p-4 mx-1 mx-md-0 p-md-5 animated-border"
+                 style="background-color: #182615;">
                 <!-- info contect -->
                 <div class="col-md-5 text-md-start text-center ">
                     <div class="contact-info">
-                        <h2 style="font-size: 40px; line-height: 1.6;">اولین قدم برای احقاق حق خود را بردارید</h2>
-                        <p class="my-4" style="line-height: 1.6;font-size: 18px;">هر لحظه تاخیر می‌تواند به ضرر شما باشد. تیم حرفه‌ای ما ۲۴ ساعته آماده مشاوره و راهنمایی شماست. همین حالا تماس بگیرید و از مشاوره رایگان ما بهره‌مند شوید.</p>
+                        <h2 style="font-size: 40px; line-height: 1.6;"> پرسش حقوقی خود را <span style="color: #FFD700; font-weight: bold; text-shadow: 0 0 5px rgba(255,215,0,0.8);"> رایگان</span> با وکلای متخصص مطرح کنید</h2>
+                        <p class="my-4" style="line-height: 1.6;font-size: 18px;">هر سوال حقوقی شما اهمیت دارد. تیم وکلای مجرب ما آماده پاسخگویی به پرسش‌های حقوقی شما به صورت رایگان می‌باشد. همین حالا سوال خود را مطرح کنید.</p>
                         <div class="row">
                             <div class="mt-4 d-flex align-items-center col-md-12 col-6 flex-column flex-md-row gap-3  justify-content-md-start justify-content-center">
                                 <img src="{% static "image/supporter.png" %}" width="50" height="50" alt="پشتیبانی">
                                 <div>
-                                    <p class="text-gold mb-2">مشاوره فوری</p>
+                                    <p class="text-gold mb-2">پشتیبانی حقوقی</p>
                                     <h3>۰۲۵-۳۲۷۰۵۱۹۹</h3>
                                 </div>
                             </div>
                             <div class="ئف-3 mt-4 d-flex col-6 align-items-center flex-column flex-md-row gap-3 justify-content-md-start justify-content-center">
                                 <img src="{% static "image/clock.png" %}" width="50" height="50" alt="ساعت کاری">
                                 <div>
-                                    <p class="text-gold mb-2">در دسترس</p>
+                                    <p class="text-gold mb-2">پاسخگویی</p>
                                     <h5>۲۴ ساعته، ۷ روز هفته</h5>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 
@@ -216,27 +346,13 @@
                             </div>
 
                             <div class="text-md-start text-center">
-                                <button type="submit" class="btn-form">درخواست مشاوره رایگان</button>
+                                <button type="submit" class="btn-form">ارسال</button>
                             </div>
                         </form>
-
-
                     </div>
                 </div>
-
-
             </div>
 
-            <div class="text-center mt-5">
-                <img src="{% static "image/emptylogo.png" %}" width="300" height="60" alt="لوگو موسسه حقوقی">
-                <h2 class="my-5" style="line-height: 1.6;">با تکیه بر دانش و تجربه، پیروزی شما را تضمین می‌کنیم</h2>
-                <div class="d-flex gap-4 justify-content-center">
-                    <a href="https://avahagh.ir/home/#free" class="bg-gold p-3 px-4 text-black" title="مشاوره رایگان">
-                        دریافت مشاوره رایگان </a>
-                    <a href="https://avahagh.ir/about-us/" class="border-gold p-3 px-4 text-gold" title="درباره ما">
-                        آشنایی با موفقیت‌های ما </a>
-                </div>
-            </div>
 
         </div>
     </Section>
@@ -250,38 +366,37 @@
                 <div class="col-md-5 bg-befor mb-5 position-relative">
                     <img src="{% static "image/indeximage2.jpg" %}" alt="تصویر موسسه حقوقی" width="100%" height="auto">
                 </div>
-                <div class="col-md-6 ">
-                    <h2 class="fs-1" style="line-height: 1.6;">نتایج درخشان ما، تضمین موفقیت شما</h2>
-                    <div class="cases ">
-                        <div class="case d-flex gap-3">
-                            <div class="ps-5">
-                                <img src="{% static "image/icons8-law-100.png" %}" width="60" height="60" alt="آیکون قانون">
-                            </div>
+                <div class="col-md-6 text-center text-md-start">
+                    <h2 class=" mt-5" style="line-height: 1.6;font-size: 33px;">نتایج درخشان ما، تضمین موفقیت شما</h2>
+                    <div class="cases">
+                        <div class="case d-flex flex-column flex-md-row align-items-center gap-3 mb-4">
                             <div>
-                                <h3>۱۹ میلیارد تومان</h3>
-                                <h4>جبران خسارت تصادف</h4>
-                                <p>موفقیت در یکی از پیچیده‌ترین پرونده‌های تصادفات</p>
+                                <img src="{% static "image/icons8-law-100 (1).png" %}" width="60" height="60" alt="آیکون قانون">
+                            </div>
+                            <div class="text-center text-md-start">
+                                <p class="mb-3" style="font-size: 1.8rem; line-height: 1.2;color: #BC945C;">پرونده کیفری</p>
+                                <p class="mb-3" style="font-size: 1.4rem; line-height: 1.2;color:white;">دفاع موفق در پرونده کلاهبرداری</p>
+                                <p style="font-size: 0.9rem; line-height: 1.3;">کسب حکم برائت برای موکل در پرونده ای پیچیده</p>
                             </div>
                         </div>
-                        <div class="case d-flex gap-3">
-                            <div class="ps-5">
-                                <img src="{% static "image/icons8-law-100.png" %}" width="60" height="60" alt="آیکون قانون">
-                            </div>
+                        <div class="case d-flex flex-column flex-md-row align-items-center gap-3 mb-4">
                             <div>
-                                <h3>۶.۳ میلیارد تومان</h3>
-                                <h4>پرونده تصادف موتورسیکلت</h4>
-                                <p>احقاق حق موکل در کمتر از ۶ ماه</p>
+                                <img src="{% static "image/icons8-law (2).png" %}" width="60" height="60" alt="آیکون قانون">
                             </div>
-
+                            <div class="text-center text-md-start">
+                                <p class="mb-3" style="font-size: 1.8rem; line-height: 1.2;color: #BC945C;">پرونده ثبتی</p>
+                                <p class="mb-3" style="font-size: 1.4rem; line-height: 1.2;color:white;">حل اختلاف ملکی</p>
+                                <p style="font-size: 0.9rem; line-height: 1.3;">احقاق حق مالکیت موکل پس از 3 سال پیگیری حقوقی</p>
+                            </div>
                         </div>
-                        <div class="case d-flex gap-3">
-                            <div class="ps-5">
-                                <img src="{% static "image/icons8-law-100.png" %}" width="60" height="60" alt="آیکون قانون">
-                            </div>
+                        <div class="case d-flex flex-column flex-md-row align-items-center gap-3 mb-4">
                             <div>
-                                <h3>۱۱.۸ میلیارد تومان</h3>
-                                <h4>پرونده خسارت شخصی</h4>
-                                <p>پیروزی در دادگاه تجدیدنظر</p>
+                                <img src="{% static "image/icons8-law-book.png" %}" width="60" height="60" alt="آیکون قانون">
+                            </div>
+                            <div class="text-center text-md-start">
+                                <p class="mb-3" style="font-size: 1.8rem; line-height: 1.2;color: #BC945C;">پرونده اوقافی</p>
+                                <p class="mb-3" style="font-size: 1.4rem; line-height: 1.2;color:white;">حفظ موقوفات</p>
+                                <p style="font-size: 0.9rem; line-height: 1.3;">پیروزی در دعوای مربوط به حفظ اموال وقفی</p>
                             </div>
                         </div>
                     </div>
