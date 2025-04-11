@@ -1,4 +1,5 @@
 from datetime import timedelta
+from django.core.validators import FileExtensionValidator
 
 from django.db import models
 
@@ -28,7 +29,8 @@ class UserServiceRequest(models.Model):
     description = models.TextField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_accepted = models.BooleanField(default=False)
-
+    attachment = models.FileField(upload_to='service_attachments/', null=True, blank=True, 
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx','zip'])])  # حداکثر حجم 50 مگابایت
 
 class FreeForm(models.Model):
     user = models.ForeignKey(Client, on_delete=models.CASCADE)

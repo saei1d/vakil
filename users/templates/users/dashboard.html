@@ -59,49 +59,51 @@
     <!-- profile -->
     <section class="service-section mt-5">
         <div class="container-2 text-center">
-            <div class="row gap-4 mx-auto">
-                <div style="padding: 20px;" class="bg-white box-profile text-black  position-relative col-12 col-md-3 card mx-auto">
+            <div class="row gap-4 mx-auto" style="align-items: flex-start;">
+                <div style="padding: 20px; max-height: 350px; overflow-y: auto;" class="bg-white box-profile text-black position-relative col-12 col-md-3 card mx-auto">
                     <h5 class="card-header text-center text-gold bg-white">سرویس های ({{ user.username }})</h5>
                     {% if services %}
-                        {% for service in services %}
-                            <span class="p-4"> نوع سرویس : {{ service.title }}</span>
-                            {% if service.service_id != 3 %}
-                                <span class="p-4"> توضیحات : {{ service.description }}</span>
-                            {% endif %}
-                            <span class="p-4"> تاریخ شروع : {{ service.start_date|date:"d-m-Y" }}</span>
-                            <span class="p-4"> تاریخ پایان : {{ service.end_date|date:"d-m-Y" }}</span>
-                            <span class="p-4">
-                                {% if service.is_accepted == 1 %}
-                                    تایید شده
-                                {% else %}
-                                    تایید نشده
+                        {% for service in services reversed %}
+                            <div class="p-4 {% if service.is_active == 1 %}text-success{% else %}text-danger{% endif %}">
+                                <span>نوع سرویس : {{ service.title }}</span>
+                                {% if service.service_id != 3 %}
+                                    <span class="d-block">توضیحات : {{ service.description }}</span>
                                 {% endif %}
-                                و
-                                {% if service.is_active == 1 %}
-                                    فعال
-                                {% else %}
-                                    اتمام سرویس
-                                {% endif %}
-        </span>
+                                <span class="d-block">تاریخ شروع : {{ service.start_date|date:"d-m-Y" }}</span>
+                                <span class="d-block">تاریخ پایان : {{ service.end_date|date:"d-m-Y" }}</span>
+                                <span class="d-block">
+                                    {% if service.is_accepted == 1 %}
+                                        تایید شده
+                                    {% else %}
+                                        تایید نشده
+                                    {% endif %}
+                                    و
+                                    {% if service.is_active == 1 %}
+                                        فعال
+                                    {% else %}
+                                        اتمام سرویس
+                                    {% endif %}
+                                </span>
+                            </div>
                             <hr>
                         {% endfor %}
                     {% else %}
                         <a class="btn btn-primary mt-3" href="https://avahagh.ir/pricing/">خرید سرویس</a>
                     {% endif %}
-
                 </div>
-                <div style="padding: 15px;" class="bg-white box-profile  text-black  position-relative col-12 col-md-3 card mx-auto">
-                    <h5 class="bg-white card-header text-center text-gold">تراکنش </h5>
+
+                <div style="max-height: 300px; overflow-y: auto;" class="p-2 bg-white box-profile text-black position-relative col-12 col-md-3 card mx-auto">
+                    <h5 class="bg-white card-header text-center text-gold">تراکنش</h5>
                     {% if transactions %}
                         {% for trans in transaction %}
-                            <p class="p-4">{{ trans.amount }} - {{ trans.created_at }}
-                                - {{ trans.transaction_type }}</p>
+                            <p class="p-4">{{ trans.amount }} - {{ trans.created_at }} - {{ trans.transaction_type }}</p>
                         {% endfor %}
                     {% else %}
-                        <p class="mt-4">شما تا کنون تراکنش نداشته اید</p>
+                        <p class="p-4">شما تا کنون تراکنش نداشته اید</p>
                     {% endif %}
                 </div>
-                <div class="bg-white box-profile text-black  position-relative col-12 col-md-3 card mx-auto">
+
+                <div style="max-height: 300px; overflow-y: auto;" class="p-2 bg-white box-profile text-black position-relative col-12 col-md-3 card mx-auto">
                     <h5 class="bg-white card-header text-center text-gold">پرونده ها</h5>
                     <p class="p-4">برای شما فعلا پرونده ای نساختیم</p>
                 </div>
@@ -110,13 +112,6 @@
     </section>
 
 
-    <!-- fix phone -->
-    <div class="bg-gold fix-phone">
-        <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
-                                                                     style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
-                ۰۲۱۱۲۳۴۵۶۷۸</span></a>
-    </div>
-    <!-- fix phone -->
 
 {% endblock %}
 

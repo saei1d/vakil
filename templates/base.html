@@ -108,10 +108,6 @@
             z-index: 999;
         }
 
-
-        /* ---------------------------------------------------------------- */
-        
-        /* python manage.py runserver localhost:18080 */
     </style>
 
     {% block style %}{% endblock %}
@@ -539,7 +535,7 @@
 
     <div class="overlay" id="overlay"></div>
 
-    <div class="support-menu justify-content-between row align-items-center" id="supportMenu">
+    <div class="support-menu justify-content-between row align-items-center" id="supportMenu" style="margin: auto; transform: translate(-50%, -50%);">
         <div class="col text-center">
             <a href="javascript:void(0);" id="telegramLink">
                 <img src="{% static 'image/telegramsupport.png' %}" width="50px" height="50px" alt="premiumsupport">

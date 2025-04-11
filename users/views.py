@@ -1,5 +1,4 @@
 import json
-
 import jdatetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse

@@ -70,6 +70,59 @@ def user_list(request):
 
 @login_required
 @user_passes_test(is_admin)
+def service(request):
+    """
+    مدیریت کامل سرویس‌ها شامل ایجاد، ویرایش، حذف و نمایش لیست سرویس‌ها
+    فقط برای مدیران قابل دسترسی است.
+    """
+    try:
+        if request.method == 'POST':
+            # ایجاد سرویس جدید
+            if 'add_service' in request.POST:
+                name = request.POST.get('name')
+                price = request.POST.get('price')
+                
+                if not name or not price:
+                    messages.error(request, "لطفا تمام فیلدها را پر کنید")
+                    return redirect('service')
+                
+                Service.objects.create(name=name, price=price)
+                messages.success(request, "سرویس با موفقیت ایجاد شد")
+                return redirect('service')
+            
+            # حذف سرویس
+            elif 'delete_service' in request.POST:
+                service_id = request.POST.get('service_id')
+                service = get_object_or_404(Service, id=service_id)
+                service.delete()
+                messages.success(request, "سرویس با موفقیت حذف شد")
+                return redirect('service')
+            
+            # ویرایش سرویس
+            elif 'edit_service' in request.POST:
+                service_id = request.POST.get('service_id')
+                service = get_object_or_404(Service, id=service_id)
+                service.name = request.POST.get('name')
+                service.price = request.POST.get('price')
+                service.save()
+                messages.success(request, "سرویس با موفقیت ویرایش شد")
+                return redirect('service')
+        
+        # نمایش لیست سرویس‌ها
+        services = Service.objects.all()
+        context = {
+            'services': services,
+            'SERVICE_CHOICES': Service.SERVICE_CHOICES,
+        }
+        return render(request, 'users/admin_service.html', context)
+    
+    except Exception as e:
+        logger.error(f"خطا در مدیریت سرویس‌ها: {str(e)}")
+        messages.error(request, "خطایی در مدیریت سرویس‌ها رخ داد. لطفا دوباره تلاش کنید.")
+        return redirect('userlist')
+
+@login_required
+@user_passes_test(is_admin)
 def service_list(request, username):
     """
     Display a list of services for a specific user.

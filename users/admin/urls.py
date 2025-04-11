@@ -10,6 +10,6 @@ urlpatterns = [
     path('blog-uncomplete/',uncomplete_blog, name='uncomplete_blog'),
     path('promote-user/<str:username>/',promote_user,name='promote_user'),
     path('delete-blog/<int:id>',delete_blog, name='delete_blog'),
-
+    path('admin-service/', service, name='service'),
     
 ]

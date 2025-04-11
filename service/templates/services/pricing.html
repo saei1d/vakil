@@ -325,7 +325,7 @@
                 <div class="overlay" id="legal-overlay"></div>
                 <div class="call-popup" id="legal-popup">
                     <span style="margin-right: 15px" class="close-btn" id="legal-close-btn">×</span>
-                    <form class="p-4 bg-white shadow rounded" method="post" action="{% url "service:shekaiatname" %}">
+                    <form class="p-4 bg-white shadow rounded" method="post" action="{% url "service:shekaiatname" %}" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         <div class="form-header-call text-center position-relative mb-4">
@@ -353,7 +353,10 @@
                             <textarea id="description_darkhast" name="description" style="color: black; height: 120px;"
                                       class="form-control input-equal"
                                       placeholder="شرح مختصری از موضوع و نیازمندی‌های خود را بنویسید"></textarea>
-
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <input type="file" name="attachment" class="form-control" accept=".pdf,.zip,.jpg,.jpeg,.png,.doc,.docx">
+                                <small class="text-muted">(اختیاری) می‌توانید فایل‌های مرتبط را ضمیمه کنید (حداکثر 40 مگابایت - فرمت‌های مجاز: PDF, ZIP, JPG, PNG, DOC, DOCX)</small>
                             </div>
                         </div>
 
