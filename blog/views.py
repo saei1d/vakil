@@ -7,7 +7,6 @@ from django.views import View
 from .models import Post, Comment
 from .form import *
 from django.views.generic import ListView
-from slugify import slugify
 
 
 # Create your views here.
@@ -77,10 +76,10 @@ def post_detail(request, post_id):
             print(f"تاریخ ایجاد: {comment.created_at}")
             print(f"پاسخ به کامنت دیگر: {comment.parent}")
 
-            return redirect("blog:blog-page", post_id=post.id)
+            return redirect(request.META.get('HTTP_REFERER', 'blog:blogpage'))
     else:
         form = CommentForm()
-    return render(request, "blog/post_detail.html", {"post": post, "comments": comments, "form": form})
+    return render(request, "blog/faq.html", {"post": post, "comments": comments, "form": form})
 
 
 @login_required
@@ -133,7 +132,7 @@ class PostCreate(View):
             
             if form.is_valid():
                 post = form.save(commit=False)
-                post.slug = slugify(post.title, to_lower=True, separator="-")
+                post.slug = post.title.lower().replace(' ', '-').replace('_', '-').replace('.', '-').strip('-')
                 post.save()
                 print(f"پست با موفقیت ذخیره شد - شناسه: {post.id}")
                 return redirect('blog:blog')
@@ -165,7 +164,6 @@ class PostEdit(View):
             form = PostForm(request.POST, request.FILES, instance=post)
             if form.is_valid():
                 post = form.save(commit=False)
-                post.slug = slugify(post.title)
                 post.save()
                 return redirect('blog:blog')
             return render(request, 'blog/post_form.html', {'form': form, 'post': post})
