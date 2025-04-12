@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 
 from blog.models import Post, Category
-from payment.models import WalletTransaction
+from payment.models import *
 from service.models import FreeForm, UserServiceRequest
 from users.models import Client
 from django.contrib.auth import logout, login, authenticate
@@ -180,11 +180,11 @@ def dashboard(request, username=None):
         if username is not None:
             user = get_object_or_404(Client, username=username)  # بررسی وجود کاربر
             services = UserServiceRequest.objects.filter(user=user)
-            transactions = WalletTransaction.objects.filter(user=user)
+            transactions = Payment.objects.filter(user=user)
         else:
             user = request.user
             services = UserServiceRequest.objects.filter(user=user)
-            transactions = WalletTransaction.objects.filter(user=user)
+            transactions = Payment.objects.filter(user=user)
     else:
         user = request.user
         noww = timezone.localtime(timezone.now())
@@ -197,7 +197,7 @@ def dashboard(request, username=None):
         )
         expired_services.update(is_active=False)
         services = UserServiceRequest.objects.filter(user=user)
-        transactions = WalletTransaction.objects.filter(user=user)
+        transactions = Payment.objects.filter(user=user)
         print(len(services), len(transactions))
 
     return render(request, 'users/dashboard.html', {

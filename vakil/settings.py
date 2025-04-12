@@ -42,6 +42,18 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+
+
+
+
+ZARINPAL_MERCHANT_ID = '1fb68613-e6b7-4df0-acb9-c0d6c639c218'
+ZARINPAL_CALLBACK_URL = 'http://127.0.0.1:8000/payment/verify/'  # بعداً این URL رو می‌سازیم
+
+
+
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
