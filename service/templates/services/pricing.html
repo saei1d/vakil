@@ -641,12 +641,7 @@
 
     // Execute function when DOM is fully loaded
     document.addEventListener('DOMContentLoaded', handlePopup);
-    document.getElementById('duration-call').addEventListener('change', function () {
-    const duration = parseInt(this.value);
-    const pricePerHour = 200000;
-    const total = duration * pricePerHour;
-    document.getElementById('total-call').value = total.toLocaleString() + ' تومان';
-    });
+   
     $(document).ready(function () {
     // پیکربندی انتخابگر زمان
     $('#time').persianDatepicker({

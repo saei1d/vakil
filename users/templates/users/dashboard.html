@@ -64,28 +64,34 @@
                     <h5 class="card-header text-center text-gold bg-white">سرویس های ({{ user.username }})</h5>
                     {% if services %}
                         {% for service in services reversed %}
-                            <div class="p-4 {% if service.is_active == 1 %}text-success{% else %}text-danger{% endif %}">
-                                <span>نوع سرویس : {{ service.title }}</span>
-                                {% if service.service_id != 3 %}
-                                    <span class="d-block">توضیحات : {{ service.description }}</span>
+                            {% if service.is_paid %}
+                                <div class="p-4 {% if service.is_active == 1 %}text-success{% else %}text-danger{% endif %}">
+                                    <span>نوع سرویس : {{ service.service.name }}</span>
+                                    {% if service.service_id != 3 %}
+                                        <span class="d-block">توضیحات : {{ service.description }}</span>
+                                    {% endif %}
+                                    <span class="d-block">تاریخ شروع : {{ service.start_date|date:"d-m-Y" }}</span>
+                                    <span class="d-block">تاریخ پایان : {{ service.end_date|date:"d-m-Y" }}</span>
+                                    <span class="d-block">
+                                        {% if service.is_accepted == 1 %}
+                                            تایید شده
+                                        {% else %}
+                                            تایید نشده
+                                        {% endif %}
+                                        و
+                                        {% if service.is_active == 1 %}
+                                            فعال
+                                        {% else %}
+                                            اتمام سرویس
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <hr>
+                            {% else %}
+                                {% if forloop.first %}
+                                    <a class="btn btn-primary mt-3" href="https://avahagh.ir/pricing/">خرید سرویس</a>
                                 {% endif %}
-                                <span class="d-block">تاریخ شروع : {{ service.start_date|date:"d-m-Y" }}</span>
-                                <span class="d-block">تاریخ پایان : {{ service.end_date|date:"d-m-Y" }}</span>
-                                <span class="d-block">
-                                    {% if service.is_accepted == 1 %}
-                                        تایید شده
-                                    {% else %}
-                                        تایید نشده
-                                    {% endif %}
-                                    و
-                                    {% if service.is_active == 1 %}
-                                        فعال
-                                    {% else %}
-                                        اتمام سرویس
-                                    {% endif %}
-                                </span>
-                            </div>
-                            <hr>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
                         <a class="btn btn-primary mt-3" href="https://avahagh.ir/pricing/">خرید سرویس</a>
@@ -93,13 +99,36 @@
                 </div>
 
                 <div style="max-height: 300px; overflow-y: auto;" class="p-2 bg-white box-profile text-black position-relative col-12 col-md-3 card mx-auto">
-                    <h5 class="bg-white card-header text-center text-gold">تراکنش</h5>
+                    <h5 class="bg-white card-header text-center text-gold">تاریخچه تراکنش‌ها</h5>
                     {% if transactions %}
-                        {% for trans in transaction %}
-                            <p class="p-4">{{ trans.amount }} - {{ trans.created_at }} - {{ trans.transaction_type }}</p>
-                        {% endfor %}
+                        <div class="list-group">
+                            {% for trans in transactions reversed %}
+                                <div class="list-group-item border-0 p-3 shadow-sm mb-2 rounded">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1 {% if trans.is_paid %}text-success{% else %}text-danger{% endif %}">
+                                                {{ trans.transaction_type }}
+                                                <span class="badge {% if trans.is_paid %}bg-success{% else %}bg-danger{% endif %} rounded-pill ms-2">
+                                                    {% if trans.is_paid %}پرداخت شد{% else %}ناموفق{% endif %}
+                                                </span>
+                                            </h6>
+                                            <small class="text-muted">{{ trans.created_at|date:"d-m-Y H:i" }}</small>
+                                        </div>
+                                        {% load humanize %}
+
+
+                                        <span class="fw-bold {% if trans.is_paid %}text-success{% else %}text-danger{% endif %}">
+                                            {{ trans.amount|floatformat:"0"|intcomma }} ریال
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     {% else %}
-                        <p class="p-4">شما تا کنون تراکنش نداشته اید</p>
+                        <div class="text-center">
+                            <i class="fas fa-wallet fa-3x text-secondary"></i>
+                            <p class="p-4">شما تا کنون تراکنشی نداشته‌اید</p>
+                        </div>
                     {% endif %}
                 </div>
 

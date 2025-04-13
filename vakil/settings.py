@@ -71,6 +71,8 @@ INSTALLED_APPS = [
     'blog',
     'ckeditor',
     'ckeditor_uploader',
+    'django.contrib.humanize',
+
 ]
 
 ASGI_APPLICATION = "vakil.asgi.application"
