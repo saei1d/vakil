@@ -176,7 +176,7 @@ def logout_view(request):
 
 @login_required
 def dashboard(request, username=None):
-    if request.user.is_superuser:
+    if request.user.is_staff:
         if username is not None:
             user = get_object_or_404(Client, username=username)  # بررسی وجود کاربر
             services = UserServiceRequest.objects.filter(user=user)
@@ -198,7 +198,8 @@ def dashboard(request, username=None):
         expired_services.update(is_active=False)
         services = UserServiceRequest.objects.filter(user=user)
         transactions = Payment.objects.filter(user=user)
-        print(len(services), len(transactions))
+        
+
 
     return render(request, 'users/dashboard.html', {
         'user': user,
