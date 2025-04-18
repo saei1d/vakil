@@ -226,7 +226,7 @@
     <header class="position-relative mobile" style="z-index: 1000;">
         <!-- نمایش برای موبایل -->
         <div class="d-block d-md-none" style="width: 100%; height: auto; margin: 0 auto; cursor: pointer;z-index: 50;">
-            <video src="{% static 'image/vidmobile.mp4' %}" alt="موبایل بنر" style="width: 100%; height: auto;" onclick="window.location.href='tel:09120774192'" autoplay loop muted playsinline controlsList="nodownload" onmouseover="this.controls=false" onmouseout="this.controls=false">
+            <video src="{% static 'image/vid-mob.mp4' %}" alt="موبایل بنر" style="width: 100%; height: auto;" onclick="window.location.href='tel:09120774192'" autoplay loop muted playsinline controlsList="nodownload" onmouseover="this.controls=false" onmouseout="this.controls=false">
         </div>
         <!-- nav top -->
         <nav class="d-flex justify-content-between py-4 px-3 align-items-center" style="background-color: #101a0e;margin-top: -14px ;">
@@ -254,8 +254,8 @@
         <nav class="menu-mobile animate__animated">
             <i class="bi bi-x"></i>
             <ul class="d-flex justify-content-between flex-column gap-3">
-                <a href="{% url 'users:home' %}" class="menu-item d-flex align-items-center {% if request.path == '/home/' %}active-menu{% endif %}">
-                    <li><i class="bi bi-house-door-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>صفحه اصلی</li>
+                <a href="{% url 'users:home' %}" class="menu-item d-flex align-items-center {% if request.path == '/home/' %}active-menu{% endif %}" style="{% if request.path == '/home/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                    <li><i class="bi bi-house-door-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/home/' %}color: #BC945C;{% endif %}"></i>صفحه اصلی</li>
                     <div class="menu-line"></div>
                 </a>
                 <a href="{% url 'service:pricing' %}" class="menu-item d-flex align-items-center {% if request.path == '/service/' %}active-menu{% endif %}">
@@ -409,34 +409,34 @@
         <nav class="menu-mobile animate__animated" style="z-index: 100;position: fixed;">
             <i class="bi bi-x"></i>
             <ul class="d-flex justify-content-between flex-column gap-3">
-                <a href="{% url 'users:home' %}" class="menu-item d-flex align-items-center {% if request.path == '/home/' %}active-menu{% endif %}">
-                    <li><i class="bi bi-house-door-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>صفحه اصلی</li>
+                <a href="{% url 'users:home' %}" class="menu-item d-flex align-items-center {% if request.path == '/home/' %}active-menu{% endif %}" style="{% if request.path == '/home/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                    <li><i class="bi bi-house-door-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/home/' %}color: #BC945C;{% endif %}"></i>صفحه اصلی</li>
                     <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'service:pricing' %}" class="menu-item d-flex align-items-center {% if request.path == '/service/' %}active-menu{% endif %}">
-                    <li><i class="bi bi-briefcase-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>خدمات حقوقی</li>
+                <a href="{% url 'service:pricing' %}" class="menu-item d-flex align-items-center {% if request.path == '/service/' %}active-menu{% endif %}" style="{% if request.path == '/service/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                    <li><i class="bi bi-briefcase-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/service/' %}color: #BC945C;{% endif %}"></i>خدمات حقوقی</li>
                     <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'blog:faq' %}" class="menu-item d-flex align-items-center {% if request.path == '/faq/' %}active-menu{% endif %}">
-                    <li><i class="bi bi-question-circle-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>سوالات متداول</li>
+                <a href="{% url 'blog:faq' %}" class="menu-item d-flex align-items-center {% if request.path == '/faq/' %}active-menu{% endif %}" style="{% if request.path == '/faq/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                    <li><i class="bi bi-question-circle-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/faq/' %}color: #BC945C;{% endif %}"></i>سوالات متداول</li>
                     <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'blog:blog' %}" class="menu-item d-flex align-items-center {% if request.path == '/blog/' %}active-menu{% endif %}">
-                    <li><i class="bi bi-newspaper me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>وبلاگ</li>
+                <a href="{% url 'blog:blog' %}" class="menu-item d-flex align-items-center {% if request.path == '/blog/' %}active-menu{% endif %}" style="{% if request.path == '/blog/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                    <li><i class="bi bi-newspaper me-2" style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/blog/' %}color: #BC945C;{% endif %}"></i>وبلاگ و اطلاعیه</li>
                     <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'blog:about-us' %}" class="menu-item d-flex align-items-center {% if request.path == '/about-us/' %}active-menu{% endif %}">
-                    <li><i class="bi bi-info-circle-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>درباره ما</li>
+                <a href="{% url 'blog:about-us' %}" class="menu-item d-flex align-items-center {% if request.path == '/about-us/' %}active-menu{% endif %}" style="{% if request.path == '/about-us/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                    <li><i class="bi bi-info-circle-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/about-us/' %}color: #BC945C;{% endif %}"></i>درباره اوای‌حق</li>
                     <div class="menu-line"></div>
                 </a>
                 {% if not user.is_authenticated %}
-                    <a href="{% url 'users:login' %}" class="menu-item d-flex align-items-center {% if request.path == '/login/' %}active-menu{% endif %}">
-                        <li><i class="bi bi-box-arrow-in-right me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>ورود به حساب</li>
+                    <a href="{% url 'users:login' %}" class="menu-item d-flex align-items-center {% if request.path == '/login/' %}active-menu{% endif %}" style="{% if request.path == '/login/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                        <li><i class="bi bi-box-arrow-in-right me-2" style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/login/' %}color: #BC945C;{% endif %}"></i>ورود به حساب</li>
                         <div class="menu-line"></div>
                     </a>
                 {% else %}
-                    <a href="{% url 'users:dashboard' %}" class="menu-item d-flex align-items-center {% if request.path == '/dashboard/' %}active-menu{% endif %}">
-                        <li><i class="bi bi-person-circle me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>پنل کاربری</li>
+                    <a href="{% url 'users:dashboard' %}" class="menu-item d-flex align-items-center {% if request.path == '/dashboard/' %}active-menu{% endif %}" style="{% if request.path == '/dashboard/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                        <li><i class="bi bi-person-circle me-2" style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/dashboard/' %}color: #BC945C;{% endif %}"></i>پنل کاربری</li>
                         <div class="menu-line"></div>
                     </a>
                 {% endif %}
