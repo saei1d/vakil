@@ -3,26 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="موسسه حقوقی آوای حق با بیش از ۱۰ سال تجربه در زمینه دعاوی حقوقی، کیفری و خانواده، آماده ارائه مشاوره رایگان و خدمات تخصصی حقوقی به شماست.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
+
+
+    <link rel="preload" as="image" href="/static/image/slider2.jpg" type="image/jpeg">
+    <link rel="preload" as="image" href="/static/image/slider2.jpg" type="image/jpeg">
+
     <link rel="stylesheet" href="{% static 'plugin/swiper-bundle.min.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.css' %}">
+
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.css' %}"> -->
+    <link rel="preload" href="{% static 'css/bootstrap.rtl.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{% static 'css/bootstrap.rtl.css' %}"></noscript>
+
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
     <link rel="stylesheet" href="{% static 'css/Responsive.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <!-- icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
 
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></noscript>
+  
+    <!-- ⛔ این‌ها ممکنه مانع رندر باشن. بهتره به شکل async لود بشن 👇 -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
+  
+
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css"> -->
+
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
+
+  
 
     {% block link %}
     {% endblock %}
     <style>
         .green-light {
             position: absolute;
-            bottom: 15px; /* تنظیم مکان برای قرارگیری روی سیم */
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             width: 05px;
@@ -43,72 +67,82 @@
         }
 
         .support-message {
-            position: fixed; /* ثابت برای حرکت نکردن با اسکرول */
-            bottom: 80px; /* کمی بالای آیکون */
-            right: 20px; /* نزدیک به آیکون */
-            background-color: #f1f1f1;
-            color: #000000;
-            border: 1px solid #ddd;
-            border-radius: 15px 15px 15px 15px; /* سه گوشه گرد */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 12px; /* فضای داخلی بیشتر */
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            background-color: #ffffff;
+            color: #333333;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            padding: 16px;
             z-index: 1000;
-            display: none; /* پیش‌فرض مخفی */
-            width: 250px; /* عرض مناسب */
-            font-size: 16px; /* متن بزرگ‌تر */
-            line-height: 1.6;
-            text-align: center; /* وسط‌چین */
-            transform: translateX(-10px); /* کمی به چپ برای اشاره بهتر */
+            display: none;
+            width: 280px;
+            font-size: 17px;
+            line-height: 1.7;
+            text-align: center;
+            transform: translateX(-15px);
+            transition: all 0.3s ease;
+        }
+
+        .support-message:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateX(-15px) scale(1.02);
         }
 
         .support-message::after {
-            content: ""; /* ایجاد فلش پایین کادر */
+            content: "";
             position: absolute;
-            bottom: -10px; /* پایین‌تر از کادر */
-            right: 20px; /* در جهت آیکون */
+            bottom: -12px;
+            right: 25px;
             width: 0;
             height: 0;
             border-style: solid;
-            border-width: 10px 10px 0 10px; /* فلش مثلثی */
-            border-color: #f1f1f1 transparent transparent transparent; /* رنگ فلش */
+            border-width: 12px 12px 0 12px;
+            border-color: #ffffff transparent transparent transparent;
+            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
         }
 
         .support-message span {
             display: block;
-            font-weight: bold;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #222222;
         }
 
         .close-message {
             position: absolute;
-            top: -10px; /* بالاتر از کادر */
-            right: -10px; /* خارج از کادر */
-            background: #fff;
-            border: 1px solid #ddd;
-            color: #ff0000;
-            font-size: 18px;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%; /* دکمه گرد */
+            top: -12px;
+            right: -12px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            color: #ff4444;
+            font-size: 20px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: all 0.2s ease;
         }
 
         .close-message:hover {
-            color: #333;
-            background: #f1f1f1;
+            color: #ffffff;
+            background: #ff4444;
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(255, 68, 68, 0.3);
         }
 
         .support-container {
-            position: fixed; /* ثابت کردن آیکون */
-            bottom: 20px; /* فاصله از پایین */
-            right: 20px; /* فاصله از راست */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
             z-index: 999;
         }
-        /* "python -m pip install zarinpal" */
-
     </style>
 
     {% block style %}{% endblock %}
@@ -116,9 +150,7 @@
 </head>
 <body>
 
-
 {% if request.path == "/home/" %}
-    <!-- نمایش برای دسکتاپ -->
     <div class="d-none d-md-block" style="width: 100%; height: auto; margin: 0 auto; cursor: pointer;">
         <video width="100%" height="auto" autoplay loop muted playsinline onclick="window.location.href='tel:09120774192'">
             <source src="{% static 'image/vid.mp4' %}" type="video/mp4">
@@ -126,16 +158,12 @@
         </video>
     </div>
 
-
-
-    <!-- navbar desktop -->
     <header class="container-2 position-relative desktop" style="z-index: 10;">
-        <!-- nav top -->
         <nav class=" d-flex justify-content-between mt-3 align-items-center">
             <div class="col-md-1">
                 {% load static %}
                 <a href="{% url 'users:home' %}">
-                    <img src="/static/image/newlogo.png" width="160px" alt="">
+                    <img src="/static/image/newlogo.png" width="160px" alt="لوگو موسسه حقوقی آوای حق">
                 </a>
             </div>
             <div class="col-md-7 d-flex justify-content-end gap-4 align-items-center">
@@ -147,39 +175,34 @@
                 <h2 class="fw-lighter">۰۲۵-۲۷۰۵۱۹۹</h2>
             </div>
         </nav>
-        <!-- nav top -->
 
-        <!-- menue desktop-->
         <nav class="menu d-flex justify-content-between mt-3 align-items-center" style="background-color: #182615;">
             <ul class="d-flex justify-content-between gap-3 ps-5 align-items-center">
                 <li>
                     <a href="{% url 'users:home' %}"
                        class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه اصلی</a>
                 </li>
-                {#                <span class="text-gold" style="font-size: 45px">.</span>#}
-                <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
-
+                <img src="{% static "image/icons8-capital-100.png" %}" alt="آیکون خدمات حقوقی" width="35px">
                 <li>
                     <a href="{% url 'service:pricing' %}"
                        class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات حقوقی</a>
                 </li>
-                <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                <img src="{% static "image/icons8-capital-100.png" %}" alt="آیکون سوالات حقوقی" width="35px">
                 <li>
                     <a href="{% url 'blog:faq' %}"
-                       class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات
-                        متداول</a>
+                       class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات متداول</a>
                 </li>
-                <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
+                <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="آیکون درباره ما" width="35px">
                 <li>
                     <a href="{% url 'blog:about-us' %}"
                        class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما</a>
                 </li>
-                <img src="{% static "image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                <img src="{% static "image/icons8-capital-100.png" %}" alt="آیکون وبلاگ حقوقی" width="35px">
                 <li>
                     <a href="{% url 'blog:blog' %}"
                        class="{% if request.path == '/blog/' %}activelink{% endif %}">وبلاگ</a>
                 </li>
-                <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
+                <img src="{% static "image/icons8-greek-pillar-base-100.png" %}" alt="آیکون ورود کاربر" width="35px">
                 {% if not user.is_authenticated %}
                     <li>
                         <a href="{% url 'users:login' %}">ورود به حساب</a>
@@ -213,39 +236,58 @@
                     <img src="/static/image/newlogo.png" width="160px" alt="">
                 </a>
             </div>
-            <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4"></i>
+            <div class="position-relative" style="user-select: none;">
+                {% if not user.is_questioned %}
+                <div class="notification-badge position-absolute" style="top: -38px; right: -10px; cursor: pointer;" onclick="window.location.href='{% url 'users:home' %}#free';" title="برای پرسش رایگان کلیک کنید">
+                {% endif %}
+                    <img src="{% static 'image/gift-box.png' %}" alt="آیکون هدیه" width="30" height="30">
+                </div>
+                <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4" style="user-select: none; cursor: pointer;"></i>
+            </div>
+
         </nav>
         <!-- nav top -->
 
         <!-- menu mobile -->
+
+
         <nav class="menu-mobile animate__animated">
             <i class="bi bi-x"></i>
             <ul class="d-flex justify-content-between flex-column gap-3">
-                <a href="{% url 'users:home' %}">
-                    <li>صفحه اصلی</li>
+                <a href="{% url 'users:home' %}" class="menu-item d-flex align-items-center {% if request.path == '/home/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-house-door-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>صفحه اصلی</li>
+                    <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'service:pricing' %}">
-                    <li>خدمات حقوقی</li>
+                <a href="{% url 'service:pricing' %}" class="menu-item d-flex align-items-center {% if request.path == '/service/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-briefcase-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>خدمات حقوقی</li>
+                    <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'blog:faq' %}">
-                    <li>سوالات </li>
+                <a href="{% url 'blog:faq' %}" class="menu-item d-flex align-items-center {% if request.path == '/faq/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-question-circle-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>سوالات متداول</li>
+                    <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'blog:blog' %}">
-                    <li>وبلاگ</li>
+                <a href="{% url 'blog:blog' %}" class="menu-item d-flex align-items-center {% if request.path == '/blog/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-newspaper me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>وبلاگ</li>
+                    <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'blog:about-us' %}">
-                    <li>درباره ما</li>
+                <a href="{% url 'blog:about-us' %}" class="menu-item d-flex align-items-center {% if request.path == '/about-us/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-info-circle-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>درباره ما</li>
+                    <div class="menu-line"></div>
                 </a>
                 {% if not user.is_authenticated %}
-
-                    <a href="{% url 'users:login' %}">
-                        <li>ورود به حساب</li>
+                    <a href="{% url 'users:login' %}" class="menu-item d-flex align-items-center {% if request.path == '/login/' %}active-menu{% endif %}">
+                        <li><i class="bi bi-box-arrow-in-right me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>ورود به حساب</li>
+                        <div class="menu-line"></div>
                     </a>
                 {% else %}
-                    <a href="{% url 'users:dashboard' %}">
-                        <li>پنل کاربری</li>
+                    <a href="{% url 'users:dashboard' %}" class="menu-item d-flex align-items-center {% if request.path == '/dashboard/' %}active-menu{% endif %}">
+                        <li><i class="bi bi-person-circle me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>پنل کاربری</li>
+                        <div class="menu-line"></div>
                     </a>
                 {% endif %}
+
+
+
 
             </ul>
             <div class="icon-menu w-100 text-center">
@@ -364,44 +406,40 @@
         {% endblock %}
 <!-- ------------------------------------------------------------------------- -->
         <!-- menu mobile -->
-
         <nav class="menu-mobile animate__animated" style="z-index: 100;position: fixed;">
             <i class="bi bi-x"></i>
             <ul class="d-flex justify-content-between flex-column gap-3">
-                <a href="{% url 'users:home' %}">
-                    <li>صفحه اصلی</li>
+                <a href="{% url 'users:home' %}" class="menu-item d-flex align-items-center {% if request.path == '/home/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-house-door-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>صفحه اصلی</li>
+                    <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'service:pricing' %}">
-                    <li>خدمات حقوقی</li>
+                <a href="{% url 'service:pricing' %}" class="menu-item d-flex align-items-center {% if request.path == '/service/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-briefcase-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>خدمات حقوقی</li>
+                    <div class="menu-line"></div>
                 </a>
-
-                <a href="{% url 'blog:faq' %}">
-                    <li>سوالات متداول</li>
+                <a href="{% url 'blog:faq' %}" class="menu-item d-flex align-items-center {% if request.path == '/faq/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-question-circle-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>سوالات متداول</li>
+                    <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'blog:blog' %}">
-                    <li>وبلاگ</li>
+                <a href="{% url 'blog:blog' %}" class="menu-item d-flex align-items-center {% if request.path == '/blog/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-newspaper me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>وبلاگ</li>
+                    <div class="menu-line"></div>
                 </a>
-                <a href="{% url 'blog:about-us' %}">
-                    <li>درباره ما</li>
+                <a href="{% url 'blog:about-us' %}" class="menu-item d-flex align-items-center {% if request.path == '/about-us/' %}active-menu{% endif %}">
+                    <li><i class="bi bi-info-circle-fill me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>درباره ما</li>
+                    <div class="menu-line"></div>
                 </a>
                 {% if not user.is_authenticated %}
-
-                    <a href="{% url 'users:login' %}">
-                        <li>ورود به حساب</li>
+                    <a href="{% url 'users:login' %}" class="menu-item d-flex align-items-center {% if request.path == '/login/' %}active-menu{% endif %}">
+                        <li><i class="bi bi-box-arrow-in-right me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>ورود به حساب</li>
+                        <div class="menu-line"></div>
                     </a>
                 {% else %}
-                    {% if request.path == '/dashboard/' %}
-                        <a href="{% url 'users:logout' %}">
-                            <li>خروج از حساب</li>
-                        </a>
-
-                    {% else %}
-                        <a href="{% url 'users:dashboard' %}">
-                            <li>پنل کاربری</li>
-                        </a>
-                    {% endif %}
+                    <a href="{% url 'users:dashboard' %}" class="menu-item d-flex align-items-center {% if request.path == '/dashboard/' %}active-menu{% endif %}">
+                        <li><i class="bi bi-person-circle me-2" style="font-size: 1.2rem; width: 24px; text-align: center;"></i>پنل کاربری</li>
+                        <div class="menu-line"></div>
+                    </a>
                 {% endif %}
-
             </ul>
 
             <div class="icon-menu w-100 text-center">
@@ -436,9 +474,7 @@
         <div class="row">
             <div class="col-md-4">
                 <img src="{% static "image/logoblack.png" %}" width="200" alt="">
-                <p class="text-black text-jus my-4 col-md-11 fw-semibold">وکلا همیشه آزادند تا انجمن های داوطلبانه
-                    خود را تشکیل دهند، جدای
-                    از هرگونه مجوز یا عضویت اجباری که ممکن است توسط قوانین حوزه قضایی آنها لازم باشد.</p>
+                <p class="text-black text-jus my-4 col-md-11 fw-semibold">سامانه حقوقی آوا حق با بهره‌گیری از وکلای مجرب و متعهد، آماده ارائه خدمات حقوقی تخصصی در زمینه‌های مختلف از جمله مشاوره حقوقی، تنظیم لوایح و دادخواست‌ها، وکالت اختصاصی و سایر امور حقوقی می‌باشد. ما با تکیه بر اصول اخلاق حرفه‌ای و حفظ حریم خصوصی کاربران، همواره در کنار شما هستیم تا بهترین راهکارهای حقوقی را ارائه دهیم.</p>
 
                 <div class="mt-5 d-flex gap-3 footer-icon">
                     <a href="#" data-text="Telegram"><i class="bi bi-telegram text-gold p-1 px-2"
@@ -523,43 +559,53 @@
     <span>نیاز به مشاوره حقوقی دارید؟ تیم متخصص ما آماده پاسخگویی به سوالات شماست.☎️</span>
 </div>
 
+<div class="bg-gold fix-phone" style="z-index: 100;">
+    <a href="tel:02532705199" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
+style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما ۳۲۷۰۵۱۹۹ - ۰۲۵ </span></a>
+</div>
 
-<div class="support-container">
+<div class="support-container" style="bottom: 60px;">
 
     <div class="support-button" id="supportButton">
         {% load static %}
         <img src="{% static 'image/supporterwhite.png' %}" width="50px" alt="پشتیبانی">
         <div class="green-light"></div> <!-- چراغ چشمک‌زن -->
-
     </div>
 
     <div class="overlay" id="overlay"></div>
 
-    <div class="support-menu justify-content-between row align-items-center" id="supportMenu" style="margin: auto; transform: translate(-50%, -50%);">
-        <div class="col text-center">
-            <a href="javascript:void(0);" id="telegramLink">
-                <img src="{% static 'image/telegramsupport.png' %}" width="50px" height="50px" alt="premiumsupport">
+    <div class="support-menu justify-content-between row align-items-center" id="supportMenu" style="margin: auto; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a1a, #2c2c2c); border-radius: 20px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 90%; max-width: 500px;">
+        <div class="col text-center mb-4">
+            <a href="javascript:void(0);" id="telegramLink" class="support-icon" style="display: inline-block; padding: 20px; background: #2c3e50; border-radius: 20px; transition: all 0.3s ease; width: 100px; height: 100px;">
+                <img src="{% static 'image/telegramsupport.png' %}" width="60px" height="60px" alt="premiumsupport" style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">
             </a>
-            <p class="mt-2">ارتباط با وکیل</p>
+            <p class="mt-3 text-gold" style="font-size: 16px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">ارتباط با وکیل</p>
         </div>
         <div class="col text-center">
-            <div style="gap: 2px" class=" d-flex align-items-center">
-                <a href="https://eitaa.com/avahagh"><img src="{% static 'image/eitaalogo.png' %}" width="50px"
-                                                         height="50px" alt="supporteita"></a>
-                <a href="https://t.me/avahagh"><img src="{% static 'image/telegramsupport.png' %}" width="50px"
-                                                    height="50px" alt="supporttelegram"></a>
+            <div style="gap: 25px" class="d-flex align-items-center justify-content-center mb-4">
+                <a href="https://eitaa.com/avahagh" class="support-icon" style="display: inline-block; padding: 20px; background: #2c3e50; border-radius: 20px; transition: all 0.3s ease; width: 100px; height: 100px;">
+                    <img src="{% static 'image/eitaalogo.png' %}" width="60px" height="60px" alt="supporteita" style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">
+                </a>
+                <a href="https://t.me/avahagh" class="support-icon" style="display: inline-block; padding: 20px; background: #2c3e50; border-radius: 20px; transition: all 0.3s ease; width: 100px; height: 100px;">
+                    <img src="{% static 'image/telegramsupport.png' %}" width="60px" height="60px" alt="supporttelegram" style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">
+                </a>
             </div>
-            <p style="margin-left: 32px;" class="mt-2">پشتیبانی</p>
+            <p class="mt-3 text-gold" style="font-size: 16px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">پشتیبانی</p>
         </div>
     </div>
-</div>
-
-
-
-
-<div class="bg-gold fix-phone " style="z-index: 100;">
-    <a href="tel:02532705199" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
-style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما ۳۲۷۰۵۱۹۹ - ۰۲۵ </span></a>
+    <style>
+        .support-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, #d4af37, #b38b2d) !important;
+        }
+        .support-icon img {
+            transition: transform 0.3s ease;
+        }
+        .support-icon:hover img {
+            transform: scale(1.1);
+        }
+    </style>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -572,6 +618,13 @@ style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما ۳�
 {% load static %}
 <script src="{% static "js/script.js" %}"></script>
 <script>
+    setInterval(function() {
+                    const badge = document.querySelector('.notification-badge');
+                    badge.classList.add('animate__animated', 'animate__bounce');
+                    setTimeout(() => {
+                        badge.classList.remove('animate__animated', 'animate__bounce');
+                    }, 1000);
+                }, 10000);
     document.addEventListener("DOMContentLoaded", function () {
         const supportMessage = document.getElementById("supportMessage");
         const closeMessage = document.getElementById("closeMessage");

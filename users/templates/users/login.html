@@ -1,5 +1,4 @@
-{#{% extends 'base.html' %}#}
-{#{% block title %}داشبورد کاربر{% endblock %}#}
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,9 +9,9 @@
     <title>ورود به آوای حق</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
+    {% block style %}
 
     <style>
-        {#{% block style %}#}
 
         body {
             direction: rtl;
@@ -53,7 +52,7 @@
         }
 
         .otp-left {
-            background: #2b4825
+            background: #2b4825;
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -159,8 +158,9 @@
             margin-bottom: 10px;
         }
 
-        {#{% endblock %}#}
     </style>
+            {% endblock %}
+
 
 </head>
 <body>
@@ -212,8 +212,9 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    {#{% block script %}#}
+    {% block script %}
+    <script>
+
     {% if messages %}
         document.addEventListener('DOMContentLoaded', function () {
             {% for message in messages %}
@@ -354,8 +355,8 @@
     });
 
 
-    {#{% endblock script %}#}
 </script>
+    {% endblock script %}
 </body>
 </html>
 

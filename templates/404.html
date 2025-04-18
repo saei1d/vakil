@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه پیدا نشد - 404</title>
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        .error-container {
+            background: linear-gradient(135deg, #182615 0%, #0d150b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .error-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .error-img {
+            max-width: 100%;
+            height: auto;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .error-title {
+            font-size: 6rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #BC945C, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0;
+        }
+
+        .error-subtitle {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .error-text {
+            font-size: 1.2rem;
+            color: #ddd;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .error-btn {
+            background: linear-gradient(45deg, #BC945C, #a87d4a);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(188, 148, 92, 0.3);
+        }
+
+        .error-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(188, 148, 92, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .error-title {
+                font-size: 4rem;
+            }
+            
+            .error-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .error-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-content">
+            {% load static %}
+            <img src="{% static 'image/error-404.png' %}" alt="خطای 404" class="error-img" style="width: 200px; height: auto;">
+            <h2 class="error-subtitle">صفحه مورد نظر یافت نشد!</h2>
+            <p class="error-text">
+                به نظر می‌رسد صفحه‌ای که به دنبال آن هستید وجود ندارد یا حذف شده است.
+                <br>
+                نگران نباشید، ما اینجا هستیم تا شما را به مسیر درست هدایت کنیم.
+            </p>
+            <a href="{% url 'users:home' %}" class="error-btn">
+                بازگشت به صفحه اصلی
+            </a>
+        </div>
+    </div>
+</body>
+</html>

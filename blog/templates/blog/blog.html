@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}وبلاگ{% endblock %}
+{% block title %}وبلاگ حقوقی - جدیدترین مقالات و اخبار حقوقی | موسسه آوا حق{% endblock %}
+{% block meta_description %}وبلاگ تخصصی حقوقی موسسه آوا حق - جدیدترین مقالات، تحلیل‌ها و اخبار حقوقی در زمینه دعاوی کیفری، خانواده، املاک و قراردادها. به روزترین اطلاعات حقوقی را اینجا بخوانید.{% endblock %}
 {% block banner %}
 
     <div class="banner">
         <div class="text-center" style="padding-top: 150px;">
-            <h2>وبلاگ</h2>
+            <h1>وبلاگ تخصصی حقوقی</h1>
             <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
                 <i class="bi bi-house-fill"></i>
                 <i class="bi bi-chevron-left"> </i>
-                <span class="fw-light">وبلاگ</span>
+                <span class="fw-light">مقالات حقوقی</span>
             </div>
         </div>
     </div>
@@ -17,21 +18,16 @@
 
     <div class="banner">
         <div class="text-center" style="padding-top: 150px;">
-            <h2>وبلاگ</h2>
+            <h1>وبلاگ تخصصی حقوقی</h1>
             <div class="mt-3 d-flex gap-2 text-gold justify-content-center">
                 <i class="bi bi-house-fill"></i>
                 <i class="bi bi-chevron-left"> </i>
-                <span class="fw-light">وبلاگ</span>
+                <span class="fw-light">مقالات حقوقی</span>
             </div>
         </div>
     </div>
 {% endblock %}
-<!-- navbar desktop -->
 
-
-<!-- navbar mobile -->
-
-<!-- navbar mobile-->
 {% block content %}
 
     <section>
@@ -39,14 +35,15 @@
             <div class="row justify-content-between mt-5">
                 <!-- Blog Right (Main Content) -->
                 <div class="col-md-8 text-md-start text-center ">
+                    <p class="text-light mb-4">در وبلاگ حقوقی موسسه آوا حق، جدیدترین مقالات و تحلیل‌های حقوقی در زمینه‌های مختلف از جمله دعاوی کیفری، خانواده، املاک و قراردادها را مطالعه کنید. تیم وکلای مجرب ما همواره به روزترین اطلاعات حقوقی را در اختیار شما قرار می‌دهد.</p>
                     {% for b in blog|slice:"::-1" %}
                         <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
-                            {% if b.image %}  <!-- چک کنید که عکس وجود دارد -->
-                                <img src="/media/{{ b.image }}" class="card-img-top" alt="Blog Image">
+                            {% if b.image %}
+                                <img src="/media/{{ b.image }}" class="card-img-top" alt="{{ b.title }} - مقاله حقوقی موسسه آوا حق">
                             {% endif %}
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h3 class="text-gold my-3">{{ b.title }}</h3>
+                                    <h2 class="text-gold my-3">{{ b.title }}</h2>
                                     {% if user.is_staff %}
                                         <a href="{% url 'blog:PostEdit' b.id %}" class="btn btn-sm btn-outline-danger ms-2">
                                             <i class="bi bi-pencil-square"></i> ویرایش
@@ -75,16 +72,13 @@
 
                 <!-- Blog Left (Sidebar) -->
                 <div class="col-md-4 mt-md-0 mt-5">
-                    <!-- Search Box -->
-                    <!-- <form method="GET" action="{% url 'blog:search' %}"> -->
-                        <div class="mb-4 d-flex flex-column p-4 py-5 bg-blog ">
-                            <input class="input-blog mb-3" type="text" name="q" placeholder="جستجو ..." style="width: 100%;">
-                            <button class="bg-gold border-0 py-2 btn-form" type="submit">جستجو</button>
-                        </div>
-                    <!-- </form> -->
-                    <!-- Latest Posts -->
+                    <div class="mb-4 d-flex flex-column p-4 py-5 bg-blog ">
+                        <input class="input-blog mb-3" type="text" name="q" placeholder="جستجو در مقالات حقوقی ..." style="width: 100%;">
+                        <button class="bg-gold border-0 py-2 btn-form" type="submit">جستجو</button>
+                    </div>
+                    
                     <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">پر بازدید ها</h6>
+                        <h3 class="bg-gold text-dark px-5 py-3 blog-title">پر بازدید ها</h3>
                         <ul class="list-group mt-2">
                             {% for post in blog|slice:":5" %}
                             <li class="mb-3">
@@ -99,9 +93,9 @@
                             {% endfor %}
                         </ul>
                     </div>
-                    <!-- Latest Cases -->
+                    
                     <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">آخرین پرونده‌ها</h6>
+                        <h3 class="bg-gold text-dark px-5 py-3 blog-title">آخرین پرونده‌ها</h3>
                         <ul class="list-group mt-2">
                             {% for case in cases|slice:":5" %}
                             <li class="mb-3">
@@ -116,32 +110,24 @@
                             {% endfor %}
                         </ul>
                     </div>
-
-
                 </div>
             </div>
         </div>
     </section>
 
-
-
-
-    <!-- fix phone -->
     <div class="bg-gold fix-phone">
         <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
                                                                      style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
                 ۰۲۱۱۲۳۴۵۶۷۸</span></a>
     </div>
+    <p class="text-light text-center mt-4">برای دریافت جدیدترین مقالات حقوقی، وبلاگ موسسه آوا حق را دنبال کنید. تیم وکلای ما همواره آماده پاسخگویی به سوالات حقوقی شماست.</p>
 {% endblock %}
-
 
 {% block script %}
     <script>
-        // Accordion
         const headers = document.querySelectorAll('.accordion-header');
         if (headers) {
             document.addEventListener('DOMContentLoaded', function () {
-
                 headers.forEach(header => {
                     header.addEventListener('click', function () {
                         const body = this.nextElementSibling;
@@ -155,8 +141,6 @@
                     });
                 });
             });
-
-
         }
     </script>
 {% endblock %}

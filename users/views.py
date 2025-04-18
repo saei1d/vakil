@@ -209,7 +209,7 @@ def dashboard(request, username=None):
 
 
 def test(request):
-    return render(request, 'users/test.html')
+    return render(request, '404.html')
 
 
 def Login(request):
@@ -251,3 +251,19 @@ def set_nickname (request,username):
         else:
             messages.error(request, "لطفا نام مستعار خود را وارد کنید.")
     return redirect('users:dashboard')  # بازگشت به داشبورد کاربر
+
+
+
+
+from django.http import HttpResponse
+
+def robots_txt(request):
+    content = """
+    
+User-agent: *
+Disallow: /admin/
+Disallow: /dashboard/
+
+Sitemap: http://localhost:8000/sitemap.xml
+"""
+    return HttpResponse(content, content_type="text/plain")

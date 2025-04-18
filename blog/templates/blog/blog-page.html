@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}وبلاگ{% endblock %}
+{% block title %}{{ blog.title }} | وبلاگ تخصصی حقوقی و آموزشی{% endblock %}
+
+{% block meta %}
+<meta name="description" content="{{ blog.excerpt|default:'مطالب تخصصی در زمینه حقوق، آموزش و پرونده های قضایی. جدیدترین مقالات و تحلیل های حقوقی در وبلاگ ما'|truncatechars:155 }}">
+{% endblock %}
 
 {% block content %}
     <section>
@@ -9,14 +13,18 @@
                 <div class="col-md-8 text-md-start text-center ">
                     <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
                         {% load static %}
-                        <img src="/media/{{ blog.image }}" class="card-img-top" alt="Blog Image">
+                        <img src="/media/{{ blog.image }}" class="card-img-top" alt="{{ blog.title|default:'مقاله حقوقی' }}">
+
+                        <h1 class="text-light mb-4">{{ blog.title }}</h1>
 
                         <!-- text blog -->
                         <div class="card-body mt-4 lh-lg text-jus fw-lighter">
                             {{ blog.content|safe }}
                         </div>
+
+                        <h2 class="text-light mt-5 mb-3">دسته بندی مطالب</h2>
                         <!-- tag blog -->
-                        <nav class="menu-2">
+                        <nav class="menu-2" aria-label="دسته بندی مطالب">
                             <ul>
                                 <li class="highlight"><a><i class="bi bi-tag-fill text-dark"></i></a></li>
                                 {% if 'announcement' in blog.category %}
@@ -42,10 +50,11 @@
                             </ul>
                         </nav>
 
+                        <h2 class="text-light mt-5 mb-3">نظرات کاربران</h2>
                         <!-- comment -->
                         <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                            <h6 class="bg-gold text-dark px-5 py-3 w-75 text-center blog-title"><i
-                                    class="bi bi-chat-fill me-2"></i> {{ blog.comments.count }} نظر </h6>
+                            <h3 class="bg-gold text-dark px-5 py-3 w-75 text-center blog-title"><i
+                                    class="bi bi-chat-fill me-2"></i> {{ blog.comments.count }} نظر </h3>
                             
                             {% for comment in blog.comments.all|dictsortreversed:"created_at" %}
                                 {% if not comment.parent %}

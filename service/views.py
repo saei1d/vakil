@@ -12,6 +12,7 @@ from .models import Service, UserServiceRequest  # فرضی
 from payment.models import Payment
 from zarinpal import ZarinPal
 from django.conf import settings
+import requests
 
 
 class Pricing(View):
@@ -226,61 +227,75 @@ def Payam(request):
 @login_required
 def Shekaiatname(request):
     if request.method == 'POST':
-        pending_request = UserServiceRequest.objects.filter(user=request.user, is_accepted=False).exists()
-        if pending_request:
-            messages.error(request, 'درخواست قبلی شما هنوز بررسی نشده است.')
-            return redirect('users:dashboard')
+        turnstile_response = request.POST.get("cf-turnstile-response")
+        secret_key = '0x4AAAAAABOXzQoGG9cbDjMlFN66fS6lmT4'
+        verify_url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+        
+        resp = requests.post(verify_url, data={
+            'secret': secret_key,
+            'response': turnstile_response,
+            'remoteip': request.META.get('REMOTE_ADDR')
+        })
+        result = resp.json()
+        if result.get("success"):
+            pending_request = UserServiceRequest.objects.filter(user=request.user, is_accepted=False).exists()
+            if pending_request:
+                messages.error(request, 'درخواست قبلی شما هنوز بررسی نشده است.')
+                return redirect('users:dashboard')
 
-        title = request.POST['title']
-        description = request.POST['description']
-        group = request.POST['group']
-        attachment = request.FILES.get('attachment')
+            title = request.POST['title']
+            description = request.POST['description']
+            group = request.POST['group']
+            attachment = request.FILES.get('attachment')
 
-        allowed_extensions = ['.pdf', '.zip', '.jpg', '.jpeg', '.png', '.doc', '.docx']
-        max_size = 40 * 1024 * 1024
+            allowed_extensions = ['.pdf', '.zip', '.jpg', '.jpeg', '.png', '.doc', '.docx']
+            max_size = 5 * 1024 * 1024  # محدودیت حجم فایل به 5 مگابایت
 
-        if attachment:
-            ext = os.path.splitext(attachment.name)[1].lower()
-            if ext not in allowed_extensions or attachment.size > max_size:
-                messages.error(request, 'فرمت یا حجم فایل نامعتبر است')
+            if attachment:
+                ext = os.path.splitext(attachment.name)[1].lower()
+                if ext not in allowed_extensions or attachment.size > max_size:
+                    messages.error(request, 'فرمت یا حجم فایل نامعتبر است')
+                    return redirect('service:pricing')
+
+            group_map = {
+                "1": "تنظیم لایحه",
+                "2": "تنظیم دادخواست", 
+                "3": "تنظیم شکواییه",
+                "4": "تنظیم اظهارنامه"
+            }
+            group_title = group_map.get(group, "")
+            jalali_date = jdatetime.datetime.now().date()
+            end_service = jalali_date + timedelta(days=5)
+
+            service = Service.objects.get(id=3)
+            service_request = ServiceHandler.create_service_request(
+                request.user, service, group_title, False,
+                f'{title}--{description}',
+                jalali_date, end_service,
+                attachment=attachment
+            )
+
+            if service.price == 0:
+                service_request.is_paid = True
+                service_request.save()
+                messages.success(request, 'درخواست با موفقیت ثبت شد')
+                return redirect('users:dashboard')
+
+            payment, authority_or_error = ServiceHandler.payment_request(
+                request.user,
+                service_request,
+                f'پرداخت برای تنظیم {group_title}'
+            )
+
+            if payment:
+                return redirect(f"https://www.zarinpal.com/pg/StartPay/{authority_or_error}")
+            else:
+                messages.error(request, authority_or_error)
                 return redirect('service:pricing')
-
-        group_map = {
-            "1": "تنظیم لایحه",
-            "2": "تنظیم دادخواست", 
-            "3": "تنظیم شکواییه",
-            "4": "تنظیم اظهارنامه"
-        }
-        group_title = group_map.get(group, "")
-        jalali_date = jdatetime.datetime.now().date()
-        end_service = jalali_date + timedelta(days=5)
-
-        service = Service.objects.get(id=3)
-        service_request = ServiceHandler.create_service_request(
-            request.user, service, group_title, False,
-            f'{title}--{description}',
-            jalali_date, end_service,
-            attachment=attachment
-        )
-
-        if service.price == 0:
-            service_request.is_paid = True
-            service_request.save()
-            messages.success(request, 'درخواست با موفقیت ثبت شد')
-            return redirect('users:dashboard')
-
-        payment, authority_or_error = ServiceHandler.payment_request(
-            request.user,
-            service_request,
-            f'پرداخت برای تنظیم {group_title}'
-        )
-
-        if payment:
-            return redirect(f"https://www.zarinpal.com/pg/StartPay/{authority_or_error}")
         else:
-            messages.error(request, authority_or_error)
+            # خطا در کپچا
+            messages.info(request, 'کپچا تأیید نشد!')
             return redirect('service:pricing')
-
 @login_required
 def Ekhtesasi(request):
     if request.method == 'POST':
