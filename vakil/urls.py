@@ -22,7 +22,7 @@ urlpatterns = [
     path('chat/', include('chat.urls')),  # مسیر چت را اضافه کنید
 
     path('', include('users.urls')),
-    path('', include('users.admin.urls')),
+    path('adminpanel/', include('users.admin.urls')),
     path('', include('service.urls')),
     path('', include('blog.urls')),
 
