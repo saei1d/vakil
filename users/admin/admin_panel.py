@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse, HttpResponseRedirect
@@ -25,7 +26,7 @@ def is_admin(user):
 
 @login_required
 @user_passes_test(is_admin)
-def admin_list(request):
+def admin_userlist(request):
 
     try:
         # Search functionality
@@ -64,7 +65,7 @@ def admin_list(request):
     except Exception as e:
         logger.error(f"Error in user_list view: {str(e)}")
         messages.error(request, "خطایی در نمایش لیست کاربران رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('userlist')
+        return redirect('admin_userlist')
 
 
 @login_required
@@ -118,7 +119,7 @@ def service(request):
     except Exception as e:
         logger.error(f"خطا در مدیریت سرویس‌ها: {str(e)}")
         messages.error(request, "خطایی در مدیریت سرویس‌ها رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('userlist')
+        return redirect('admin_userlist')
 
 @login_required
 @user_passes_test(is_admin)
@@ -143,7 +144,7 @@ def service_list(request, username):
     except Exception as e:
         logger.error(f"Error in service_list view for user {username}: {str(e)}")
         messages.error(request, "خطایی در نمایش لیست سرویس‌ها رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('userlist')
+        return redirect('admin_userlist')
 
 
 @login_required
@@ -187,7 +188,7 @@ def update_service(request, pk):
     except Exception as e:
         logger.error(f"Error in update_service view for service {pk}: {str(e)}")
         messages.error(request, "خطایی در به‌روزرسانی سرویس رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('userlist')
+        return redirect('admin_userlist')
 
 
 @login_required
@@ -259,7 +260,7 @@ def delete_service(request, pk):
     except Exception as e:
         logger.error(f"Error in delete_service view for service {pk}: {str(e)}")
         messages.error(request, "خطایی در حذف سرویس رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('userlist')
+        return redirect('admin_userlist')
 
 
 def uncomplete_blog(request):
@@ -304,12 +305,12 @@ def promote_user(request, username):
         
         messages.success(request, f"کاربر {user.username} با موفقیت {status_message}.")
         
-        return redirect('userlist')
+        return redirect('admin_userlist')
         
     except Exception as e:
         logger.error(f"خطا در ارتقای کاربر {username}: {str(e)}")
         messages.error(request, "خطایی در تغییر وضعیت کاربر رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('userlist')
+        return redirect('admin_userlist')
     
 
 
@@ -321,7 +322,7 @@ def delete_blog(request , id):
         messages.success(request, "بلاگ با موفقیت حذف شد.")
     else:
         messages.error(request, "شما مجوز لازم برای حذف بلاگ را ندارید.")
-    return redirect('userlist')
+    return redirect('admin_userlist')
 
 
 def admindashboard(request):
@@ -340,3 +341,75 @@ def admindashboard(request):
     }
     
     return render(request, 'users/admin_dashboard.html', context)
+
+
+
+def admin_userinfo(request,id):
+    user = get_object_or_404(Client, id=id)
+    services = UserServiceRequest.objects.filter(user=user)
+    payments = Payment.objects.filter(user=user)
+
+    
+    context = {
+        'user': user,
+        'services': services,
+        'payments': payments,
+
+    }
+    
+    return render(request, 'users/admin_userinfo.html', context)
+
+
+def update_user_info(request,id):
+    if request.method == 'POST':
+        user = get_object_or_404(Client, id=id)
+        
+        # دریافت داده‌های فرم
+        first_name = request.POST.get('name', user.name)
+        last_name = request.POST.get('last_name', user.last_name)
+        # phone = request.POST.get('phone', user.phone)
+        
+        # به‌روزرسانی اطلاعات کاربر
+        user.first_name = first_name
+        user.last_name = last_name
+        # user.phone = phone
+        
+        # ذخیره تغییرات
+        user.save()
+        messages.success(request, 'اطلاعات کاربر با موفقیت به‌روزرسانی شد.')
+    else:
+        messages.error(request, 'درخواست نامعتبر است.')
+    
+    return redirect('admin_userinfo', id=id)
+
+
+def add_payment(request,id):
+    if request.method == 'POST':
+        user = get_object_or_404(Client, id=id)
+        
+        # دریافت داده‌های فرم
+        amount = request.POST.get('amount')
+        description = request.POST.get('description', '')
+        is_paid = request.POST.get('is_paid', False) == 'on'
+        
+        try:
+            # ایجاد تراکنش جدید
+            payment = Payment.objects.create(
+                user=user,
+                amount=amount,
+                description=description,
+                is_paid=is_paid,
+                payment_date=timezone.now()
+            )
+            messages.success(request, 'تراکنش با موفقیت ایجاد شد.')
+            return redirect('admin_userinfo', id=id)
+        except Exception as e:
+            messages.error(request, f'خطا در ایجاد تراکنش: {str(e)}')
+            return redirect('admin_userinfo', id=id)
+    
+    # نمایش فرم ایجاد تراکنش
+    user = get_object_or_404(Client, id=id)
+    context = {
+        'user': user,
+    }
+    return render(request, 'users/add_payment.html', context)

@@ -5,8 +5,13 @@ from .admin_panel import *
 urlpatterns = [
     path('dashboard/',admindashboard,name='admindashboard'),
 
-    path('admin-list/', admin_list, name='admin_list'),
+    path('admin-userlist/', admin_userlist, name='admin_userlist'),
 
+    path('admin_userinfo/<int:id>/',admin_userinfo,name='admin_userinfo'),
+    
+    path('update_user_info/<int:id>/',update_user_info,name='update_user_info'),
+    
+    path('add_payment/<int:id>/',add_payment,name='add_payment'),
     
     path('admin-service/<str:username>/', service_list, name='servicelist'),
     path('update-service/<int:pk>/', update_service, name='update_service'),

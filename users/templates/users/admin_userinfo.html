@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اطلاعات کاربر - {{ user.username }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0d3791;
+            --secondary-color: #190556;
+            --accent-color: #1d47ba;
+            --background-color: #f8fafc;
+            --sidebar-bg: linear-gradient(180deg, #1e3a8a, #33085f);
+            --active-menu-bg: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            font-family: 'Vazir', 'Tahoma', sans-serif;
+            background-color: var(--background-color);
+        }
+
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(280px);
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--sidebar-bg);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(280px);
+                width: 280px;
+                position: fixed;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-right: 0;
+                padding: 1rem;
+            }
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar .logo img {
+            width: 100px;
+            margin-bottom: 1rem;
+            filter: brightness(0) invert(1);
+        }
+
+        .sidebar .menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .menu a.active {
+            background: var(--active-menu-bg);
+            font-weight: 600;
+        }
+
+        .sidebar .menu a:hover {
+            background: var(--active-menu-bg);
+        }
+
+        .sidebar .menu a i {
+            margin-left: 0.8rem;
+        }
+
+        .main-content {
+            margin-right: 280px;
+            padding: 2rem;
+            background-color: white;
+            min-height: 100vh;
+            transition: margin-right 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-right: 0;
+            }
+
+            .card {
+                margin-bottom: 1rem;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            .btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .form-control {
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            background-color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px 12px 0 0;
+            padding: 1.2rem;
+        }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .btn {
+            border-radius: 8px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .badge {
+            border-radius: 6px;
+            padding: 0.5rem 0.8rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .alert {
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    {% load static %}
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar">
+        <div class="logo">
+            <img src="{% static 'image/logo.png' %}" alt="لوگو سایت">
+            <h3>پنل مدیریت</h3>
+        </div>
+        <ul class="menu">
+            <li class="menu-item active">
+                <a href="{% url 'admin_userlist' %}">
+                    <i class="fas fa-users"></i>
+                    <span>مدیریت کاربران</span>
+                    <i class="fas fa-chevron-left dropdown-icon"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li class="active">
+                        <a href="#">
+                            <i class="fas fa-user-circle"></i>
+                            مشخصات کاربر
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="{% url 'service' %}"><i class="fas fa-cogs"></i> مدیریت سرویس‌ها</a></li>
+            <li><a href="#"><i class="fas fa-money-bill-wave"></i> تراکنش‌ها</a></li>
+            <li><a href="{% url 'uncomplete_blog' %}"><i class="fas fa-blog"></i> مدیریت وبلاگ</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> گزارشات و آمار</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h2>
+                <i class="fas fa-user"></i>
+                مشخصات کاربر: {{ user.username }}
+            </h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'admin_userlist' %}">مدیریت کاربران</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">مشخصات کاربر</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-info-circle"></i> اطلاعات پایه کاربر
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{% url 'update_user_info' user.id %}">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-4 col-12">
+                            <label class="form-label">نام کاربری</label>
+                            <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <label class="form-label">نام کامل</label>
+                            <input type="text" class="form-control" name="name" value="{{ user.name }}">
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <label class="form-label">نام مستعار</label>
+                            <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <label class="form-label">وضعیت</label>
+                            <div class="d-flex align-items-center gap-2">
+                                {% if user.is_superuser %}
+                                <span class="badge bg-danger">سوپر یوزر</span>
+                                {% elif user.is_staff %}
+                                <span class="badge bg-warning text-dark">کارمند</span>
+                                {% else %}
+                                <span class="badge bg-secondary">کاربر عادی</span>
+                                {% endif %}
+                                <a href="{% url 'promote_user' user.username %}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-user-cog"></i> تغییر وضعیت
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> ذخیره تغییرات
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Services Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-cogs"></i> سرویس‌های کاربر
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if services %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>عنوان</th>
+                                <th>تاریخ درخواست</th>
+                                <th>وضعیت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in services %}
+                            <tr>
+                                <td>{{ service.title }}</td>
+                                <td>{{ service.created_at|date:"Y/m/d H:i" }}</td>
+                                <td>
+                                    {% if service.status == 'pending' %}
+                                    <span class="badge bg-warning text-dark">در انتظار</span>
+                                    {% elif service.status == 'completed' %}
+                                    <span class="badge bg-success">تکمیل شده</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">لغو شده</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'update_service' service.id %}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">هیچ سرویسی یافت نشد</div>
+                {% endif %}
+                <a href="{% url 'add_service' user.username %}" class="btn btn-success">
+                    <i class="fas fa-plus"></i> افزودن سرویس جدید
+                </a>
+            </div>
+        </div>
+
+        <!-- Payments Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-money-bill-wave"></i> تراکنش‌های مالی
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if payments %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>مبلغ</th>
+                                <th>تاریخ</th>
+                                <th>وضعیت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payments %}
+                            <tr>
+                                <td>{{ payment.amount }} ریال</td>
+                                <td>{{ payment.payment_date|date:"Y/m/d H:i" }}</td>
+                                <td>
+                                    {% if payment.is_paid %}
+                                    <span class="badge bg-success">پرداخت شده</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">پرداخت نشده</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">هیچ تراکنشی یافت نشد</div>
+                {% endif %}
+                <a href="{% url 'add_payment' user.id %}" class="btn btn-success">
+                    <i class="fas fa-plus"></i> افزودن تراکنش جدید
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function (event) {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleBtn = document.querySelector('.sidebar-toggle');
+
+            if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+        // Prevent closing when clicking inside sidebar
+        document.querySelector('.sidebar').addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+    </script>
+</body>
+
+</html>

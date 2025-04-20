@@ -49,7 +49,7 @@
 
     {% if request.user.is_staff %}
     <div class="text-center mt-4">
-        <a href="{% url 'userlist' %}" class="btn btn-primary">رفتن به پنل ادمین</a>
+        <a href="{% url 'admin_userlist' %}" class="btn btn-primary">رفتن به پنل ادمین</a>
     </div>
     <div class="text-center mt-4">
         <a href="{% url 'blog:create-blog' %}" class="btn btn-primary">ساخت بلاگ جدید</a>
