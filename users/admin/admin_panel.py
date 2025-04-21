@@ -149,15 +149,13 @@ def service_list(request, username):
 
 @login_required
 @user_passes_test(is_admin)
-def update_service(request, pk):
-    """
-    Update a service for a user.
-    Only accessible to admin users.
-    """
-    try:
-        service = get_object_or_404(UserServiceRequest, id=pk)
+def admin_userupdate_service(request, id):
 
+        print(id)
+        service = UserServiceRequest.objects.get(id=id)
+        print(service)
         if request.method == 'POST':
+            print(1111111111111111)
             # Get form data with validation
             start_date = request.POST.get('start_date')
             end_date = request.POST.get('end_date')
@@ -182,13 +180,15 @@ def update_service(request, pk):
         context = {
             'service': service,
         }
+        print(context)
+        print(333333333333333)
 
-        return render(request, 'users/update_service.html', context)
+        return render(request, 'users/admin_userupdate_service.html', context)
 
-    except Exception as e:
-        logger.error(f"Error in update_service view for service {pk}: {str(e)}")
-        messages.error(request, "خطایی در به‌روزرسانی سرویس رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('admin_userlist')
+    # except Exception as e:
+    #     logger.error(f"Error in admin_userupdate_service view for service {id}: {str(e)}")
+    #     messages.error(request, "خطایی در به‌روزرسانی سرویس رخ داد. لطفا دوباره تلاش کنید.")
+    #     return redirect('admin_userlist')
 
 
 @login_required
@@ -305,7 +305,7 @@ def promote_user(request, username):
         
         messages.success(request, f"کاربر {user.username} با موفقیت {status_message}.")
         
-        return redirect('admin_userlist')
+        return redirect('admin_userinfo', id=user.id)        
         
     except Exception as e:
         logger.error(f"خطا در ارتقای کاربر {username}: {str(e)}")
@@ -368,9 +368,9 @@ def update_user_info(request,id):
         first_name = request.POST.get('name', user.name)
         last_name = request.POST.get('last_name', user.last_name)
         # phone = request.POST.get('phone', user.phone)
-        
+        print(first_name,last_name)
         # به‌روزرسانی اطلاعات کاربر
-        user.first_name = first_name
+        user.name = first_name
         user.last_name = last_name
         # user.phone = phone
         

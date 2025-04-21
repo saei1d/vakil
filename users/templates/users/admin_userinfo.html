@@ -216,37 +216,9 @@
 
 <body>
     {% load static %}
-    <button class="sidebar-toggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </button>
 
-    <div class="sidebar">
-        <div class="logo">
-            <img src="{% static 'image/logo.png' %}" alt="لوگو سایت">
-            <h3>پنل مدیریت</h3>
-        </div>
-        <ul class="menu">
-            <li class="menu-item active">
-                <a href="{% url 'admin_userlist' %}">
-                    <i class="fas fa-users"></i>
-                    <span>مدیریت کاربران</span>
-                    <i class="fas fa-chevron-left dropdown-icon"></i>
-                </a>
-                <ul class="sub-menu">
-                    <li class="active">
-                        <a href="#">
-                            <i class="fas fa-user-circle"></i>
-                            مشخصات کاربر
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li><a href="{% url 'service' %}"><i class="fas fa-cogs"></i> مدیریت سرویس‌ها</a></li>
-            <li><a href="#"><i class="fas fa-money-bill-wave"></i> تراکنش‌ها</a></li>
-            <li><a href="{% url 'uncomplete_blog' %}"><i class="fas fa-blog"></i> مدیریت وبلاگ</a></li>
-            <li><a href="#"><i class="fas fa-chart-line"></i> گزارشات و آمار</a></li>
-        </ul>
-    </div>
+    <div class="admin-panel">
+    {% include "users/admin_sidebar.html" %}
 
     <div class="main-content">
         <div class="page-header">
@@ -332,18 +304,21 @@
                             {% for service in services %}
                             <tr>
                                 <td>{{ service.title }}</td>
-                                <td>{{ service.created_at|date:"Y/m/d H:i" }}</td>
+                                <td>{{ service.start_date|date:"Y/m/d H:i" }}</td>
                                 <td>
-                                    {% if service.status == 'pending' %}
-                                    <span class="badge bg-warning text-dark">در انتظار</span>
-                                    {% elif service.status == 'completed' %}
-                                    <span class="badge bg-success">تکمیل شده</span>
+                                    {% if service.is_active %}
+                                    <span class="badge bg-success">فعال</span>
                                     {% else %}
-                                    <span class="badge bg-secondary">لغو شده</span>
+                                    <span class="badge bg-secondary">غیرفعال</span>
+                                    {% endif %}
+                                    {% if service.is_accepted %}
+                                    <span class="badge bg-primary">قبول شده</span>
+                                    {% else %}
+                                    <span class="badge bg-warning text-dark">قبول نشده</span>
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <a href="{% url 'update_service' service.id %}" class="btn btn-sm btn-primary">
+                                    <a href="{% url 'admin_userupdate_service' service.id %}" class="btn btn-sm btn-primary">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 </td>

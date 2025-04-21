@@ -49,7 +49,7 @@ class ServiceHandler:
             payment = Payment.objects.create(
                 user=user,
                 service_request=service,  # چون service در اینجا همون service_request هست
-                amount=amount,
+                amount=amount,          
                 transaction_type='deposit'
             )
 
