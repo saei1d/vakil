@@ -99,8 +99,16 @@
                                 <label for="is_accepted" class="form-label">وضعیت تایید</label>
                                 <select class="form-select" id="is_accepted" name="is_accepted">
                                     <option value="1" {% if service.is_accepted %}selected{% endif %}>تایید شده</option>
-                                    <option value="0" {% if not service.is_accepted %}selected{% endif %}>در انتظار
-                                        تایید</option>
+                                    <option value="0" {% if not service.is_accepted %}selected{% endif %}>در انتظار تایید</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="is_paid" class="form-label">وضعیت پرداخت</label>
+                                <select class="form-select" id="is_paid" name="is_paid">
+                                    <option value="1" {% if service.is_paid %}selected{% endif %}>پرداخت شده</option>
+                                    <option value="0" {% if not service.is_paid %}selected{% endif %}>پرداخت نشده</option>
                                 </select>
                             </div>
                         </div>
@@ -110,7 +118,7 @@
                                 rows="5">{{ service.description }}</textarea>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a href="{% url 'servicelist' username=service.user.username %}" class="btn btn-secondary">
+                            <a href="{% url 'admin_userinfo' id=service.user.id %}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> بازگشت
                             </a>
                             <button type="submit" class="btn btn-primary">

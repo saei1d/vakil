@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت سرویس‌ها | پنل ادمین</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% load static %}
+    {% load humanize %}
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        .wrapper {
+            min-height: 100vh;
+        }
+        .content {
+            flex: 1;
+            padding: 1.5rem;
+            margin-right: 280px;
+            transition: margin-right 0.3s;
+            background-color: #f8f9fa;
+        }
+        @media (max-width: 768px) {
+            .content {
+                margin-right: 0;
+                padding: 1rem;
+            }
+        }
+        .card {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border: none;
+            border-radius: 0.5rem;
+        }
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem 0.5rem 0 0 !important;
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .table {
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            padding: 1rem;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        .btn-group-sm {
+            gap: 0.5rem;
+        }
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.875rem;
+            border-radius: 0.375rem;
+        }
+        .modal-content {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .modal-header {
+            border-bottom: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+        .modal-body {
+            padding: 1.5rem;
+        }
+        .modal-footer {
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #495057;
+        }
+        .form-control, .form-select {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid #ced4da;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper d-flex">
+        {% include 'users/admin_sidebar.html' %}
+
+        <div class="content">
+            <div class="container-fluid p-0">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 d-flex align-items-center">
+                                    <i class="fas fa-cogs me-2"></i>
+                                    مدیریت سرویس‌ها
+                                </h5>
+                                <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#addServiceModal">
+                                    <i class="fas fa-plus me-1"></i>
+                                    افزودن سرویس جدید
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: 50px;">#</th>
+                                                <th>نام سرویس</th>
+                                                <th>قیمت (ریال)</th>
+                                                <th class="text-center" style="width: 120px;">عملیات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for service in services %}
+                                            <tr>
+                                                <td class="text-center">{{ forloop.counter }}</td>
+                                                <td>{{ service.name }}</td>
+                                                <td>{{ service.price|intcomma }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center btn-group-sm">
+                                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editServiceModal{{ service.id }}" title="ویرایش">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteServiceModal{{ service.id }}" title="حذف">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Service Modal -->
+            <div class="modal fade" id="addServiceModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title d-flex align-items-center">
+                                <i class="fas fa-plus-circle me-2"></i>
+                                افزودن سرویس جدید
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form method="POST" action="{% url 'admin_add_service' %}">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">نوع سرویس</label>
+                                    <select class="form-select" id="name" name="name" required>
+                                        <option value="" selected disabled>انتخاب کنید</option>
+                                        {% for s in services %}
+                                            <option value="{{ s.name }}">{{ s.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">قیمت (ریال)</label>
+                                    <input type="number" class="form-control" id="price" name="price" required min="0" placeholder="مثال: 1000000">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i>
+                                    ذخیره
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Service Modals -->
+            {% for service in services %}
+            <div class="modal fade" id="editServiceModal{{ service.id }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title d-flex align-items-center">
+                                <i class="fas fa-edit me-2"></i>
+                                ویرایش سرویس
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form method="POST" action="{% url 'admin_edit_service' service.id %}">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="name{{ service.id }}" class="form-label">نوع سرویس</label>
+                                    <select class="form-select" id="name{{ service.id }}" name="name" required>
+                                        {% for s in services   %}
+                                            <option value="{{ s.name }}" {% if s.name == service.name %}selected{% endif %}>{{ s.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="price{{ service.id }}" class="form-label">قیمت (ریال)</label>
+                                    <input type="number" class="form-control" id="price{{ service.id }}" name="price" value="{{ service.price }}" required min="0">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i>
+                                    ذخیره تغییرات
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Service Modal -->
+            <div class="modal fade" id="deleteServiceModal{{ service.id }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title d-flex align-items-center">
+                                <i class="fas fa-trash-alt me-2"></i>
+                                حذف سرویس
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="mb-0">آیا از حذف سرویس "{{ service.name }}" اطمینان دارید؟</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                            <a href="{% url 'admin_delete_service' service.id %}" class="btn btn-danger">
+                                <i class="fas fa-trash me-1"></i>
+                                حذف
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/admin.js' %}"></script>
+</body>
+
+</html>

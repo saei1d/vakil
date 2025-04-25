@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Persian Date Picker -->
+    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
     <style>
         body {
             font-family: 'Tahoma', 'Arial', sans-serif;
@@ -22,6 +24,9 @@
         }
         .alert {
             margin-top: 20px;
+        }
+        .pdp-default {
+            z-index: 1000;
         }
     </style>
 </head>
@@ -113,12 +118,14 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="start_date" class="form-label">تاریخ شروع</label>
-                            <input type="date" class="form-control" id="start_date" name="start_date" required>
+                            <label for="start_date_display" class="form-label">تاریخ شروع</label>
+                            <input type="text" class="form-control" id="start_date_display" required readonly>
+                            <input type="hidden" id="start_date" name="start_date" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="end_date" class="form-label">تاریخ پایان</label>
-                            <input type="date" class="form-control" id="end_date" name="end_date" required>
+                            <label for="end_date_display" class="form-label">تاریخ پایان</label>
+                            <input type="text" class="form-control" id="end_date_display" required readonly>
+                            <input type="hidden" id="end_date" name="end_date" required>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -140,22 +147,55 @@
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (required for Persian Date Picker) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Persian Date -->
+    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <!-- Persian Date Picker -->
+    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
     <script>
-        // Set default dates
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date();
-            const nextMonth = new Date(today);
-            nextMonth.setMonth(today.getMonth() + 1);
-            
-            const formatDate = (date) => {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                return `${year}-${month}-${day}`;
+        $(document).ready(function() {
+            // تنظیمات مشترک برای هر دو تاریخ
+            const datePickerOptions = {
+                format: 'YYYY/MM/DD',
+                autoClose: true,
+                initialValue: false,
+                persianDigit: true,
+                observer: true,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                onSelect: function(unix) {
+                    // تبدیل تاریخ شمسی به میلادی
+                    const georgianDate = new Date(unix);
+                    const year = georgianDate.getFullYear();
+                    const month = String(georgianDate.getMonth() + 1).padStart(2, '0');
+                    const day = String(georgianDate.getDate()).padStart(2, '0');
+                    const formattedDate = `${year}-${month}-${day} 00:00:00`;
+                    
+                    // ذخیره تاریخ میلادی در فیلد مخفی
+                    if (this.model.inputElement.id === 'start_date_display') {
+                        document.getElementById('start_date').value = formattedDate;
+                    } else {
+                        document.getElementById('end_date').value = formattedDate;
+                    }
+                }
             };
-            
-            document.getElementById('start_date').value = formatDate(today);
-            document.getElementById('end_date').value = formatDate(nextMonth);
+
+            // راه‌اندازی تاریخ شروع
+            $("#start_date_display").pDatepicker(datePickerOptions);
+
+            // راه‌اندازی تاریخ پایان
+            $("#end_date_display").pDatepicker(datePickerOptions);
+
+            // تنظیم تاریخ‌های پیش‌فرض
+            const today = new persianDate();
+            const nextMonth = new persianDate().add('month', 1);
+
+            $("#start_date_display").pDatepicker('setDate', today);
+            $("#end_date_display").pDatepicker('setDate', nextMonth);
         });
     </script>
 </body>

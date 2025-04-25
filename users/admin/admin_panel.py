@@ -6,9 +6,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
 
 from blog.models import Post
-from service.models import UserServiceRequest, Service
+from service.models import UserServiceRequest, Service,FreeForm
 from users.models import Client
 import logging
 from payment.models import Payment
@@ -121,30 +122,6 @@ def service(request):
         messages.error(request, "خطایی در مدیریت سرویس‌ها رخ داد. لطفا دوباره تلاش کنید.")
         return redirect('admin_userlist')
 
-@login_required
-@user_passes_test(is_admin)
-def service_list(request, username):
-    """
-    Display a list of services for a specific user.
-    Only accessible to admin users.
-    """
-    try:
-        user = get_object_or_404(Client, username=username)
-        services = UserServiceRequest.objects.filter(user=user).order_by('-start_date')
-        available_services = Service.objects.all()
-
-        context = {
-            'services': services,
-            'user': user,
-            'available_services': available_services,
-        }
-
-        return render(request, 'users/servicelist.html', context)
-
-    except Exception as e:
-        logger.error(f"Error in service_list view for user {username}: {str(e)}")
-        messages.error(request, "خطایی در نمایش لیست سرویس‌ها رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('admin_userlist')
 
 
 @login_required
@@ -157,25 +134,26 @@ def admin_userupdate_service(request, id):
         if request.method == 'POST':
             print(1111111111111111)
             # Get form data with validation
+            title = request.POST.get('title')
             start_date = request.POST.get('start_date')
             end_date = request.POST.get('end_date')
+            description = request.POST.get('description', '')
             is_active = request.POST.get('is_active') == '1'
             is_accepted = request.POST.get('is_accepted') == '1'
-            title = request.POST.get('title', '')
-            description = request.POST.get('description', '')
+            is_paid = request.POST.get('is_paid') == '1'
 
             # Update service
+            service.title = title
             service.start_date = start_date
             service.end_date = end_date
+            service.description = description
             service.is_active = is_active
             service.is_accepted = is_accepted
-            service.title = title
-            service.description = description
-
+            service.is_paid = is_paid
             service.save()
 
             messages.success(request, "سرویس با موفقیت به‌روزرسانی شد.")
-            return redirect('servicelist', username=service.user.username)
+            return redirect('admin_userinfo', id=service.user.id)
 
         context = {
             'service': service,
@@ -193,52 +171,124 @@ def admin_userupdate_service(request, id):
 
 @login_required
 @user_passes_test(is_admin)
-def add_service(request, username):
+def admin_useradd_service(request, username):
     """
     Add a new service for a user.
     Only accessible to admin users.
     """
     try:
         user = get_object_or_404(Client, username=username)
-        available_services = Service.objects.all()
-
+        
         if request.method == 'POST':
-            service_id = request.POST.get('service')
+            # Get form data
+            title = request.POST.get('title')
+            service_type = request.POST.get('service_type')
             start_date = request.POST.get('start_date')
             end_date = request.POST.get('end_date')
-            title = request.POST.get('title', '')
             description = request.POST.get('description', '')
-
-            service_type = get_object_or_404(Service, id=service_id)
-
-            # Create new service
-            new_service = UserServiceRequest(
-                user=user,
-                service=service_type,
-                start_date=start_date,
-                end_date=end_date,
-                title=title,
-                description=description,
-                is_active=True,
-                is_accepted=True
-            )
-
-            new_service.save()
-
-            messages.success(request, "سرویس جدید با موفقیت اضافه شد.")
-            return redirect('servicelist', username=username)
-
+            is_active = request.POST.get('is_active') == '1'
+            is_accepted = request.POST.get('is_accepted') == '1'
+            is_paid = request.POST.get('is_paid') == '1'
+            
+            print("=== DEBUG INFO ===")
+            print(f"Title: {title}")
+            print(f"Service Type: {service_type}")
+            print(f"Start Date (raw): {start_date}")
+            print(f"End Date (raw): {end_date}")
+            print(f"Description: {description}")
+            print(f"Is Active: {is_active}")
+            print(f"Is Accepted: {is_accepted}")
+            print(f"Is Paid: {is_paid}")
+            
+            # Validate required fields
+            if not all([title, service_type, start_date, end_date]):
+                print("Missing required fields!")
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'status': 'error',
+                        'message': 'لطفا تمام فیلدهای ضروری را پر کنید'
+                    })
+                messages.error(request, "لطفا تمام فیلدهای ضروری را پر کنید")
+                return redirect('admin_userinfo', id=user.id)
+            
+            try:
+                # Get service type object
+                print(f"Looking for service with ID: {service_type}")
+                service = get_object_or_404(Service, id=service_type)
+                print(f"Found service: {service}")
+                
+                # Parse dates and make them timezone-aware
+                from django.utils.dateparse import parse_datetime
+                start_date = parse_datetime(start_date)
+                end_date = parse_datetime(end_date)
+                
+                print(f"Start Date (parsed): {start_date}")
+                print(f"End Date (parsed): {end_date}")
+                
+                if not start_date or not end_date:
+                    print("Invalid date format!")
+                    raise ValueError('Invalid date format')
+                
+                if not timezone.is_aware(start_date):
+                    start_date = timezone.make_aware(start_date)
+                if not timezone.is_aware(end_date):
+                    end_date = timezone.make_aware(end_date)
+                
+                print(f"Start Date (aware): {start_date}")
+                print(f"End Date (aware): {end_date}")
+                
+                print("Creating UserServiceRequest with:")
+                print(f"User: {user}")
+                print(f"Service: {service}")
+                print(f"Title: {title}")
+                print(f"Start Date: {start_date}")
+                print(f"End Date: {end_date}")
+                print(f"Description: {description}")
+                print(f"Is Active: {is_active}")
+                print(f"Is Accepted: {is_accepted}")
+                print(f"Is Paid: {is_paid}")
+                
+                # Create new service request
+                new_service = UserServiceRequest.objects.create(
+                    user=user,
+                    service=service,
+                    title=title,
+                    start_date=start_date,
+                    end_date=end_date,
+                    description=description,
+                    is_active=is_active,
+                    is_accepted=is_accepted,
+                    is_paid=is_paid
+                )
+                print(f"Successfully created service request with ID: {new_service.id}")
+                
+                messages.success(request, "سرویس با موفقیت اضافه شد")
+                return redirect('admin_userinfo', id=user.id)
+                
+            except Service.DoesNotExist:
+                print("Service does not exist!")
+                messages.error(request, "نوع سرویس انتخاب شده معتبر نیست")
+                return redirect('admin_userinfo', id=user.id)
+            except Exception as e:
+                print(f"Error creating service: {str(e)}")
+                print(f"Error type: {type(e)}")
+                import traceback
+                print("Full traceback:")
+                print(traceback.format_exc())
+                messages.error(request, f"خطا در ایجاد سرویس: {str(e)}")
+                return redirect('admin_userinfo', id=user.id)
+            
         context = {
             'user': user,
-            'available_services': available_services,
+            'available_services': Service.objects.all()
         }
-
-        return render(request, 'users/add_service.html', context)
-
+        
+        return render(request, 'users/admin_useradd_service.html', context)
+        
     except Exception as e:
         logger.error(f"Error in add_service view for user {username}: {str(e)}")
-        messages.error(request, "خطایی در افزودن سرویس جدید رخ داد. لطفا دوباره تلاش کنید.")
-        return redirect('servicelist', username=username)
+        messages.error(request, "خطایی در ثبت سرویس رخ داد. لطفا دوباره تلاش کنید.")
+        return redirect('admin_userlist')
 
 
 @login_required
@@ -263,12 +313,15 @@ def delete_service(request, pk):
         return redirect('admin_userlist')
 
 
-def uncomplete_blog(request):
-    if request.user.is_staff:
-        blogs = Post.objects.filter(is_published=False)
-        return render(request, 'users/blog_uncomplete.html', {'blogs': blogs})
-    else:
-        return redirect('users:login')
+def admin_blogs(request):
+    
+    uncomplete_blogs = Post.objects.filter(is_published=False)
+    complete_blogs = Post.objects.filter(is_published=True)
+    context = {
+        'uncomplete_blogs': uncomplete_blogs,
+        'complete_blogs': complete_blogs
+    }
+    return render(request, 'users/admin_blogs.html', context)
 
 
 
@@ -344,25 +397,28 @@ def admindashboard(request):
 
 
 
+@login_required
+@user_passes_test(is_admin)
 def admin_userinfo(request,id):
     user = get_object_or_404(Client, id=id)
-    services = UserServiceRequest.objects.filter(user=user)
+    user_services = UserServiceRequest.objects.filter(user=user)
     payments = Payment.objects.filter(user=user)
+    available_services = Service.objects.all()
 
-    
     context = {
         'user': user,
-        'services': services,
+        'user_services': user_services,
         'payments': payments,
-
+        'available_services': available_services,
     }
     
     return render(request, 'users/admin_userinfo.html', context)
 
 
 def update_user_info(request,id):
+    
+    user = get_object_or_404(Client, id=id)
     if request.method == 'POST':
-        user = get_object_or_404(Client, id=id)
         
         # دریافت داده‌های فرم
         first_name = request.POST.get('name', user.name)
@@ -380,36 +436,181 @@ def update_user_info(request,id):
     else:
         messages.error(request, 'درخواست نامعتبر است.')
     
-    return redirect('admin_userinfo', id=id)
+    return redirect('admin_userinfo', id=user.id)
 
 
-def add_payment(request,id):
+
+
+@login_required
+@user_passes_test(is_admin)
+def admin_add_payment(request,username):
+    user = get_object_or_404(Client, username=username)
     if request.method == 'POST':
-        user = get_object_or_404(Client, id=id)
-        
-        # دریافت داده‌های فرم
-        amount = request.POST.get('amount')
+        try:
+            # دریافت و اعتبارسنجی مقادیر
+            service_request_id = request.POST.get('service_request')
+            if not service_request_id:
+                messages.error(request, 'سرویس نمی‌تواند خالی باشد')
+                return redirect('admin_userinfo', id=user.id)
+                
+            service_request = get_object_or_404(UserServiceRequest, id=service_request_id)
+            if service_request.user != user:
+                messages.error(request, 'این سرویس متعلق به این کاربر نیست')
+                return redirect('admin_userinfo', id=user.id)
+            
+            amount = request.POST.get('amount')
+            if not amount:
+                messages.error(request, 'مبلغ نمی‌تواند خالی باشد')
+                return redirect('admin_userinfo', id=user.id)
+            
+            try:
+                amount = int(amount)
+                if amount <= 0:
+                    messages.error(request, 'مبلغ باید بزرگتر از صفر باشد')
+                    return redirect('admin_userinfo', id=user.id)
+            except ValueError:
+                messages.error(request, 'مبلغ باید عدد صحیح باشد')
+                return redirect('admin_userinfo', id=user.id)
+            
+            transaction_type = request.POST.get('transaction_type')
+            if transaction_type not in ['deposit', 'withdraw']:
+                messages.error(request, 'نوع تراکنش نامعتبر است')
+                return redirect('admin_userinfo', id=user.id)
+                
+            is_paid = request.POST.get('is_paid', False) == 'on'
+            
+            # ایجاد تراکنش
+            Payment.objects.create(
+                user=user,
+                service_request=service_request,
+                amount=amount,
+                transaction_type=transaction_type,
+                is_paid=is_paid,
+                created_at=timezone.now()
+            )
+            
+            messages.success(request, 'تراکنش با موفقیت ایجاد شد')
+            return redirect('admin_userinfo', id=user.id)
+            
+        except Exception as e:
+            logger.error(f"Error in admin_add_payment view: {str(e)}")
+            messages.error(request, f'خطا در ایجاد تراکنش: {str(e)}')
+            return redirect('admin_userinfo', id=user.id)
+            
+    return redirect('admin_userinfo', id=user.id)
+
+
+@login_required
+@user_passes_test(is_admin)
+def admin_services(request):
+    services = Service.objects.all()
+    context = {
+        'services': services,
+    }
+    return render(request, 'users/admin_services.html', context)
+
+
+@login_required
+@user_passes_test(is_admin)
+def admin_add_service(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
         description = request.POST.get('description', '')
-        is_paid = request.POST.get('is_paid', False) == 'on'
+        price = request.POST.get('price')
         
         try:
-            # ایجاد تراکنش جدید
-            payment = Payment.objects.create(
-                user=user,
-                amount=amount,
-                description=description,
-                is_paid=is_paid,
-                payment_date=timezone.now()
-            )
-            messages.success(request, 'تراکنش با موفقیت ایجاد شد.')
-            return redirect('admin_userinfo', id=id)
-        except Exception as e:
-            messages.error(request, f'خطا در ایجاد تراکنش: {str(e)}')
-            return redirect('admin_userinfo', id=id)
+            price = int(price)
+            if price < 0:
+                messages.error(request, 'قیمت باید بزرگتر از صفر باشد')
+                return redirect('admin_services')
+        except ValueError:
+            messages.error(request, 'قیمت باید عدد صحیح باشد')
+            return redirect('admin_services')
+            
+        if not name:
+            messages.error(request, 'نام سرویس الزامی است')
+            return redirect('admin_services')
+            
+        Service.objects.create(
+            name=name,
+            description=description,
+            price=price
+        )
+        messages.success(request, 'سرویس با موفقیت ایجاد شد')
+        return redirect('admin_services')
+        
+    return redirect('admin_services')
+
+
+@login_required
+@user_passes_test(is_admin)
+def admin_edit_service(request, id):
+    service = get_object_or_404(Service, id=id)
     
-    # نمایش فرم ایجاد تراکنش
-    user = get_object_or_404(Client, id=id)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description', '')
+        price = request.POST.get('price')
+        
+        try:
+            price = int(price)
+            if price < 0:
+                messages.error(request, 'قیمت باید بزرگتر از صفر باشد')
+                return redirect('admin_services')
+        except ValueError:
+            messages.error(request, 'قیمت باید عدد صحیح باشد')
+            return redirect('admin_services')
+            
+        if not name:
+            messages.error(request, 'نام سرویس الزامی است')
+            return redirect('admin_services')
+            
+        service.name = name
+        service.description = description
+        service.price = price
+        service.save()
+        
+        messages.success(request, 'سرویس با موفقیت به‌روزرسانی شد')
+        return redirect('admin_services')
+        
     context = {
-        'user': user,
+        'service': service,
+        'page_title': 'ویرایش سرویس'
     }
-    return render(request, 'users/add_payment.html', context)
+    return render(request, 'users/admin_edit_service.html', context)
+
+
+@login_required
+@user_passes_test(is_admin)
+def admin_delete_service(request, id):
+    service = get_object_or_404(Service, id=id)
+    service.delete()
+    messages.success(request, 'سرویس با موفقیت حذف شد')
+    return redirect('admin_services')
+
+
+@login_required
+@user_passes_test(is_admin)
+def admin_user_services(request):
+    # Get all types of user services ordered by creation date (newest first)
+    user_services = UserServiceRequest.objects.all().order_by('-created_at')
+
+    free_form_requests = FreeForm.objects.all().order_by('-created_at')
+
+    context = {
+        'user_services': user_services,
+        'free_form_requests': free_form_requests,
+    }
+    return render(request, 'users/admin_user_services.html', context)
+
+
+@login_required
+@user_passes_test(is_admin)
+def admin_user_payments(request):
+    # Get all types of user services ordered by creation date (newest first)
+    payments = Payment.objects.all().order_by('-created_at')
+
+    context = {
+        'payments': payments,
+    }
+    return render(request, 'users/admin_user_payments.html', context)

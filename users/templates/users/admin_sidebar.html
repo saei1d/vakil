@@ -1,178 +1,275 @@
 <style>
+    :root {
+        --sidebar-width: 280px;
+        --sidebar-collapsed-width: 70px;
+    }
+
     .sidebar {
-        width: 100%;
-        background: #192a56;
+        width: var(--sidebar-width);
+        background: linear-gradient(135deg, #192a56 0%, #273c75 100%);
         padding: 20px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        overflow-y: auto;
+    }
+
+    .sidebar.collapsed {
+        width: var(--sidebar-collapsed-width);
     }
 
     .sidebar .logo {
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .sidebar .logo img {
         width: 80px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.collapsed .logo img {
+        width: 40px;
+        margin-bottom: 0;
     }
 
     .sidebar .logo h2 {
         color: #f5f6fa;
         font-size: 1.2rem;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.3s ease;
     }
 
-    .sidebar .menu {
+    .sidebar.collapsed .logo h2,
+    .sidebar.collapsed .menu-text {
+        display: none;
+    }
+
+    .menu {
         list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
+        padding: 0;
+        margin: 0;
     }
 
-    .sidebar .menu li {
+    .menu li {
         margin: 5px 0;
     }
 
-    .sidebar .menu a {
+    .menu a {
         color: #f5f6fa;
         text-decoration: none;
         display: flex;
         align-items: center;
-        padding: 8px 12px;
-        border-radius: 8px;
+        padding: 12px 15px;
+        border-radius: 10px;
         transition: all 0.3s ease;
-        font-size: 0.9rem;
+        white-space: nowrap;
     }
 
-    .sidebar .menu a:hover {
-        background: #273c75;
+    .menu a:hover {
+        background: rgba(255, 255, 255, 0.1);
     }
 
-    .sidebar .menu i {
-        margin-left: 5px;
-        font-size: 1rem;
-    }
-
-    .menu .submenu {
-        display: none;
-        list-style: none;
-        padding-right: 20px;
-        background: #273c75;
-        border-radius: 6px;
-    }
-
-    .menu .has-submenu:hover .submenu {
-        display: block;
-    }
-
-    .menu .submenu li a {
-        color: #f5f6fa;
-        padding: 8px 10px;
-        font-size: 0.95em;
-        display: block;
-    }
-
-    .menu .submenu li a.active {
+    .menu a.active {
         background: #2196f3;
-        color: #fff !important;
+        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
     }
 
-    .menu .has-submenu>a {
+    .menu i {
+        margin-left: 10px;
+        font-size: 1.2rem;
+        min-width: 30px;
+        text-align: center;
+    }
+
+    .sidebar.collapsed .menu a {
+        padding: 12px;
+        justify-content: center;
+    }
+
+    .sidebar.collapsed .menu i {
+        margin: 0;
+        font-size: 1.4rem;
+    }
+
+    .sidebar-toggle {
+        position: fixed;
+        top: 20px;
+        right: var(--sidebar-width);
+        background: #192a56;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 0 5px 5px 0;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        z-index: 1001;
+        transition: right 0.3s ease;
     }
 
-    @media (min-width: 768px) {
-        .admin-panel {
-            flex-direction: row;
-        }
+    .sidebar-toggle.collapsed {
+        right: var(--sidebar-collapsed-width);
+    }
 
+    /* محتوای اصلی */
+    .main-content {
+        margin-right: var(--sidebar-width);
+        padding: 20px;
+        transition: margin-right 0.3s ease;
+    }
+
+    .main-content.expanded {
+        margin-right: var(--sidebar-collapsed-width);
+    }
+
+    @media (max-width: 768px) {
         .sidebar {
-            width: 280px;
-            padding: 30px 20px;
+            transform: translateX(100%);
+            width: 100%;
         }
 
-        .sidebar .logo img {
-            width: 100px;
+        .sidebar.show {
+            transform: translateX(0);
         }
 
-        .sidebar .logo h2 {
-            font-size: 1.4rem;
+        .sidebar-toggle {
+            right: 0;
         }
 
-        .sidebar .menu {
-            display: block;
+        .sidebar-toggle.show {
+            right: 20px;
         }
 
-        .sidebar .menu li {
-            margin: 15px 0;
+        .main-content {
+            margin-right: 0;
+            padding: 15px;
         }
 
-        .sidebar .menu a {
-            padding: 12px 15px;
-            font-size: 1rem;
+        .main-content.expanded {
+            margin-right: 0;
         }
+    }
+
+    /* اسکرولبار سفارشی */
+    .sidebar::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
     }
 </style>
+
+<!-- دکمه تغییر حالت سایدبار -->
+<button class="sidebar-toggle" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+</button>
 
 <div class="sidebar">
     {% load static %}
     <div class="logo">
-        <img src="{% static 'images/logo.png' %}" alt="لوگو سایت">
+        <img src="{% static 'image/logo.png' %}" alt="لوگو سایت">
         <h2>پنل مدیریت</h2>
     </div>
     <ul class="menu">
         <li>
-            <a href="{% url 'admindashboard' %}"
-                class="{% if request.resolver_match.url_name == 'admindashboard' %}active{% endif %}">
-                <i class="fas fa-dashboard"></i> داشبورد
+            <a href="/" target="_blank">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">صفحه اصلی سایت</span>
             </a>
         </li>
         <li>
-            <a href="{% url 'admin_userlist' %}"
-                class="{% if request.resolver_match.url_name == 'admin_userlist' %}active{% endif %}">
-                <i class="fas fa-users"></i> مدیریت کاربران
+            <a href="{% url 'admindashboard' %}" {% if request.resolver_match.url_name == 'admindashboard' %}class="active"{% endif %}>
+                <i class="fas fa-tachometer-alt"></i>
+                <span class="menu-text">داشبورد</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'admin_userlist' %}" {% if request.resolver_match.url_name == 'admin_userlist' %}class="active"{% endif %}>
+                <i class="fas fa-users"></i>
+                <span class="menu-text">مدیریت کاربران</span>
             </a>
         </li>
         <li class="has-submenu">
             <a href="#" onclick="return false;">
-                <i class="fas fa-cogs"></i> مدیریت سرویس‌ها
+                <i class="fas fa-cogs"></i>
+                <span class="menu-text">مدیریت سرویس‌ها</span>
                 <i class="fas fa-chevron-down" style="font-size: 0.7em; margin-right: 5px;"></i>
             </a>
             <ul class="submenu">
                 <li>
-                    <a href="{% url 'users:test' %}"
-                        class="{% if request.resolver_match.url_name == 'admin_add_service' %}active{% endif %}">
-                        سرویس‌های سایت
+                    <a href="{% url 'admin_services' %}" {% if request.resolver_match.url_name == 'admin_services' %}class="active"{% endif %}>
+                        <i class="fas fa-list"></i>
+                        <span class="menu-text">سرویس‌های سایت</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'users:test' %}"
-                        class="{% if request.resolver_match.url_name == 'admin_add_userservice' %}active{% endif %}">
-                        سرویس کاربران
+                    <a href="{% url 'admin_user_services' %}" {% if request.resolver_match.url_name == 'admin_user_services' %}class="active"{% endif %}>
+                        <i class="fas fa-user-cog"></i>
+                        <span class="menu-text">سرویس کاربران</span>
                     </a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="{% url 'users:test' %}"
-                class="{% if request.resolver_match.url_name == 'admin_transactions' %}active{% endif %}">
-                <i class="fas fa-money-bill-wave"></i> تراکنش‌ها
+            <a href="{% url 'admin_user_payments' %}" {% if request.resolver_match.url_name == 'admin-user-payments' %}class="active"{% endif %}>
+                <i class="fas fa-money-bill-wave"></i>
+                <span class="menu-text">تراکنش‌ها</span>
             </a>
         </li>
         <li>
-            <a href="{% url 'users:test' %}"
-                class="{% if request.resolver_match.url_name == 'admin_blog' %}active{% endif %}">
-                <i class="fas fa-blog"></i> مدیریت وبلاگ
+            <a href="{% url 'admin_blogs' %}" {% if request.resolver_match.url_name == 'admin_blogs' %}class="active"{% endif %}>
+                <i class="fas fa-blog"></i>
+                <span class="menu-text">مدیریت وبلاگ</span>
             </a>
         </li>
         <li>
-            <a href="{% url 'users:test' %}"
-                class="{% if request.resolver_match.url_name == 'admin_reports' %}active{% endif %}">
-                <i class="fas fa-chart-line"></i> گزارشات و آمار
+            <a href="{% url 'users:test' %}" {% if request.resolver_match.url_name == 'admin_reports' %}class="active"{% endif %}>
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">گزارشات و آمار</span>
             </a>
         </li>
     </ul>
 </div>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const toggle = document.querySelector('.sidebar-toggle');
+    const mainContent = document.querySelector('.main-content');
+    
+    if (window.innerWidth <= 768) {
+        sidebar.classList.toggle('show');
+        toggle.classList.toggle('show');
+    } else {
+        sidebar.classList.toggle('collapsed');
+        toggle.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded');
+    }
+}
+
+// اضافه کردن کلاس main-content به محتوای اصلی
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarParent = document.querySelector('.sidebar').parentElement;
+    const mainContent = sidebarParent.nextElementSibling;
+    if (mainContent) {
+        mainContent.classList.add('main-content');
+    }
+});
+</script>
