@@ -327,26 +327,6 @@ ul {
     border-bottom: 5px solid #b6884f;
 }
 
-.custom-card h6 {
-    color: #000000;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.custom-card h5 {
-    color: #BC945C;
-    font-size: 24px;
-    font-weight: bold;
-    margin: 40px 0px;
-}
-
-.custom-card p {
-    color: #333;
-    font-size: 16px;
-    padding-bottom: 50px;
-}
-
 .btn-custom {
     background-color: #BC945C;
     color: rgb(0, 0, 0) !important;

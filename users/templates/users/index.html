@@ -84,9 +84,10 @@
                         {% load static %}
                         <img src="{% static "image/sliderlogo.png" %}" width="650" height="130" class="p-2 mb-4" alt="لوگو موسسه حقوقی آوای حق">
                             <h1 class="my-2 h1-res mb-4" style="font-size: 64px; line-height: 1.6; max-width: 800px; margin: 0 auto;">
-                                حق شما، تخصص ما - با بیش از ۱۰ سال تجربه موفق در دعاوی حقوقی
+                                تخصص ما، حق شما - ۱۰ سال تجربه موفق در دعاوی حقوقی
                             </h1>
-                        <img src="{% static "image/slider-img2.png" %}" style=" width: 280px !important;" height="75px" alt="نماد رسمی موسسه حقوقی آوای حق">
+                            
+                        <img src="{% static "image/awards.png" %}" style="width: 350px !important; height: auto;" alt="نماد رسمی موسسه حقوقی">
                     </div>
                 </div>
                 <div class="swiper-slide mb-5 swiper-slide-2">
@@ -98,7 +99,7 @@
                         <h2 class="my-2 h1-res mb-4" style="font-size: 64px; line-height: 1.6; max-width: 800px; margin: 0 auto;">
                             تیم حقوقی برتر ایران در کنار شماست
                         </h2>
-                        <img src="{% static "image/slider-img2.png" %}" style="width: 200px !important;" height="60" alt="نماد رسمی موسسه حقوقی">
+                        <img src="{% static "image/awards.png" %}" style="width: 350px !important; height: auto;" alt="نماد رسمی موسسه حقوقی">
                     </div>
                 </div>
 
@@ -108,13 +109,11 @@
         <div class="container-2 box-hed">
             <div class="row flex-row-reverse">
                 {% for p in post %}
-                    <div class="col-md-4">
-                        <div class="custom-card">
-                            <h3>{{ p.title }}</h3>
-                            <h4>{{ p.price }}</h4>
-                            <p>{{ p.summery }}
-                            </p>
-                            <a href="{% url 'blog:blogpage' p.slug %}" class="btn-custom">مطالعه موفقیت‌های ما</a>
+                    <div class="col-md-4 mb-4">
+                        <div class="custom-card" style="background: #fff; border-radius: 15px; padding: 35px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 10px;">
+                            <h3 style="color: #1a1a1a !important; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;margin-top: 10px;">{{ p.title }}</h3>
+                            <p style="color: #666 !important; line-height: 1.8; margin-bottom: 10px; min-height: 60px;">{{ p.summery }}</p>
+                            <a href="{% url 'blog:blogpage' p.slug %}" class="btn-custom" style="display: inline-block; padding: 12px 30px; background: #b38538; color: #fff !important; border-radius: 8px; text-decoration: none;">مطالعه بیشتر</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -124,8 +123,8 @@
     <!-- slider -->
 
     <!-- box category -->
-    <section class="category-section mt2 py-5" style="margin-top: 200px;">
-        <h2 class="text-khadamat-home text-center mb-4 px-3" style="font-size: 2rem;">تخصص ما، آرامش خاطر شما</h2>
+    <section class="category-section mt2 py-5">
+        <p class="text-khadamat-home text-center mb-4 px-3" style="font-size: 2rem;">تخصص ما، آرامش خاطر شما</p>
         <div class="category text-center">
             <a href="{% url 'service:pricing' %}?source=box-1" title="خدمات حقوقی">
                 <div class="bg-white box-category">
