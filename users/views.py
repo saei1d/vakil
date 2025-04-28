@@ -261,7 +261,7 @@ def robots_txt(request):
     content = """
     
 User-agent: *
-Disallow: /admin/
+Disallow: /adminpanel/
 Disallow: /dashboard/
 
 Sitemap: http://localhost:8000/sitemap.xml
