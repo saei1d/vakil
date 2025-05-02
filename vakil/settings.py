@@ -209,5 +209,7 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
         'height': '300',
         "extraPlugins": "uploadimage",  # افزونه آپلود تصویر
+        'extraAllowedContent': 'iframe[*] script[*]',  # اجازه دادن به iframe و script
+
     },
 }

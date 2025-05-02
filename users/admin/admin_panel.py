@@ -533,7 +533,6 @@ def admin_add_service(request):
             
         Service.objects.create(
             name=name,
-            description=description,
             price=price
         )
         messages.success(request, 'سرویس با موفقیت ایجاد شد')
