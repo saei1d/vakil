@@ -24,7 +24,7 @@ urlpatterns = [
     path('login/', Login, name='login'),
     path('check-text-service/', check_text_service, name='check_text_service'),
     path('update-name/', update_name, name='update_name'),
-    path('set-nickname/<str:username>/', set_nickname, name='set_nickname'),  # تنظیم نام مستعار
-
+    path('set-nickname/<str:username>/', set_nickname, name='set_nickname'),
+    path('sms/',sms,name='sms')
 
 ]
