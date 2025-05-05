@@ -357,7 +357,7 @@ User-agent: *
 Disallow: /adminpanel/
 Disallow: /dashboard/
 
-Sitemap: http://localhost:8000/sitemap.xml
+Sitemap: http://avahagh.ir/sitemap.xml
 """
 
     return HttpResponse(content, content_type="text/plain")

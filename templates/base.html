@@ -19,8 +19,8 @@
     {% load static %}
 
 
-    <link rel="preload" as="image" href="/static/image/slider2.jpg" type="image/jpeg">
-    <link rel="preload" as="image" href="/static/image/slider2.jpg" type="image/jpeg">
+    <link rel="preload" as="image" href="/static/image/slider2.webp" type="image/jpeg">
+    <link rel="preload" as="image" href="/static/image/slider2.webp" type="image/jpeg">
 
     <link rel="stylesheet" href="{% static 'plugin/swiper-bundle.min.css' %}" />
 
@@ -50,6 +50,7 @@
     <noscript>
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     </noscript>
 
 
@@ -62,7 +63,8 @@
     <noscript>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </noscript>
-
+    {% load static %}
+    <link rel="icon" type="image/png" sizes="100x100" href="{% static 'image/favicon.webp' %}">
 
 
     {% block link %}
@@ -177,6 +179,7 @@
 </head>
 
 <body>
+    {% load static %}
 
     {% if request.path == "/home/" %}
     <div class="d-none d-md-block" style="width: 100%; height: auto; margin: 0 auto; cursor: pointer;">
@@ -190,9 +193,8 @@
     <header class="container-2 position-relative desktop" style="z-index: 10;">
         <nav class=" d-flex justify-content-between mt-3 align-items-center">
             <div class="col-md-1">
-                {% load static %}
                 <a href="{% url 'users:home' %}">
-                    <img src="/static/image/newlogo.png" width="160px" alt="لوگو موسسه حقوقی آوای حق">
+                    <img src="/static/image/newlogo.avif" width="160px" alt="لوگو موسسه حقوقی آوای حق">
                 </a>
             </div>
             <div class="col-md-7 d-flex justify-content-end gap-4 align-items-center">
@@ -211,27 +213,27 @@
                     <a href="{% url 'users:home' %}" class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه
                         اصلی</a>
                 </li>
-                <img src="{% static " image/icons8-capital-100.png" %}" alt="آیکون خدمات حقوقی" width="35px">
+                <img src="{% static "image/icons8-greek-pillar-base-100.webp" %}" alt="آیکون خدمات حقوقی" width="35px">
                 <li>
                     <a href="{% url 'service:pricing' %}"
                         class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات حقوقی</a>
                 </li>
-                <img src="{% static " image/icons8-capital-100.png" %}" alt="آیکون سوالات حقوقی" width="35px">
+                <img src="{% static "image/icons8-capital-100.webp" %}" alt="آیکون سوالات حقوقی" width="35px">
                 <li>
                     <a href="{% url 'blog:faq' %}" class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات
                         متداول</a>
                 </li>
-                <img src="{% static " image/icons8-greek-pillar-base-100.png" %}" alt="آیکون درباره ما" width="35px">
+                <img src="{% static "image/icons8-greek-pillar-base-100.webp" %}" alt="آیکون درباره ما" width="35px">
                 <li>
                     <a href="{% url 'blog:about-us' %}"
                         class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما</a>
                 </li>
-                <img src="{% static " image/icons8-capital-100.png" %}" alt="آیکون وبلاگ حقوقی" width="35px">
+                <img src="{% static "image/icons8-capital-100.webp" %}" alt="آیکون وبلاگ حقوقی" width="35px">
                 <li>
                     <a href="{% url 'blog:blog' %}"
                         class="{% if request.path == '/blog/' %}activelink{% endif %}">وبلاگ</a>
                 </li>
-                <img src="{% static " image/icons8-greek-pillar-base-100.png" %}" alt="آیکون ورود کاربر" width="35px">
+                <img src="{% static "image/icons8-greek-pillar-base-100.webp" %}" alt="آیکون ورود کاربر" width="35px">
                 {% if not user.is_authenticated %}
                 <li>
                     <a href="{% url 'users:login' %}">ورود به حساب</a>
@@ -265,7 +267,7 @@
             <div class="col-md-1">
                 {% load static %}
                 <a href="{% url 'users:home' %}">
-                    <img src="/static/image/newlogo.png" width="160px" alt="">
+                    <img src="/static/image/newlogo.avif" width="160px" alt="">
                 </a>
             </div>
             <div class="position-relative" style="user-select: none;">
@@ -273,7 +275,7 @@
                 <div class="notification-badge position-absolute" style="top: -38px; right: -10px; cursor: pointer;"
                     onclick="window.location.href='{% url 'users:home' %}#free';" title="برای پرسش رایگان کلیک کنید">
                     {% endif %}
-                    <img src="{% static 'image/gift-box.png' %}" alt="آیکون هدیه" width="30" height="30">
+                    <img src="{% static 'image/gift-box.webp' %}" alt="آیکون هدیه" width="30" height="30">
                 </div>
                 <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4" style="user-select: none; cursor: pointer;"></i>
             </div>
@@ -356,7 +358,7 @@
             <nav class=" d-flex justify-content-between mt-2 py-2 align-items-center">
                 <div class="col-md-1">
                     <a href="{% url 'users:home' %}">
-                        <img src="/static/image/newlogo.png" width="160px" alt="">
+                        <img src="/static/image/newlogo.avif" width="160px" alt="">
                     </a>
                 </div>
                 <div class="col-md-7 d-flex justify-content-end gap-4 align-items-center">
@@ -380,28 +382,28 @@
                             class="{% if request.path == '/home/' %}activelink{% endif %}">صفحه اصلی </a>
                     </li>
 
-                    <img src="{% static " image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-capital-100.webp" %}" alt="navpic" width="35px">
                     <li>
                         <a href="{% url 'service:pricing' %}"
                             class="{% if request.path == '/service/' %}activelink{% endif %}">خدمات حقوقی</a>
                     </li>
-                    <img src="{% static " image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-greek-pillar-base-100.webp" %}" alt="navpic" width="35px">
 
                     <li>
                         <a href="{% url 'blog:faq' %}"
                             class="{% if request.path == '/faq/' %}activelink{% endif %}">سوالات متداول </a>
                     </li>
-                    <img src="{% static " image/icons8-greek-pillar-base-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-capital-100.webp" %}" alt="navpic" width="35px">
                     <li>
                         <a href="{% url 'blog:blog' %}"
                             class="{% if request.path == '/blog/' %}activelink{% endif %}">وبلاگ</a>
                     </li>
-                    <img src="{% static " image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-greek-pillar-base-100.webp" %}" alt="navpic" width="35px">
                     <li>
                         <a href="{% url 'blog:about-us' %}"
                             class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما </a>
                     </li>
-                    <img src="{% static " image/icons8-capital-100.png" %}" alt="navpic" width="35px">
+                    <img src="{% static "image/icons8-capital-100.webp" %}" alt="navpic" width="35px">
                     {% if not user.is_authenticated %}
                     <li>
                         <a href="{% url 'users:login' %}"
@@ -443,7 +445,7 @@
         <nav class=" d-flex justify-content-between py-4 px-5 align-items-center" style="background-color: #101a0e;">
             <div class="col-md-1">
                 <a href="{% url 'users:home' %}">
-                    <img src="/static/image/newlogo.png" width="160px" alt="">
+                    <img src="/static/image/newlogo.avif" width="160px" alt="">
                 </a>
             </div>
             <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4"></i>
@@ -468,7 +470,7 @@
                 </a>
                 <a href="{% url 'service:pricing' %}"
                     class="menu-item d-flex align-items-center {% if request.path == '/service/' %}active-menu{% endif %}"
-                    style="{% if request.path == '/service/' %}color: #BC945C; padding-right: 15px;{% endif %}">
+                    style="{% if request.path == '/service/' %} color: #BC945C; padding-right: 15px;{% endif %}">
                     <li><i class="bi bi-briefcase-fill me-2"
                             style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/service/' %}color: #BC945C;{% endif %}"></i>خدمات
                         حقوقی</li>
@@ -519,6 +521,7 @@
                 {% endif %}
             </ul>
 
+
             <div class="icon-menu w-100 text-center">
                 <div class="d-flex justify-content-center mb-4">
                     <a href="https://www.instagram.com/avahagh.ir/profilecard/?igsh=MW4wM3BvZndjaW0yOQ=="
@@ -550,7 +553,7 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <img src="{% static " image/logoblack.png" %}" width="200" alt="">
+                    <img src="{% static "image/logoblack.webp" %}" width="200" alt="">
                     <p class="text-black text-jus my-4 col-md-11 fw-semibold">سامانه حقوقی آوا حق با بهره‌گیری از وکلای
                         مجرب و متعهد، آماده ارائه خدمات حقوقی تخصصی در زمینه‌های مختلف از جمله مشاوره حقوقی، تنظیم لوایح
                         و دادخواست‌ها، وکالت اختصاصی و سایر امور حقوقی می‌باشد. ما با تکیه بر اصول اخلاق حرفه‌ای و حفظ
@@ -573,7 +576,7 @@
                             <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">اطلاعات تماس</h5>
                             <ul class="list-unstyled mt-4">
                                 <li class="mb-4 d-flex gap-4">
-                                    <img alt="" src="{% static " image/call.png" %}" width="44px" height="44"
+                                    <img alt="" src="{% static "image/call.webp" %}" width="44px" height="44"
                                         class="text-gold ">
                                     <div>
                                         <p class="text-gold">تلفن: </p>
@@ -581,7 +584,7 @@
                                     </div>
                                 </li>
                                 <li class="mb-4 d-flex gap-4">
-                                    <img alt="" src="{% static " image/email-100.png" %}" width="44px" height="44"
+                                    <img alt="" src="{% static "image/email-100.webp" %}" width="44px" height="44"
                                         class="text-gold ">
                                     <div>
                                         <p class="text-gold">ایمیل: </p>
@@ -589,7 +592,7 @@
                                     </div>
                                 </li>
                                 <li class="mb-5 d-flex gap-4">
-                                    <img alt="" src="{% static " image/location-100.png" %}" width="44px" height="44"
+                                    <img alt="" src="{% static "image/location-100.webp" %}" width="44px" height="44"
                                         class="text-gold ">
                                     <div>
                                         <p class="text-gold">آدرس: </p>
@@ -650,7 +653,7 @@
 
         <div class="support-button" id="supportButton">
             {% load static %}
-            <img src="{% static 'image/supporterwhite.png' %}" width="50px" alt="پشتیبانی">
+            <img src="{% static 'image/supporterwhite.webp' %}" width="50px" alt="پشتیبانی">
             <div class="green-light"></div> <!-- چراغ چشمک‌زن -->
         </div>
 
@@ -661,7 +664,7 @@
             <div class="col text-center ">
                 <a href="javascript:void(0);" id="telegramLink" class="support-icon"
                     style="display: inline-block; padding: 20px; background: #2c3e50; border-radius: 20px; transition: all 0.3s ease; width: 100px; height: 100px;">
-                    <img src="{% static 'image/telegramsupport.png' %}" width="60px" height="60px" alt="premiumsupport"
+                    <img src="{% static 'image/telegramsupport.webp' %}" width="60px" height="60px" alt="premiumsupport"
                         style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">
                 </a>
                 <p class="mt-3 text-gold"
@@ -672,12 +675,12 @@
                 <div style="gap: 25px" class="d-flex align-items-center justify-content-center mb-4">
                     <a href="https://eitaa.com/avahagh" class="support-icon"
                         style="display: inline-block; padding: 20px; background: #2c3e50; border-radius: 20px; transition: all 0.3s ease; width: 100px; height: 100px;">
-                        <img src="{% static 'image/eitaalogo.png' %}" width="60px" height="60px" alt="supporteita"
+                        <img src="{% static 'image/eitaalogo.webp' %}" width="60px" height="60px" alt="supporteita"
                             style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">
                     </a>
                     <a href="https://t.me/avahagh" class="support-icon"
                         style="display: inline-block; padding: 20px; background: #2c3e50; border-radius: 20px; transition: all 0.3s ease; width: 100px; height: 100px;">
-                        <img src="{% static 'image/telegramsupport.png' %}" width="60px" height="60px"
+                        <img src="{% static 'image/telegramsupport.webp' %}" width="60px" height="60px"
                             alt="supporttelegram" style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));">
                     </a>
                 </div>
@@ -702,16 +705,16 @@
         </style>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js" defer></script>
 
 
     {% load static %}
-    <script src="{% static " js/script.js" %}"></script>
-    <script>
+    <script src="{% static "js/script.js" %}" defer></script>
+    <script defer>
         setInterval(function () {
             const badge = document.querySelector('.notification-badge');
             badge.classList.add('animate__animated', 'animate__bounce');

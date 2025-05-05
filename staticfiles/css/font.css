@@ -1,0 +1,50 @@
+@font-face {
+    font-family: Ravi;
+    font-style: normal;
+    font-weight: 100;
+    src: url(../fonts/ttf/Ravi-Light.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: Ravi;
+    font-style: normal;
+    font-weight: 200;
+    src: url(../fonts/ttf/Ravi-Regular.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: Ravi;
+    font-style: normal;
+    font-weight: 300;
+    src: url(../fonts/ttf/Ravi-Medium.ttf) format("truetype")
+}
+
+
+@font-face {
+    font-family: Ravi;
+    font-style: normal;
+    font-weight: 500;
+    src: url(../fonts/ttf/Ravi-Thin.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: Ravi;
+    font-style: normal;
+    font-weight: 600;
+    src: url(../fonts/ttf/Ravi-SemiBold.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: Ravi;
+    font-style: normal;
+    font-weight: 700;
+    src: url(../fonts/ttf/Ravi-Bold.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: Ravi;
+    font-style: normal;
+    font-weight: 900;
+    src: url(../fonts/ttf/Ravi-ExtraBold.ttf) format("truetype")
+}
+

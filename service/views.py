@@ -248,7 +248,7 @@ def Shekaiatname(request):
             group = request.POST['group']
             attachment = request.FILES.get('attachment')
 
-            allowed_extensions = ['.pdf', '.zip', '.jpg', '.jpeg', '.png', '.doc', '.docx']
+            allowed_extensions = ['.pdf', '.zip', '.jpg', '.jpeg', '.webp', '.doc', '.docx']
             max_size = 5 * 1024 * 1024  # محدودیت حجم فایل به 5 مگابایت
 
             if attachment:
