@@ -187,3 +187,16 @@ class PostSearchView(ListView):
                 is_published=True
             ).order_by('-published_date')
         return Post.objects.none()
+
+
+def delete_blog(request,id):
+    if request.user.is_staff:
+        post = get_object_or_404(Post, id=id)
+        post.delete()
+        return redirect('admin_blogs')
+    else:
+        return redirect('users:login')
+    
+    
+def testblog(request):
+    return render(request,'blog/bonyadvokala.html')

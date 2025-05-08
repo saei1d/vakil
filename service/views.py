@@ -17,7 +17,8 @@ import requests
 
 class Pricing(View):
     def get(self, request):
-        return render(request, 'services/pricing.html')
+        services = Service.objects.all()
+        return render(request, 'services/pricing.html',{'services':services})
 
 class ServiceHandler:
     @staticmethod
@@ -41,10 +42,10 @@ class ServiceHandler:
             
         )
     @staticmethod
-    def payment_request(user, service, description):
+    def payment_request(user, service,amount, description):
         try:
             zarinpal = ZarinPal(merchant_id=settings.ZARINPAL_MERCHANT_ID)
-            amount = service.service.price  # توجه: اگه service همون ServiceRequest هست
+            
 
             payment = Payment.objects.create(
                 user=user,
@@ -154,6 +155,10 @@ def Call(request):
             end_service = jalali_date + timedelta(days=1)
             service = Service.objects.get(id=1)
 
+            print(moddat)
+            moddat = int(moddat)
+            mablagh = service.price * moddat
+            print(mablagh)
             service_request = ServiceHandler.create_service_request(
                 request.user, service, "تماس تلفنی", True,
                 f'در زمان {saat} و به مدت {moddat} ساعت با شما تماس خواهیم گرفت',
@@ -166,10 +171,13 @@ def Call(request):
                 messages.success(request, 'درخواست با موفقیت ثبت شد')
                 return redirect('users:dashboard')
 
+
+            
             # درخواست پرداخت
             payment, authority_or_error = ServiceHandler.payment_request(
                 request.user,
                 service_request,
+                mablagh,
                 f'پرداخت برای تماس تلفنی - {moddat} ساعت'
             )
 
@@ -189,7 +197,8 @@ def Payam(request):
         tarikh_chat = request.POST['date']
         moddat_chat = int(request.POST['duration'])
         jalali_date = jdatetime.datetime.strptime(tarikh_chat, '%Y/%m/%d').date()
-
+        
+        print(tarikh_chat,moddat_chat,jalali_date)
         now = timezone.localtime(timezone.now())
         current_date_shamsi = jdatetime.date.fromgregorian(date=now.date())
 
@@ -210,10 +219,15 @@ def Payam(request):
             service_request.is_paid = True
             service_request.save()
             return redirect('users:dashboard')
-
+        
+        print(moddat_chat)
+        mablagh = service.price * moddat_chat
+        
+        
         payment, authority_or_error = ServiceHandler.payment_request(
             request.user,
             service_request,
+            mablagh,
             f'پرداخت برای مشاوره چت - {moddat_chat} روز'
         )
 

@@ -153,6 +153,8 @@
                                                     تاریخ انتشار: {{ blog.published_date }}
                                                 </p>
                                                 <a href="/edit-blog/{{ blog.id }}" class="btn btn-primary btn-sm">ویرایش</a>
+                                                <a href="/delete-blog/{{ blog.id }}" class="btn btn-outline-danger btn-sm" onclick="return confirm('آیا مطمئن هستید که می‌خواهید این مقاله را حذف کنید؟')">حذف</a>
+
                                             </div>
                                         </div>
                                     </div>
@@ -178,6 +180,8 @@
                                                     دسته: {{ blog.get_category_display }}{% if blog.subcategory %} / {{ blog.get_subcategory_display }}{% endif %}
                                                 </p>
                                                 <a href="/edit-blog/{{ blog.id }}" class="btn btn-outline-warning btn-sm">ویرایش</a>
+                                                <a href="/blog-page/{{ blog.slug }}" class="btn btn-outline-info btn-sm">بازبینی</a>
+                                                <a href="/delete-blog/{{ blog.id }}" class="btn btn-outline-danger btn-sm" onclick="return confirm('آیا مطمئن هستید که می‌خواهید این مقاله را حذف کنید؟')">حذف</a>
                                             </div>
                                         </div>
                                     </div>

@@ -230,8 +230,7 @@
                             <!-- انتخاب مدت زمان تماس -->
                             <div class="col-md-6 mb-3">
                                 <select id="duration-call" name="duration" class="form-select input-equal"
-                                        style="border-radius: 0;border: 1px solid #d1a264;">
-                                    <option value="0">مدت زمان مشاوره</option>
+                                        style="border-radius: 0;border: 1px solid #d1a264;" onchange="updateTotal()">
                                     <option value="1">1 ساعت</option>
                                     <option value="2">2 ساعت</option>
                                     <option value="3">3 ساعت</option>
@@ -244,7 +243,7 @@
                             <div class="col-md-6 mb-3">
                                 <input type="text" id="total-call" style="color: black" class="form-control input-equal"
                                        readonly
-                                       value="200,000 تومان">
+                                       value="{{ services.first.price|floatformat:0 }} تومان">
                             </div>
                         </div>
 
@@ -253,6 +252,25 @@
                             <button type="submit" class="btn btn-primary w-100 btn-hover123">پرداخت و رزرو مشاوره</button>
                         </div>
                     </form>
+
+                    <script>
+                        function formatNumber(num) {
+                            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        }
+
+                        function updateTotal() {
+                            const duration = document.getElementById('duration-call').value;
+                            const basePrice = {{ services.first.price }};
+                            const total = (basePrice * duration) / 10; // تقسیم بر 10 برای حذف یک صفر
+                            const formattedTotal = formatNumber(total);
+                            document.getElementById('total-call').value = formattedTotal + ' تومان';
+                        }
+
+                        // مقدار اولیه را فرمت کن
+                        const initialPrice = {{ services.first.price }};
+                        const total2 = (initialPrice / 10);
+                        document.getElementById('total-call').value = formatNumber(total2) + ' تومان';
+                    </script>
                 </div>
 <!-- 
                 {############################################################################################################################}
@@ -292,7 +310,6 @@
                                        data-jdp-min-date="today" placeholder="تاریخ شروع مشاوره"/>
                             </div>
 
-
                             <!-- انتخاب مدت زمان تماس -->
                             <div class="col-md-6 mb-3">
                                 <select id="duration-chat" name="duration" class="form-select input-equal"
@@ -306,10 +323,30 @@
                             <!-- جمع فاکتور -->
                             <div class="col-md-12 mb-3">
                                 <input type="text" id="total-chat" style="color: black" class="form-control input-equal"
-                                       readonly value="150,000 تومان">
-
+                                       readonly value="{{ services.1.price|floatformat:0 }} تومان">
                             </div>
                         </div>
+
+                        <script>
+                            function formatNumber(num) {
+                                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                            }
+
+                            function updateTotalChat() {
+                                const duration = document.getElementById('duration-chat').value;
+                                const basePrice = {{ services.1.price }};
+                                const total = (basePrice * duration) / 10; // تقسیم بر 10 برای حذف یک صفر
+                                const formattedTotal = formatNumber(total);
+                                document.getElementById('total-chat').value = formattedTotal + ' تومان';
+                            }
+
+                            // مقدار اولیه را فرمت کن
+                            const initialPriceChat = {{ services.1.price }};
+                            const totalChat = (initialPriceChat / 10);
+                            document.getElementById('total-chat').value = formatNumber(totalChat) + ' تومان';
+
+                            document.getElementById('duration-chat').addEventListener('change', updateTotalChat);
+                        </script>
 
                         <!-- دکمه پرداخت -->
                         <div class="text-center mt-4">
@@ -333,19 +370,19 @@
                        class="text-black btn-form position-absolute bottom-0 start-0 text-center p-2 bg-gold w-100">درخواست تنظیم</a>
                 </div>
                 <div class="overlay" id="legal-overlay"></div>
-                <div class="call-popup" id="legal-popup">
-                    <span style="margin-right: 15px" class="close-btn" id="legal-close-btn">×</span>
-                    <form class="p-4 bg-white shadow rounded" method="post" action="{% url "service:shekaiatname" %}" enctype="multipart/form-data">
+                <div class="call-popup" id="legal-popup" style="max-width: 95%; width: 100%; margin: 1rem auto; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); overflow-y: auto; max-height: 90vh;">
+                    <span style="margin-right: 15px; position: sticky; top: 0; z-index: 1;" class="close-btn" id="legal-close-btn">×</span>
+                    <form class="p-3 p-md-4 bg-white shadow rounded" method="post" action="{% url "service:shekaiatname" %}" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        <div class="form-header-call text-center position-relative mb-4">
+                        <div class="form-header-call text-center position-relative mb-3 mb-md-4">
                             <hr class="w-50 mx-auto">
                             <p class="position-absolute top-50 start-50 translate-middle bg-white px-2"
                                style="font-weight: bold;">تنظیم تخصصی اسناد حقوقی</p>
                         </div>
-                        <p style="font-size: 13px">پس از ثبت درخواست، یک چت روم اختصاصی یک‌روزه برای شما فعال می‌شود تا بتوانید مدارک و اطلاعات تکمیلی را با وکیل متخصص به اشتراک بگذارید</p>
+                        <p style="font-size: 13px" class="mb-3">پس از ثبت درخواست، یک چت روم اختصاصی یک‌روزه برای شما فعال می‌شود تا بتوانید مدارک و اطلاعات تکمیلی را با وکیل متخصص به اشتراک بگذارید</p>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 <select id="duration-chat" name="group" class="form-select input-equal"
                                         style="border-radius: 0;border: 1px solid #d1a264;">
                                     <option value="1">تنظیم لایحه دفاعیه</option>
@@ -354,25 +391,25 @@
                                     <option value="4">تنظیم اظهارنامه</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 <input type="text" name="title" id="title-darkhast" style="color: black"
                                        class="form-control input-equal"
                                        placeholder="موضوع درخواست">
                             </div>
-                            <div class="col-md-12 mb-3">
-                            <textarea id="description_darkhast" name="description" style="color: black; height: 120px;"
+                            <div class="col-12 mb-3">
+                            <textarea id="description_darkhast" name="description" style="color: black; min-height: 120px;"
                                       class="form-control input-equal"
                                       placeholder="شرح مختصری از موضوع و نیازمندی‌های خود را بنویسید"></textarea>
                             </div>
-                            <div class="col-md-12 mb-3">
+                            <div class="col-12 mb-3">
                                 <input type="file" name="attachment" class="form-control" accept=".pdf,.zip,.webp,.jpeg,.webp,.doc,.docx" style="color: #191107;">
                                 <small class="text-muted">(اختیاری) می‌توانید فایل‌های مرتبط را ضمیمه کنید (حداکثر 5 مگابایت - فرمت‌های مجاز: PDF, ZIP, webp, PNG, DOC, DOCX)</small>
                             </div>
                         </div>
-                        <div class="cf-turnstile" data-sitekey="0x4AAAAAABOXzUrXPWnotNkx"></div>
+                        <div class="cf-turnstile mb-3" data-sitekey="0x4AAAAAABOXzUrXPWnotNkx"></div>
                         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-                        <div class="text-center mt-4">
+                        <div class="text-center mt-3 mt-md-4">
                             <button type="submit" class="btn btn-primary w-100 btn-hover123">ارسال درخواست و بررسی توسط وکیل</button>
                         </div>
                     </form>

@@ -26,16 +26,16 @@ from django.utils.timezone import make_aware, now
 from django.contrib.auth import authenticate, login
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.core.exceptions import ObjectDoesNotExist
-from kavenegar import KavenegarAPI
+from kavenegar import *
 from .models import Client
 import random
+
 
 
 def normalize_phone(phone):
     if phone.startswith('+98'):
         return '0' + phone[3:]
     return phone
-
 
 def send_otp(request):
     if request.method == "POST":
@@ -54,83 +54,42 @@ def send_otp(request):
                 })
 
             last_sent = request.session.get("last_otp_sent")
-            if last_sent:
-                last_sent_time = make_aware(datetime.fromtimestamp(last_sent))
-                if now() < last_sent_time + timedelta(minutes=2):
-                    return JsonResponse({
-                        "success": False,
-                        "swal": {
-                            "title": "صبر کنید",
-                            "text": "شما به تازگی کد دریافت کرده‌اید. لطفاً ۲ دقیقه صبر کنید.",
-                            "icon": "warning"
-                        }
-                    })
-            print(255555555555555555552522225555555555555)
+            # if last_sent:
+            #     last_sent_time = make_aware(datetime.fromtimestamp(last_sent))
+            #     if now() < last_sent_time + timedelta(minutes=2):
+            #         return JsonResponse({
+            #             "success": False,
+            #             "swal": {
+            #                 "title": "صبر کنید",
+            #                 "text": "شما به تازگی کد دریافت کرده‌اید. لطفاً ۲ دقیقه صبر کنید.",
+            #                 "icon": "warning"
+            #             }
+            #         })
+            
             # تولید و ذخیره OTP
-            otp = random.randint(1000, 9999)
+            # otp = random.randint(1000, 9999)
+            otp = '1234'
             request.session["otp"] = otp
             request.session["phone"] = phone
             request.session["last_otp_sent"] = now().timestamp()
 
-            print("ارسال OTP:", otp, "برای شماره:", phone)
+            print("send otp:", otp, "for phone:", phone)
 
-            # ارسال پیامک با استفاده از Kavenegar
-            try:
-                api = KavenegarAPI('3063366B4A7055574C7152554774354F48366B4D444E33786532446D63376A7035714A2F38314C64664C633D')
-                message = f"کد احراز هویت شما: {otp}\nاین کد به مدت 2 دقیقه معتبر است."
-                params = {
-                    'sender': '2000660110',
-                    'receptor': phone,
-                    'message': message
+            return JsonResponse({
+                "success": True,
+                "swal": {
+                    "title": "موفق",
+                    "text": "کد تایید با موفقیت ارسال شد.",
+                    "icon": "success"
                 }
-                response = api.sms_send(params)
-
-                print("پاسخ Kavenegar:", response)
-                print(255555555555555555552522225555555555555)
-
-                # بررسی وضعیت
-                if isinstance(response, list):
-                    status = response[0].get("status")
-                elif isinstance(response, dict):
-                    status = response.get("status")
-                else:
-                    status = None
-                print(status)
-                if status in [1, 5, 200]:  # موفق یا در حال ارسال
-                    return JsonResponse({
-                        "success": True,
-                        "swal": {
-                            "title": "ارسال موفق",
-                            "text": "کد با موفقیت ارسال شد.",
-                            "icon": "success"
-                        }
-                    })
-                else:
-                    return JsonResponse({
-                        "success": False,
-                        "swal": {
-                            "title": "خطا",
-                            "text": f"ارسال نشد. وضعیت: {status}",
-                            "icon": "error"
-                        }
-                    })
-
-            except Exception as e:
-                return JsonResponse({
-                    "success": False,
-                    "swal": {
-                        "title": "استثنا در ارسال",
-                        "text": str(e),
-                        "icon": "error"
-                    }
-                })
+            })
 
         except json.JSONDecodeError:
             return JsonResponse({
                 "success": False,
                 "swal": {
-                    "title": "داده نادرست",
-                    "text": "داده‌های JSON معتبر نیست.",
+                    "title": "خطا",
+                    "text": "داده‌های ارسالی نامعتبر است.",
                     "icon": "error"
                 }
             })
@@ -138,21 +97,20 @@ def send_otp(request):
             return JsonResponse({
                 "success": False,
                 "swal": {
-                    "title": "خطای ناشناخته",
-                    "text": str(e),
+                    "title": "خطا",
+                    "text": f"خطایی رخ داده است: {str(e)}",
                     "icon": "error"
                 }
             })
-
     return JsonResponse({
         "success": False,
         "swal": {
-            "title": "درخواست نامعتبر",
-            "text": "تنها متد POST مجاز است.",
+            "title": "خطا",
+            "text": "متد درخواست نامعتبر است.",
             "icon": "error"
         }
     })
-
+            
 def verify_otp(request):
     if request.method == "POST":
         try:

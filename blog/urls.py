@@ -5,6 +5,7 @@ from .views import *
 app_name = 'blog'
 
 urlpatterns = [
+    path('testblog/',testblog,name='testblog'),
     path('about-us/', aboutus, name='about-us'),
     path('faq/', faq, name='faq'),
     path('blog/', blog, name='blog'),
@@ -19,6 +20,8 @@ urlpatterns = [
     path('post-detail/<int:post_id>/', post_detail, name='post_detail'),
 
     path('delete-comment/<int:comment_id>/', delete_comment, name='delete_comment'),
+    
+    path('delete-blog/<int:id>/',delete_blog,name='delete_blog')
 
 
 
