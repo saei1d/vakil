@@ -128,11 +128,8 @@ def service(request):
 @user_passes_test(is_admin)
 def admin_userupdate_service(request, id):
 
-        print(id)
         service = UserServiceRequest.objects.get(id=id)
-        print(service)
         if request.method == 'POST':
-            print(1111111111111111)
             # Get form data with validation
             title = request.POST.get('title')
             start_date = request.POST.get('start_date')
@@ -158,8 +155,6 @@ def admin_userupdate_service(request, id):
         context = {
             'service': service,
         }
-        print(context)
-        print(333333333333333)
 
         return render(request, 'users/admin_userupdate_service.html', context)
 
@@ -190,15 +185,6 @@ def admin_useradd_service(request, username):
             is_accepted = request.POST.get('is_accepted') == '1'
             is_paid = request.POST.get('is_paid') == '1'
             
-            print("=== DEBUG INFO ===")
-            print(f"Title: {title}")
-            print(f"Service Type: {service_type}")
-            print(f"Start Date (raw): {start_date}")
-            print(f"End Date (raw): {end_date}")
-            print(f"Description: {description}")
-            print(f"Is Active: {is_active}")
-            print(f"Is Accepted: {is_accepted}")
-            print(f"Is Paid: {is_paid}")
             
             # Validate required fields
             if not all([title, service_type, start_date, end_date]):
@@ -234,19 +220,7 @@ def admin_useradd_service(request, username):
                 if not timezone.is_aware(end_date):
                     end_date = timezone.make_aware(end_date)
                 
-                print(f"Start Date (aware): {start_date}")
-                print(f"End Date (aware): {end_date}")
-                
-                print("Creating UserServiceRequest with:")
-                print(f"User: {user}")
-                print(f"Service: {service}")
-                print(f"Title: {title}")
-                print(f"Start Date: {start_date}")
-                print(f"End Date: {end_date}")
-                print(f"Description: {description}")
-                print(f"Is Active: {is_active}")
-                print(f"Is Accepted: {is_accepted}")
-                print(f"Is Paid: {is_paid}")
+
                 
                 # Create new service request
                 new_service = UserServiceRequest.objects.create(
@@ -332,10 +306,8 @@ def promote_user(request, username):
     ارتقای کاربر به وضعیت کارمند، سوپر یوزر یا برگرداندن به کاربر عادی.
     فقط برای مدیران قابل دسترسی است.
     """
-    print(username)
     try:
         user = get_object_or_404(Client, username=username)
-        print(user)
         
         # چرخه ارتقا: کاربر عادی -> کارمند -> سوپر یوزر -> کاربر عادی
         if not user.is_staff and not user.is_superuser:
@@ -424,7 +396,6 @@ def update_user_info(request,id):
         first_name = request.POST.get('name', user.name)
         last_name = request.POST.get('last_name', user.last_name)
         # phone = request.POST.get('phone', user.phone)
-        print(first_name,last_name)
         # به‌روزرسانی اطلاعات کاربر
         user.name = first_name
         user.last_name = last_name

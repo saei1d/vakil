@@ -35,6 +35,8 @@ class Post(models.Model):
     is_published = models.BooleanField(default=False)
     price = models.CharField(max_length=100, null=True, blank=True)
     summery = models.CharField(max_length=150, null=True, blank=True)
+    view = models.IntegerField(default=0)
+    time_to_read = models.IntegerField(default=10)
 
     def __str__(self):
         return self.title

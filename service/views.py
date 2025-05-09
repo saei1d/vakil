@@ -155,10 +155,8 @@ def Call(request):
             end_service = jalali_date + timedelta(days=1)
             service = Service.objects.get(id=1)
 
-            print(moddat)
             moddat = int(moddat)
             mablagh = service.price * moddat
-            print(mablagh)
             service_request = ServiceHandler.create_service_request(
                 request.user, service, "تماس تلفنی", True,
                 f'در زمان {saat} و به مدت {moddat} ساعت با شما تماس خواهیم گرفت',
@@ -198,7 +196,6 @@ def Payam(request):
         moddat_chat = int(request.POST['duration'])
         jalali_date = jdatetime.datetime.strptime(tarikh_chat, '%Y/%m/%d').date()
         
-        print(tarikh_chat,moddat_chat,jalali_date)
         now = timezone.localtime(timezone.now())
         current_date_shamsi = jdatetime.date.fromgregorian(date=now.date())
 
@@ -220,7 +217,6 @@ def Payam(request):
             service_request.save()
             return redirect('users:dashboard')
         
-        print(moddat_chat)
         mablagh = service.price * moddat_chat
         
         

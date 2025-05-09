@@ -37,10 +37,7 @@ def contact(request):
 
 
 def post_list(request):
-    posts = Post.objects.filter(is_published=True).order_by('-published_date')
-    for post in posts:
-        print(post.id)
-
+    posts = Post.objects.filter(is_published=True).order_by('-published_date')        
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
@@ -50,8 +47,6 @@ def post_detail(request, post_id):
 
     if request.method == "POST":
         form = CommentForm(request.POST)
-        for field, value in request.POST.items():
-            print(f"{field}: {value}")
             
         if form.is_valid():
             comment = form.save(commit=False)
@@ -65,16 +60,11 @@ def post_detail(request, post_id):
                     parent_comment = Comment.objects.get(id=parent_id)
                     comment.parent = parent_comment
                 except Comment.DoesNotExist:
-                    pass  # اگر parent نامعتبر بود، مقدار آن را تغییر نده
+                    pass 
 
             comment.save()
 
-            # چاپ اطلاعات کامنت جدید
-            print(f"کامنت جدید ایجاد شد - شناسه: {comment.id}")
-            print(f"محتوای کامنت: {comment.content}")
-            print(f"نویسنده: {comment.author}")
-            print(f"تاریخ ایجاد: {comment.created_at}")
-            print(f"پاسخ به کامنت دیگر: {comment.parent}")
+
 
             return redirect(request.META.get('HTTP_REFERER', 'blog:blogpage'))
     else:
@@ -134,12 +124,10 @@ class PostCreate(View):
                 post = form.save(commit=False)
                 post.slug = post.title.lower().replace(' ', '-').replace('_', '-').replace('.', '-').strip('-')
                 post.save()
-                print(f"پست با موفقیت ذخیره شد - شناسه: {post.id}")
                 return redirect('blog:blog')
             else:
                 print("فرم معتبر نیست. خطاها:")
-                for field, errors in form.errors.items():
-                    print(f"{field}: {errors}")
+
             
             return render(request, 'blog/post_form.html', {"form": form})
         else:
@@ -157,13 +145,14 @@ class PostEdit(View):
             return redirect('users:login')
 
     def post(self, request, id):
-
         if request.user.is_staff:
-
             post = get_object_or_404(Post, id=id)
             form = PostForm(request.POST, request.FILES, instance=post)
             if form.is_valid():
                 post = form.save(commit=False)
+                # اضافه کردن فیلدهای views و time_to_read
+                post.views = request.POST.get('views', post.views)
+                post.time_to_read = request.POST.get('time_to_read', post.time_to_read)
                 post.save()
                 return redirect('blog:blog')
             return render(request, 'blog/post_form.html', {'form': form, 'post': post})

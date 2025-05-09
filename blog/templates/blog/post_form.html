@@ -144,6 +144,24 @@
                             </div>
                         </div>
                         
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="views" class="form-label fw-bold">تعداد بازدید:</label>
+                                <input type="number" name="views" id="views" class="form-control bg-dark text-light border-secondary" value="{{ post.views|default:'0' }}" min="0">
+                                {% if form.views.errors %}
+                                    <div class="text-danger mt-1">{{ form.views.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="time_to_read" class="form-label fw-bold">زمان مطالعه (دقیقه):</label>
+                                <input type="number" name="time_to_read" id="time_to_read" class="form-control bg-dark text-light border-secondary" value="{{ post.time_to_read|default:'5' }}" min="1">
+                                {% if form.time_to_read.errors %}
+                                    <div class="text-danger mt-1">{{ form.time_to_read.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3">
                                 <label for="{{ form.is_published.id_for_label }}" class="form-label fw-bold">وضعیت انتشار:</label>

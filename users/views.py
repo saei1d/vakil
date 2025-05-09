@@ -73,7 +73,6 @@ def send_otp(request):
             request.session["phone"] = phone
             request.session["last_otp_sent"] = now().timestamp()
 
-            print("send otp:", otp, "for phone:", phone)
 
             return JsonResponse({
                 "success": True,
@@ -125,14 +124,12 @@ def verify_otp(request):
             session_otp = str(request.session.get("otp"))
             session_phone = normalize_phone(request.session.get("phone"))
 
-            print(f"OTP از کاربر: {otp} | OTP در session: {session_otp}")
-            print(f"شماره از کاربر: {phone} | شماره در session: {session_phone}")
+
 
             if not session_otp or not session_phone:
                 return JsonResponse({"success": False, "error": "لطفاً ابتدا کد OTP را دریافت کنید."})
 
             if session_otp != otp or session_phone != phone:
-                print(1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111)
                 return JsonResponse({"success": False, "error": "کد OTP یا شماره تلفن نامعتبر است."})
 
             # بررسی و ایجاد یا بروزرسانی کاربر
@@ -194,7 +191,6 @@ class HomeView(View):
             request.session['form_data'] = form_data
             messages.info(request, 'فرم شما موقتا ذخیره شد، بعد از ثبت نام آن را مجددا ارسال کنید.')
             next_url = request.POST.get('next', '/')
-            print(next_url)
             return redirect(f'/login/?next={next_url}')
 
         # ایجاد FreeForm
@@ -322,7 +318,6 @@ Sitemap: http://avahagh.ir/sitemap.xml
 
 
 def sms(request):
-    print("111111111111111111")
     api = KavenegarAPI('3063366B4A7055574C7152554774354F48366B4D444E33786532446D63376A7035714A2F38314C64664C633D')
     params = { 'sender' : '2000660110', 'receptor': '09362680254', 'message' :'.وب سرویس پیام کوتاه کاوه نگار' }
     response = api.sms_send(params)
