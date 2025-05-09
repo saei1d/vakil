@@ -112,10 +112,10 @@
                                     </div>
                                     {% endif %}
                                     
-                                    <p class="card-text text-light flex-grow-1 mt-1" style="height: 100px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
+                                    <p class="card-text text-light flex-grow-1" style="height: 100px; overflow: hidden;">
                                         {{ b.content|truncatechars:300|safe }}
                                     </p>
-                                    <div class="d-flex justify-content-end mt-2">
+                                    <div class="d-flex justify-content-end mt-3">
                                         <a href="{% url 'blog:blogpage' b.slug %}" class="btn btn-gold d-flex align-items-center gap-2 px-4 py-2 border border-gold hover-scale">
                                             <span>ادامه مطلب</span>
                                             <i class="bi bi-arrow-left-short fs-5"></i>
