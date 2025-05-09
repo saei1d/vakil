@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}وبلاگ حقوقی - جدیدترین مقالات و اخبار حقوقی | موسسه آوا حق{% endblock %}
-{% block meta_description %}وبلاگ تخصصی حقوقی موسسه آوا حق - جدیدترین مقالات، تحلیل‌ها و اخبار حقوقی در زمینه دعاوی کیفری، خانواده، املاک و قراردادها. به روزترین اطلاعات حقوقی را اینجا بخوانید.{% endblock %}
+{% block meta_description %}وبلاگ تخصصی حقوقی موسسه آوا حق - جدیدترین مقالات، تحلیل‌ها و اخبار حقوقی در زمینه دعاوی
+کیفری، خانواده، املاک و قراردادها. به روزترین اطلاعات حقوقی را اینجا بخوانید.{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -9,6 +10,7 @@
         transform: translateY(20px);
         transition: opacity 0.5s ease, transform 0.5s ease;
     }
+
     .blog-card.visible {
         opacity: 1;
         transform: translateY(0);
@@ -17,240 +19,261 @@
 {% endblock %}
 
 {% block banner %}
-    <div class="banner bg-dark-gradient">
-        <div class="text-center py-5" style="padding-top: 150px;">
-            <h1 class="display-4 text-gold mb-4">وبلاگ تخصصی حقوقی</h1>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb justify-content-center bg-transparent text-gold">
-                    <li class="breadcrumb-item"><a href="/" class="text-gold"><i class="bi bi-house-fill"></i></a></li>
-                    <li class="breadcrumb-item active text-light" aria-current="page">مقالات حقوقی</li>
-                </ol>
-            </nav>
-        </div>
+<div class="banner bg-dark-gradient">
+    <div class="text-center py-5" style="padding-top: 150px;">
+        <h1 class="display-4 text-gold mb-4">وبلاگ تخصصی حقوقی</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center bg-transparent text-gold">
+                <li class="breadcrumb-item"><a href="/" class="text-gold"><i class="bi bi-house-fill"></i></a></li>
+                <li class="breadcrumb-item active text-light" aria-current="page">مقالات حقوقی</li>
+            </ol>
+        </nav>
     </div>
+</div>
 {% endblock %}
 {% block banner-mob %}
-    <div class="banner bg-dark-gradient">
-        <div class="text-center py-4">
-            <h1 class="h3 text-gold mb-3">وبلاگ تخصصی حقوقی</h1>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb justify-content-center bg-transparent text-gold">
-                    <li class="breadcrumb-item"><a href="/" class="text-gold"><i class="bi bi-house-fill"></i></a></li>
-                    <li class="breadcrumb-item active text-light" aria-current="page">مقالات حقوقی</li>
-                </ol>
-            </nav>
-        </div>
+<div class="banner bg-dark-gradient">
+    <div class="text-center py-4">
+        <h1 class="h3 text-gold mb-3">وبلاگ تخصصی حقوقی</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center bg-transparent text-gold">
+                <li class="breadcrumb-item"><a href="/" class="text-gold"><i class="bi bi-house-fill"></i></a></li>
+                <li class="breadcrumb-item active text-light" aria-current="page">مقالات حقوقی</li>
+            </ol>
+        </nav>
     </div>
+</div>
 {% endblock %}
 
 {% block content %}
-    <section class="py-5">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-8">
-                    <div class="bg-dark-soft rounded-3 mb-4">
-                        <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-0 fw-bolder">
-                            <i class="bi bi-newspaper me-2"></i>جدیدترین مطالب
-                        </h3>
-                    </div>
-                    <div class="row g-4" id="blog-container">
-                        {% for b in blog|slice:":8" %}
-                        <div class="col-md-6 blog-card">
-                            <div class="card bg-transparent border-gold mb-4 shadow-hover transition-all hover-scale h-100 d-flex flex-column">
-                                {% if b.image %}
-                                <img src="/media/{{ b.image }}" class="card-img-top rounded-top" alt="{{ b.title }}" style="height: 200px; object-fit: cover;">
-                                {% endif %}
-                                <div class="card-body d-flex flex-column">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <h2 class="h4 text-gold mb-0 fw-bold">{{ b.title }}</h2>
-                                        {% if user.is_staff %}
-                                        <a href="{% url 'blog:PostEdit' b.id %}" class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-pencil-square"></i> ویرایش</a>
-                                        {% endif %}
-                                    </div>
-                                    <div class="d-flex align-items-center gap-3 text-light mb-2 opacity-75 small">
-                                        <small><i class="bi bi-calendar-date me-1"></i> {{ b.published_date|date:"d/m/Y" }}</small>
-                                        <small><i class="bi bi-person me-1"></i> نویسنده: {{ b.author.name|default:b.author.username }}</small>
-                                        <small><i class="bi bi-eye me-1"></i> {{ b.view }} بازدید</small>
-                                        <small><i class="bi bi-clock me-1"></i> {{ b.time_to_read }}  دقیقه مدت مطالعه</small>
-                                    </div>
-
-                                    {% if b.category or b.subcategory %}
-                                    <div class="mb-1">
-                                        {% if b.category %}
-                                        <span class="badge bg-dark text-gold border border-gold me-1">
-                                            <i class="bi bi-folder me-1"></i>
-                                            {% if b.category == "announcement" %}
-                                                اطلاعیه و اخبار
-                                            {% elif b.category == "law" %}
-                                                قانون
-                                            {% elif b.category == "educational" %}
-                                                آموزشی
-                                            {% elif b.category == "cases" %}
-                                                پرونده‌های جذاب
-                                            {% endif %}
-                                        </span>
-                                        {% endif %}
-                                        {% if b.subcategory %}
-                                        <span class="badge bg-dark text-gold border border-gold me-1">
-                                            <i class="bi bi-folder2 me-1"></i>
-                                            {% if b.subcategory == "criminal" %}
-                                                کیفری
-                                            {% elif b.subcategory == "civil" %}
-                                                حقوقی
-                                            {% elif b.subcategory == "family" %}
-                                                خانواده
-                                            {% elif b.subcategory == "sabt" %}
-                                                امور ثبتی
-                                            {% elif b.subcategory == "vaghf" %}
-                                                وقف و موقوفات
-                                            {% elif b.subcategory == "other" %}
-                                                سایر
-                                            {% endif %}
-                                        </span>
-                                        {% endif %}
-                                    </div>
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="bg-dark-soft rounded-3 mb-4">
+                    <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-0 fw-bolder">
+                        <i class="bi bi-newspaper me-2"></i>جدیدترین مطالب
+                    </h3>
+                </div>
+                <div class="row g-4" id="blog-container">
+                    {% for b in blog|slice:":8" %}
+                    <div class="col-md-6 blog-card">
+                        <div
+                            class="card bg-transparent border-gold mb-4 shadow-hover transition-all hover-scale h-100 d-flex flex-column">
+                            {% if b.image %}
+                            <img src="/media/{{ b.image }}" class="card-img-top rounded-top" alt="{{ b.title }}"
+                                style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h2 class="h4 text-gold mb-0 fw-bold">{{ b.title }}</h2>
+                                    {% if user.is_staff %}
+                                    <a href="{% url 'blog:PostEdit' b.id %}" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-pencil-square"></i> ویرایش</a>
                                     {% endif %}
-                                    
-                                    <p class="card-text text-light flex-grow-1" style="height: 100px; overflow: hidden;">
-                                        {{ b.content|truncatechars:300|safe }}
-                                    </p>
-                                    <div class="d-flex justify-content-end mt-3">
-                                        <a href="{% url 'blog:blogpage' b.slug %}" class="btn btn-gold d-flex align-items-center gap-2 px-4 py-2 border border-gold hover-scale">
-                                            <span>ادامه مطلب</span>
-                                            <i class="bi bi-arrow-left-short fs-5"></i>
-                                        </a>
-                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3 text-light mb-2 opacity-75 small">
+                                    <small><i class="bi bi-calendar-date me-1"></i> {{ b.published_date|date:"d/m/Y"
+                                        }}</small>
+                                    <small><i class="bi bi-person me-1"></i> نویسنده: {{
+                                        b.author.name|default:b.author.username }}</small>
+                                    <small><i class="bi bi-eye me-1"></i> {{ b.view }} بازدید</small>
+                                    <small><i class="bi bi-clock me-1"></i> {{ b.time_to_read }} دقیقه مدت
+                                        مطالعه</small>
+                                </div>
+
+                                {% if b.category or b.subcategory %}
+                                <div>
+                                    {% if b.category %}
+                                    <span class="badge bg-dark text-gold border border-gold me-1">
+                                        <i class="bi bi-folder me-1"></i>
+                                        {% if b.category == "announcement" %}
+                                        اطلاعیه و اخبار
+                                        {% elif b.category == "law" %}
+                                        قانون
+                                        {% elif b.category == "educational" %}
+                                        آموزشی
+                                        {% elif b.category == "cases" %}
+                                        پرونده‌های جذاب
+                                        {% endif %}
+                                    </span>
+                                    {% endif %}
+                                    {% if b.subcategory %}
+                                    <span class="badge bg-dark text-gold border border-gold me-1">
+                                        <i class="bi bi-folder2 me-1"></i>
+                                        {% if b.subcategory == "criminal" %}
+                                        کیفری
+                                        {% elif b.subcategory == "civil" %}
+                                        حقوقی
+                                        {% elif b.subcategory == "family" %}
+                                        خانواده
+                                        {% elif b.subcategory == "sabt" %}
+                                        امور ثبتی
+                                        {% elif b.subcategory == "vaghf" %}
+                                        وقف و موقوفات
+                                        {% elif b.subcategory == "other" %}
+                                        سایر
+                                        {% endif %}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                <p class="card-text text-light flex-grow-1 mb-2"
+                                    style="min-height: 60px; overflow: hidden;">
+                                    {{ b.content|truncatechars:300|safe }}
+                                </p>
+
+                                <div class="d-flex justify-content-end">
+                                    <a href="{% url 'blog:blogpage' b.slug %}"
+                                        class="btn btn-gold d-flex align-items-center gap-2 px-4 py-2 border border-gold hover-scale">
+                                        <span>ادامه مطلب</span>
+                                        <i class="bi bi-arrow-left-short fs-5"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
-
-                    {% if blog|length > 8 %}
-                    <div class="text-center mt-4">
-                        <button id="load-more" class="btn btn-gold px-4 py-2 border border-gold hover-scale">
-                            <i class="bi bi-arrow-down-circle me-2"></i>مشاهده مطالب بیشتر
-                        </button>
-                    </div>
-                    {% endif %}
+                    {% endfor %}
                 </div>
 
-                <!-- Sidebar -->
-                <div class="col-lg-4">
-                    <div class="bg-dark p-4 rounded-3 mb-4 shadow-sm border border-gold">
-                        <form class="d-flex gap-2" action="{% url 'blog:search' %}" method="get">
-                            <input class="form-control bg-dark text-gold border-gold" type="search" name="q" placeholder="جستجو در مقالات..." aria-label="Search" required>
-                            <button class="btn btn-dark border-gold text-gold hover-gold" type="submit"><i class="bi bi-search"></i></button>
-                        </form>
-                    </div>
-                    
-                    <div class="bg-dark-soft p-4 rounded-3 mb-4 shadow">
-                        <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-3 fw-bold">
-                            <i class="bi bi-graph-up-arrow me-2"></i>پربازدیدترین مقالات
-                        </h3>
-                        <ul class="list-unstyled">
-                            {% for post in blog|slice:":5" %}
-                            <li class="mb-3">
-                                <a href="{% url 'blog:blogpage' post.slug %}" class="text-light d-flex flex-column gap-2 p-3 rounded-2 hover-gold border border-gold bg-dark">
-                                    <div class="d-flex align-items-center gap-3">
-                                        {% if post.image %}
-                                        <img src="/media/{{ post.image }}" class="rounded-2 border border-gold" alt="{{ post.title }}" style="width: 70px; height: 70px; object-fit: cover;">
-                                        {% else %}
-                                        <div class="bg-secondary rounded-2 d-flex align-items-center justify-content-center border border-gold" style="width: 70px; height: 70px;">
-                                            <i class="bi bi-image text-light"></i>
-                                        </div>
-                                        {% endif %}
-                                        <div class="flex-grow-1">
-                                            <h4 class="h6 text-gold mb-3 fw-bold">{{ post.title|truncatechars:50 }}</h4>
-                                            <div class="d-flex align-items-center text-light opacity-75 small mt-2">
-                                                <span class="me-3"><i class="bi bi-eye me-1"></i>{{ post.view }} بازدید</span>
-                                                <span><i class="bi bi-clock me-1"></i>{{ post.time_to_read }} دقیقه مطالعه</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-wrap gap-2 mt-2">
-                                        {% if post.category %}
-                                        <span class="badge bg-dark text-gold border border-gold">
-                                            <i class="bi bi-tag me-1"></i>
-                                            {{ post.get_category_display }}
-                                        </span>
-                                        {% endif %}
-                                        {% if post.subcategory %}
-                                        <span class="badge bg-dark text-gold border border-gold">
-                                            <i class="bi bi-folder2 me-1"></i>
-                                            {{ post.get_subcategory_display }}
-                                        </span>
-                                        {% endif %}
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center small text-light opacity-75 mt-2">
-                                        <span><i class="bi bi-calendar-date me-1"></i>{{ post.published_date|date:"d/m/Y" }}</span>
-                                        <span><i class="bi bi-person me-1"></i>{{ post.author.name|default:post.author.username }}</span>
-                                    </div>
-                                </a>
-                            </li>
-                            {% empty %}
-                            <li class="text-light p-3 border border-gold rounded-2 bg-dark">هنوز مطلبی منتشر نشده است</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-dark-soft p-4 rounded-3">
-                        <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-3">آخرین پرونده‌ها</h3>
-                        <ul class="list-unstyled">
-                            {% for case in cases|slice:":5" %}
-                            <li class="mb-2">
-                                <a href="{% url 'service:case_detail' case.id %}" class="text-light d-flex align-items-center gap-3 p-2 rounded-2 hover-gold border border-gold">
-                                    {% if case.image %}
-                                    <img src="/media/{{ case.image }}" class="rounded-2 border border-gold" alt="{{ case.title }}" style="width: 50px; height: 50px; object-fit: cover;">
+                {% if blog|length > 8 %}
+                <div class="text-center mt-4">
+                    <button id="load-more" class="btn btn-gold px-4 py-2 border border-gold hover-scale">
+                        <i class="bi bi-arrow-down-circle me-2"></i>مشاهده مطالب بیشتر
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="bg-dark p-4 rounded-3 mb-4 shadow-sm border border-gold">
+                    <form class="d-flex gap-2" action="{% url 'blog:search' %}" method="get">
+                        <input class="form-control bg-dark text-gold border-gold" type="search" name="q"
+                            placeholder="جستجو در مقالات..." aria-label="Search" required>
+                        <button class="btn btn-dark border-gold text-gold hover-gold" type="submit"><i
+                                class="bi bi-search"></i></button>
+                    </form>
+                </div>
+
+                <div class="bg-dark-soft p-4 rounded-3 mb-4 shadow">
+                    <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-3 fw-bold">
+                        <i class="bi bi-graph-up-arrow me-2"></i>پربازدیدترین مقالات
+                    </h3>
+                    <ul class="list-unstyled">
+                        {% for post in blog|slice:":5" %}
+                        <li class="mb-3">
+                            <a href="{% url 'blog:blogpage' post.slug %}"
+                                class="text-light d-flex flex-column gap-2 p-3 rounded-2 hover-gold border border-gold bg-dark">
+                                <div class="d-flex align-items-center gap-3">
+                                    {% if post.image %}
+                                    <img src="/media/{{ post.image }}" class="rounded-2 border border-gold"
+                                        alt="{{ post.title }}" style="width: 70px; height: 70px; object-fit: cover;">
                                     {% else %}
-                                    <div class="bg-secondary rounded-2 d-flex align-items-center justify-content-center border border-gold" style="width: 50px; height: 50px;">
+                                    <div class="bg-secondary rounded-2 d-flex align-items-center justify-content-center border border-gold"
+                                        style="width: 70px; height: 70px;">
                                         <i class="bi bi-image text-light"></i>
                                     </div>
                                     {% endif %}
-                                    <div>
-                                        <i class="bi bi-arrow-left-short me-2"></i>
-                                        {{ case.title|truncatechars:50 }}
+                                    <div class="flex-grow-1">
+                                        <h4 class="h6 text-gold mb-3 fw-bold">{{ post.title|truncatechars:50 }}</h4>
+                                        <div class="d-flex align-items-center text-light opacity-75 small mt-2">
+                                            <span class="me-3"><i class="bi bi-eye me-1"></i>{{ post.view }}
+                                                بازدید</span>
+                                            <span><i class="bi bi-clock me-1"></i>{{ post.time_to_read }} دقیقه
+                                                مطالعه</span>
+                                        </div>
                                     </div>
-                                </a>
-                            </li>
-                            {% empty %}
-                            <li class="text-light p-2 border border-gold rounded-2">هنوز پرونده‌ای ثبت نشده است</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2 mt-2">
+                                    {% if post.category %}
+                                    <span class="badge bg-dark text-gold border border-gold">
+                                        <i class="bi bi-tag me-1"></i>
+                                        {{ post.get_category_display }}
+                                    </span>
+                                    {% endif %}
+                                    {% if post.subcategory %}
+                                    <span class="badge bg-dark text-gold border border-gold">
+                                        <i class="bi bi-folder2 me-1"></i>
+                                        {{ post.get_subcategory_display }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div
+                                    class="d-flex justify-content-between align-items-center small text-light opacity-75 mt-2">
+                                    <span><i class="bi bi-calendar-date me-1"></i>{{ post.published_date|date:"d/m/Y"
+                                        }}</span>
+                                    <span><i class="bi bi-person me-1"></i>{{
+                                        post.author.name|default:post.author.username }}</span>
+                                </div>
+                            </a>
+                        </li>
+                        {% empty %}
+                        <li class="text-light p-3 border border-gold rounded-2 bg-dark">هنوز مطلبی منتشر نشده است</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="bg-dark-soft p-4 rounded-3">
+                    <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-3">آخرین پرونده‌ها</h3>
+                    <ul class="list-unstyled">
+                        {% for case in cases|slice:":5" %}
+                        <li class="mb-2">
+                            <a href="{% url 'service:case_detail' case.id %}"
+                                class="text-light d-flex align-items-center gap-3 p-2 rounded-2 hover-gold border border-gold">
+                                {% if case.image %}
+                                <img src="/media/{{ case.image }}" class="rounded-2 border border-gold"
+                                    alt="{{ case.title }}" style="width: 50px; height: 50px; object-fit: cover;">
+                                {% else %}
+                                <div class="bg-secondary rounded-2 d-flex align-items-center justify-content-center border border-gold"
+                                    style="width: 50px; height: 50px;">
+                                    <i class="bi bi-image text-light"></i>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <i class="bi bi-arrow-left-short me-2"></i>
+                                    {{ case.title|truncatechars:50 }}
+                                </div>
+                            </a>
+                        </li>
+                        {% empty %}
+                        <li class="text-light p-2 border border-gold rounded-2">هنوز پرونده‌ای ثبت نشده است</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    
+
 {% endblock %}
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // نمایش اولیه کارت‌ها
-    const cards = document.querySelectorAll('.blog-card');
-    cards.forEach(card => card.classList.add('visible'));
+    document.addEventListener('DOMContentLoaded', function () {
+        // نمایش اولیه کارت‌ها
+        const cards = document.querySelectorAll('.blog-card');
+        cards.forEach(card => card.classList.add('visible'));
 
-    let page = 1;
-    const loadMoreBtn = document.getElementById('load-more');
-    const blogContainer = document.getElementById('blog-container');
-    let isLoading = false;
+        let page = 1;
+        const loadMoreBtn = document.getElementById('load-more');
+        const blogContainer = document.getElementById('blog-container');
+        let isLoading = false;
 
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', function() {
-            if (isLoading) return;
-            isLoading = true;
-            page++;
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function () {
+                if (isLoading) return;
+                isLoading = true;
+                page++;
 
-            fetch(`/blog/load-more/?page=${page}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.posts.length > 0) {
-                        data.posts.forEach(post => {
-                            const postHtml = `
+                fetch(`/blog/load-more/?page=${page}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.posts.length > 0) {
+                            data.posts.forEach(post => {
+                                const postHtml = `
                                 <div class="col-md-6 blog-card">
                                     <div class="card bg-transparent border-gold mb-4 shadow-hover transition-all hover-scale h-100 d-flex flex-column">
                                         ${post.image ? `
@@ -294,44 +317,44 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </div>
                             `;
-                            blogContainer.insertAdjacentHTML('beforeend', postHtml);
-                            
-                            // نمایش انیمیشن برای کارت جدید
-                            setTimeout(() => {
-                                const newCard = blogContainer.lastElementChild;
-                                newCard.classList.add('visible');
-                            }, 100);
-                        });
+                                blogContainer.insertAdjacentHTML('beforeend', postHtml);
 
-                        if (!data.has_more) {
+                                // نمایش انیمیشن برای کارت جدید
+                                setTimeout(() => {
+                                    const newCard = blogContainer.lastElementChild;
+                                    newCard.classList.add('visible');
+                                }, 100);
+                            });
+
+                            if (!data.has_more) {
+                                loadMoreBtn.style.display = 'none';
+                            }
+                        } else {
                             loadMoreBtn.style.display = 'none';
                         }
-                    } else {
-                        loadMoreBtn.style.display = 'none';
-                    }
-                    isLoading = false;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    isLoading = false;
-                });
-        });
-    }
+                        isLoading = false;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        isLoading = false;
+                    });
+            });
+        }
 
-    // Lazy loading برای تصاویر
-    const lazyImages = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                observer.unobserve(img);
-            }
+        // Lazy loading برای تصاویر
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    observer.unobserve(img);
+                }
+            });
         });
+
+        lazyImages.forEach(img => imageObserver.observe(img));
     });
-
-    lazyImages.forEach(img => imageObserver.observe(img));
-});
 </script>
 {% endblock %}
