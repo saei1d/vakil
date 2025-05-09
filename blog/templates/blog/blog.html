@@ -58,17 +58,17 @@
                         <div class="col-md-6 blog-card">
                             <div class="card bg-transparent border-gold mb-4 shadow-hover transition-all hover-scale h-100 d-flex flex-column">
                                 {% if b.image %}
-                                <img src="/media/{{ b.image }}" class="card-img-top rounded-top" alt="{{ b.title }}" style="height: 300px; object-fit: cover;">
+                                <img src="/media/{{ b.image }}" class="card-img-top rounded-top" alt="{{ b.title }}" style="height: 200px; object-fit: cover;">
                                 {% endif %}
                                 <div class="card-body d-flex flex-column">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
                                         <h2 class="h4 text-gold mb-0 fw-bold">{{ b.title }}</h2>
                                         {% if user.is_staff %}
                                         <a href="{% url 'blog:PostEdit' b.id %}" class="btn btn-sm btn-outline-danger">
                                             <i class="bi bi-pencil-square"></i> ویرایش</a>
                                         {% endif %}
                                     </div>
-                                    <div class="d-flex align-items-center gap-3 text-light mb-3 opacity-75">
+                                    <div class="d-flex align-items-center gap-3 text-light mb-2 opacity-75 small">
                                         <small><i class="bi bi-calendar-date me-1"></i> {{ b.published_date|date:"d/m/Y" }}</small>
                                         <small><i class="bi bi-person me-1"></i> نویسنده: {{ b.author.name|default:b.author.username }}</small>
                                         <small><i class="bi bi-eye me-1"></i> {{ b.view }} بازدید</small>
@@ -76,7 +76,7 @@
                                     </div>
 
                                     {% if b.category or b.subcategory %}
-                                    <div class="mb-3">
+                                    <div class="mb-2">
                                         {% if b.category %}
                                         <span class="badge bg-dark text-gold border border-gold me-1 mb-1">
                                             <i class="bi bi-folder me-1"></i>
@@ -112,10 +112,10 @@
                                     </div>
                                     {% endif %}
                                     
-                                    <p class="card-text text-light mb-4 flex-grow-1">
+                                    <p class="card-text text-light flex-grow-1" style="height: 100px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
                                         {{ b.content|truncatechars:300|safe }}
                                     </p>
-                                    <div class="d-flex justify-content-end mt-auto">
+                                    <div class="d-flex justify-content-end mt-2">
                                         <a href="{% url 'blog:blogpage' b.slug %}" class="btn btn-gold d-flex align-items-center gap-2 px-4 py-2 border border-gold hover-scale">
                                             <span>ادامه مطلب</span>
                                             <i class="bi bi-arrow-left-short fs-5"></i>
@@ -254,14 +254,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="col-md-6 blog-card">
                                     <div class="card bg-transparent border-gold mb-4 shadow-hover transition-all hover-scale h-100 d-flex flex-column">
                                         ${post.image ? `
-                                            <img src="/media/${post.image}" class="card-img-top rounded-top" alt="${post.title}" style="height: 300px; object-fit: cover;">
+                                            <img src="/media/${post.image}" class="card-img-top rounded-top" alt="${post.title}" style="height: 200px; object-fit: cover;">
                                         ` : ''}
                                         <div class="card-body d-flex flex-column">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <h2 class="h4 text-gold mb-0 fw-bold">${post.title}</h2>
                                             </div>
                                             
-                                            <div class="d-flex align-items-center gap-3 text-light mb-3 opacity-75">
+                                            <div class="d-flex align-items-center gap-3 text-light mb-2 opacity-75 small">
                                                 <small><i class="bi bi-calendar-date me-1"></i> ${post.published_date}</small>
                                                 <small><i class="bi bi-person me-1"></i> نویسنده: ${post.author}</small>
                                                 <small><i class="bi bi-eye me-1"></i> ${post.views} بازدید</small>
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
 
                                             ${post.category ? `
-                                                <div class="mb-3">
+                                                <div class="mb-2">
                                                     <span class="badge bg-dark text-gold border border-gold me-1 mb-1">
                                                         <i class="bi bi-folder me-1"></i>${post.category}
                                                     </span>
@@ -281,10 +281,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 </div>
                                             ` : ''}
                                             
-                                            <p class="card-text text-light mb-4 flex-grow-1">
+                                            <p class="card-text text-light flex-grow-1" style="height: 100px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
                                                 ${post.content}
                                             </p>
-                                            <div class="d-flex justify-content-end mt-auto">
+                                            <div class="d-flex justify-content-end mt-2">
                                                 <a href="/blog/${post.slug}/" class="btn btn-gold d-flex align-items-center gap-2 px-4 py-2 border border-gold hover-scale">
                                                     <span>ادامه مطلب</span>
                                                     <i class="bi bi-arrow-left-short fs-5"></i>
