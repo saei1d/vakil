@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    {% if post %}ویرایش مقاله{% else %}ایجاد مقاله جدید{% endif %}
+{% if post %}ویرایش مقاله{% else %}ایجاد مقاله جدید{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -16,110 +16,104 @@
                     </h3>
                 </div>
                 <div class="card-body p-4 bg-blog text-light">
-                    <form method="post" {% if post %}action="{% url 'blog:PostEdit' post.id %}"{% else %}action="{% url 'blog:create-blog' %}"{% endif %} enctype="multipart/form-data" class="form-rtl">
+                    <form method="post" {% if post %}action="{% url 'blog:PostEdit' post.id %}" {% else
+                        %}action="{% url 'blog:create-blog' %}" {% endif %} enctype="multipart/form-data"
+                        class="form-rtl">
                         {% csrf_token %}
-                        
+
                         <div class="row mb-4">
                             <div class="col-md-12 mb-3">
-                                <label for="{{ form.title.id_for_label }}" class="form-label fw-bold">عنوان مقاله:</label>
+                                <label for="{{ form.title.id_for_label }}" class="form-label fw-bold">عنوان
+                                    مقاله:</label>
                                 {{ form.title }}
                                 <script>
                                     document.getElementById('{{ form.title.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
                                 </script>
                                 {% if form.title.errors %}
-                                    <div class="text-danger mt-1">{{ form.title.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.title.errors }}</div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-12 mb-3">
-                                <label for="{{ form.author.id_for_label }}" class="form-label fw-bold">نویسنده:(نام پنل نمایش داده میشود)</label>
+                                <label for="{{ form.author.id_for_label }}" class="form-label fw-bold">نویسنده:(نام پنل
+                                    نمایش داده میشود)</label>
                                 {{ form.author }}
-                                <script>
-                                    document.getElementById('{{ form.author.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
-                                    
-                                    // اضافه کردن قابلیت جستجو به فیلد نویسنده
-                                    $(document).ready(function() {
-                                        $('#{{ form.author.id_for_label }}').select2({
-                                            theme: 'bootstrap4',
-                                            placeholder: 'جستجوی نویسنده...',
-                                            allowClear: true,
-                                            language: {
-                                                noResults: function() {
-                                                    return "نتیجه‌ای یافت نشد";
-                                                }
-                                            }
-                                        });
-                                    });
-                                </script>
+
                                 {% if form.author.errors %}
-                                    <div class="text-danger mt-1">{{ form.author.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.author.errors }}</div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-12 mb-3">
-                                <label for="{{ form.image.id_for_label }}" class="form-label fw-bold">تصویر شاخص:</label>
+                                <label for="{{ form.image.id_for_label }}" class="form-label fw-bold">تصویر
+                                    شاخص:</label>
                                 {{ form.image }}
                                 <script>
                                     document.getElementById('{{ form.image.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
                                 </script>
                                 {% if form.image.errors %}
-                                    <div class="text-danger mt-1">{{ form.image.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.image.errors }}</div>
                                 {% endif %}
                                 {% if post and post.image %}
-                                    <div class="mt-2">
-                                        <p>تصویر فعلی:</p>
-                                        <img src="/media/{{ post.image }}" alt="تصویر فعلی" class="img-thumbnail" style="max-height: 150px;">
-                                    </div>
+                                <div class="mt-2">
+                                    <p>تصویر فعلی:</p>
+                                    <img src="/media/{{ post.image }}" alt="تصویر فعلی" class="img-thumbnail"
+                                        style="max-height: 150px;">
+                                </div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-12 mb-3">
-                                <label for="{{ form.category.id_for_label }}" class="form-label fw-bold">دسته‌بندی:</label>
+                                <label for="{{ form.category.id_for_label }}"
+                                    class="form-label fw-bold">دسته‌بندی:</label>
                                 {{ form.category }}
                                 <script>
                                     document.getElementById('{{ form.category.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
                                 </script>
                                 {% if form.category.errors %}
-                                    <div class="text-danger mt-1">{{ form.category.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.category.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                         <div class="mb-4">
-                            <label for="{{ form.content.id_for_label }}" class="form-label fw-bold">محتوای مقاله:</label>
+                            <label for="{{ form.content.id_for_label }}" class="form-label fw-bold">محتوای
+                                مقاله:</label>
                             <div class="ckeditor-container bg-white p-2 rounded">
                                 {{ form.media }}
                                 {{ form.content }}
                             </div>
                             {% if form.content.errors %}
-                                <div class="text-danger mt-1">{{ form.content.errors }}</div>
+                            <div class="text-danger mt-1">{{ form.content.errors }}</div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="row mb-4">
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.subcategory.id_for_label }}" class="form-label fw-bold">زیر دسته‌بندی:</label>
+                                <label for="{{ form.subcategory.id_for_label }}" class="form-label fw-bold">زیر
+                                    دسته‌بندی:</label>
                                 {{ form.subcategory }}
                                 <script>
                                     document.getElementById('{{ form.subcategory.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
                                 </script>
                                 {% if form.subcategory.errors %}
-                                    <div class="text-danger mt-1">{{ form.subcategory.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.subcategory.errors }}</div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.published_date.id_for_label }}" class="form-label fw-bold">تاریخ انتشار:</label>
+                                <label for="{{ form.published_date.id_for_label }}" class="form-label fw-bold">تاریخ
+                                    انتشار:</label>
                                 {{ form.published_date }}
                                 <script>
                                     document.getElementById('{{ form.published_date.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
                                 </script>
                                 {% if form.published_date.errors %}
-                                    <div class="text-danger mt-1">{{ form.published_date.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.published_date.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                         <div class="row mb-4">
                             <div class="col-md-6 mb-3">
                                 <label for="{{ form.price.id_for_label }}" class="form-label fw-bold">قیمت:</label>
@@ -128,43 +122,52 @@
                                     document.getElementById('{{ form.price.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
                                 </script>
                                 {% if form.price.errors %}
-                                    <div class="text-danger mt-1">{{ form.price.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.price.errors }}</div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.summery.id_for_label }}" class="form-label fw-bold">خلاصه مقاله:</label>
+                                <label for="{{ form.summery.id_for_label }}" class="form-label fw-bold">خلاصه
+                                    مقاله:</label>
                                 {{ form.summery }}
                                 <script>
                                     document.getElementById('{{ form.summery.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
                                 </script>
                                 {% if form.summery.errors %}
-                                    <div class="text-danger mt-1">{{ form.summery.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.summery.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
-                        
                         <div class="row mb-4">
                             <div class="col-md-6 mb-3">
-                                <label for="views" class="form-label fw-bold">تعداد بازدید:</label>
-                                <input type="number" name="views" id="views" class="form-control bg-dark text-light border-secondary" value="{{ post.views|default:'0' }}" min="0">
+                                <label for="{{ form.view.id_for_label }}" class="form-label fw-bold">تعداد
+                                    بازدید:</label>
+                                {{ form.view }}
+                                <script>
+                                    document.getElementById('{{ form.views.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
+                                </script>
                                 {% if form.views.errors %}
-                                    <div class="text-danger mt-1">{{ form.views.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.views.errors }}</div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-6 mb-3">
-                                <label for="time_to_read" class="form-label fw-bold">زمان مطالعه (دقیقه):</label>
-                                <input type="number" name="time_to_read" id="time_to_read" class="form-control bg-dark text-light border-secondary" value="{{ post.time_to_read|default:'5' }}" min="1">
+                                <label for="{{ form.time_to_read.id_for_label }}" class="form-label fw-bold">زمان مطالعه
+                                    (دقیقه):</label>
+                                {{ form.time_to_read }}
+                                <script>
+                                    document.getElementById('{{ form.time_to_read.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
+                                </script>
                                 {% if form.time_to_read.errors %}
-                                    <div class="text-danger mt-1">{{ form.time_to_read.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.time_to_read.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3">
-                                <label for="{{ form.is_published.id_for_label }}" class="form-label fw-bold">وضعیت انتشار:</label>
+                                <label for="{{ form.is_published.id_for_label }}" class="form-label fw-bold">وضعیت
+                                    انتشار:</label>
                                 <div class="form-check form-switch">
                                     {{ form.is_published }}
                                     <label class="form-check-label" for="{{ form.is_published.id_for_label }}">
@@ -172,11 +175,11 @@
                                     </label>
                                 </div>
                                 {% if form.is_published.errors %}
-                                    <div class="text-danger mt-1">{{ form.is_published.errors }}</div>
+                                <div class="text-danger mt-1">{{ form.is_published.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                             <a href="{% url 'blog:blog' %}" class="btn btn-secondary me-md-2">انصراف</a>
                             <button type="submit" class="btn bg-gold text-dark fw-bold">
@@ -197,28 +200,28 @@
         direction: rtl;
         text-align: right;
     }
-    
+
     .ckeditor-container {
         border: 1px solid #444;
         border-radius: 5px;
     }
-    
+
     /* تنظیمات برای CKEditor */
     .django-ckeditor-widget {
         width: 100% !important;
     }
-    
+
     #cke_id_content {
         width: 100% !important;
         border: none !important;
     }
-    
+
     /* رنگ‌بندی فرم‌ها */
     .form-control:focus {
         border-color: #ffc107;
         box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
     }
-    
+
     /* دکمه‌های سوییچ */
     .form-check-input:checked {
         background-color: #ffc107;
@@ -229,18 +232,33 @@
 
 {% block script %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('{{ form.author.id_for_label }}').classList.add('form-control', 'bg-dark', 'text-light', 'border-secondary');
+
+    // اضافه کردن قابلیت جستجو به فیلد نویسنده
+    $(document).ready(function () {
+        $('#{{ form.author.id_for_label }}').select2({
+            theme: 'bootstrap4',
+            placeholder: 'جستجوی نویسنده...',
+            allowClear: true,
+            language: {
+                noResults: function () {
+                    return "نتیجه‌ای یافت نشد";
+                }
+            }
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
         // اضافه کردن کلاس به المان‌های فرم برای زیباسازی
-        document.querySelectorAll('select').forEach(function(select) {
+        document.querySelectorAll('select').forEach(function (select) {
             select.classList.add('form-select');
         });
-        
-        document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+
+        document.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
             checkbox.classList.add('form-check-input');
         });
-        
+
         // تنظیم ارتفاع ادیتور
-        setTimeout(function() {
+        setTimeout(function () {
             var iframe = document.querySelector('.cke_wysiwyg_frame');
             if (iframe) {
                 iframe.style.height = '400px';

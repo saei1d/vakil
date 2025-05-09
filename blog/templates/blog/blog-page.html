@@ -2,302 +2,358 @@
 {% block title %}{{ blog.title }} | وبلاگ تخصصی حقوقی و آموزشی{% endblock %}
 
 {% block meta %}
-<meta name="description" content="{{ blog.excerpt|default:'مطالب تخصصی در زمینه حقوق، آموزش و پرونده های قضایی. جدیدترین مقالات و تحلیل های حقوقی در وبلاگ ما'|truncatechars:155 }}">
+<meta name="description"
+    content="{{ blog.excerpt|default:'مطالب تخصصی در زمینه حقوق، آموزش و پرونده های قضایی. جدیدترین مقالات و تحلیل های حقوقی در وبلاگ ما'|truncatechars:155 }}">
 {% endblock %}
 
 {% block content %}
-    <section>
-        <div class="container-2">
-            <div class="row justify-content-between mt-5">
-                <!-- Blog Right (Main Content) -->
-                <div class="col-md-8 text-md-start text-center ">
-                    <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
-                        {% load static %}
-                        <img src="/media/{{ blog.image }}" class="card-img-top" alt="{{ blog.title|default:'مقاله حقوقی' }}">
+<section>
+    <div class="container-2">
+        <div class="row justify-content-between mt-5">
+            <!-- Blog Right (Main Content) -->
+            <div class="col-md-8 text-md-start text-center">
+                <div class="text-light border-bottom pb-4 mb-4" style="border-color: #5353535e !important;">
+                    <!-- تگ‌های بلاگ -->
+                    <div class="mb-3">
+                        {% if blog.category %}
+                        <span class="badge bg-dark text-gold me-2">
+                            <i class="bi bi-tag-fill me-1"></i>
+                            {% if blog.category == "announcement" %}
+                            اطلاعیه و اخبار
+                            {% elif blog.category == "law" %}
+                            قانون
+                            {% elif blog.category == "educational" %}
+                            آموزشی
+                            {% elif blog.category == "cases" %}
+                            پرونده‌های جذاب
+                            {% endif %}
+                        </span>
+                        {% endif %}
+                        {% if blog.subcategory %}
+                        <span class="badge bg-dark text-gold">
+                            <i class="bi bi-tag-fill me-1"></i>
+                            {% if blog.subcategory == "criminal" %}
+                            کیفری
+                            {% elif blog.subcategory == "civil" %}
+                            حقوقی
+                            {% elif blog.subcategory == "family" %}
+                            خانواده
+                            {% elif blog.subcategory == "sabt" %}
+                            امور ثبتی
+                            {% elif blog.subcategory == "vaghf" %}
+                            وقف و موقوفات
+                            {% elif blog.subcategory == "other" %}
+                            سایر
+                            {% endif %}
+                        </span>
+                        {% endif %}
+                    </div>
 
-                        <h1 class="text-light mb-4">{{ blog.title }}</h1>
+                    <!-- عنوان بلاگ -->
+                    <h1 class="text-light mb-4 fw-bold">{{ blog.title }}</h1>
 
-                        <!-- text blog -->
-                        <div class="card-body mt-4 lh-lg text-jus fw-lighter">
-                            {{ blog.content|safe }}
+                    <!-- متادیتای بلاگ -->
+                    <div class="d-flex flex-wrap gap-3 mb-4 text-muted">
+                        <div>
+                            <i class="bi bi-calendar3 me-1"></i>
+                            {{ blog.published_date|date:"Y/m/d" }}
                         </div>
+                        <div>
+                            <i class="bi bi-chat-fill me-1"></i>
+                            {{ blog.comments.count }} نظر
+                        </div>
+                        <div>
+                            <i class="bi bi-eye-fill me-1"></i>
+                            {{ blog.view }} بازدید
+                        </div>
+                        <div>
+                            <i class="bi bi-clock-fill me-1"></i>
+                            خواندن این مطلب {{ blog.time_to_read }} دقیقه زمان می‌برد
+                        </div>
+                    </div>
 
-                        <h2 class="text-light mt-5 mb-3">دسته بندی مطالب</h2>
-                        <!-- tag blog -->
-                        <nav class="menu-2" aria-label="دسته بندی مطالب">
-                            <ul>
-                                <li class="highlight"><a><i class="bi bi-tag-fill text-dark"></i></a></li>
-                                {% if 'announcement' in blog.category %}
-                                <li class="highlight"><a style="color: black !important;" href="#">اطلاعیه و اخبار</a></li>
-                                {% else %}
-                                <li><a href="#">اطلاعیه</a></li>
-                                {% endif %}
-                                {% if 'educational' in blog.category %}
-                                <li class="highlight"><a style="color: black !important;" href="#">آموزشی</a></li>
-                                {% else %}
-                                <li><a href="#">آموزشی</a></li>
-                                {% endif %}
-                                {% if 'law' in blog.category %}
-                                <li class="highlight"><a style="color: black !important;" href="#">قانون</a></li>
-                                {% else %}
-                                <li><a href="#">قانون</a></li>
-                                {% endif %}
-                                {% if 'cases' in blog.category %}
-                                <li class="highlight"><a style="color: black !important;" href="#">پرونده</a></li>
-                                {% else %}
-                                <li><a href="#">پرونده</a></li>
-                                {% endif %}
-                            </ul>
-                        </nav>
+                    <!-- تصویر بلاگ -->
+                    <div class="mb-4">
+                        <img src="/media/{{ blog.image }}" class="img-fluid rounded"
+                            alt="{{ blog.title|default:'مقاله حقوقی' }}">
+                    </div>
 
-                        <h2 class="text-light mt-5 mb-3">نظرات کاربران</h2>
-                        <!-- comment -->
-                        <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                            <h3 class="bg-gold text-dark px-5 py-3 w-75 text-center blog-title"><i
-                                    class="bi bi-chat-fill me-2"></i> {{ blog.comments.count }} نظر </h3>
-                            
-                            {% for comment in blog.comments.all|dictsortreversed:"created_at" %}
-                                {% if not comment.parent %}
-                                <div class="comment-container" id="comment-{{ comment.id }}">
-                                    <div class="comment-header">
-                                        <div class="comment-info">
-                                            {% if comment.author.is_staff %}
-                                                <p class="comment-author">ادمین گفته:</p>
-                                            {% else %}
-                                                {% if comment.author.name %}
-                                                    <p class="comment-author">{{ comment.author.name }} گفته:</p>
-                                                {% else %}
-                                                    <p class="comment-author">کاربر سایت گفته:</p>
-                                                {% endif %}
-                                            {% endif %}
-                                            <p class="comment-date">{{ comment.created_at|date:"Y/m/d" }} {{ comment.created_at|time:"H:i" }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="comment-body">
-                                        <p class="text-break">{{ comment.content }}</p>
-                                    </div>
-                                    <div class="comment-footer">
-                                        <button class="btn btn-sm btn-outline-light reply-link" onclick="showReplyForm('{{ comment.id }}', '{% if comment.author.is_staff %}{{ comment.author.name|default:comment.author.username }}{% else %}{% if comment.author.name %}{{ comment.author.name }}{% else %}کاربر سایت{% endif %}{% endif %}')">پاسخ</button>
-                                        {% if user.is_staff %}
-                                        <form action="{% url 'blog:delete_comment' comment_id=comment.id %}" method="POST" style="display:inline;">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
-                                        </form>
-                                        {% endif %}
-                                    </div>
-                                
-                                {% if comment.reply %}
-                                <div class="comment-container reply-comment" style="margin-right: 30px; background-color: rgba(255, 215, 0, 0.2); border-right: 3px solid #ffd700; max-width: calc(100% - 30px);">
-                                    <div class="comment-header">
-                                        <div class="comment-info">
-                                            {% if comment.reply.author.is_staff %}
-                                            <p class="comment-author">ادمین گفته:</p>
-                                            {% else %}
-                                                {% if comment.reply.author.name %}
-                                                    <p class="comment-author">{{ comment.reply.author.name }} گفته:</p>
-                                                {% else %}
-                                                    <p class="comment-author">کاربر سایت گفته:</p>
-                                                {% endif %}
-                                            {% endif %}
-                                            <p class="comment-date">{{ comment.reply.created_at|date:"Y/m/d" }} {{ comment.reply.created_at|time:"H:i" }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="comment-body">
-                                        <p class="text-break">{{ comment.reply.content }}</p>
-                                    </div>
+                    <!-- محتوای بلاگ -->
+                    <div class="card-body mt-4 lh-lg text-justify fw-lighter">
+                        {{ blog.content|safe }}
+                    </div>
+
+                    <h2 class="text-light mt-5 mb-3">دسته بندی مطالب</h2>
+                    <!-- tag blog -->
+                    <nav class="menu-2" aria-label="دسته بندی مطالب">
+                        <ul>
+                            <li class="highlight"><a><i class="bi bi-tag-fill text-dark"></i></a></li>
+                            {% if 'announcement' in blog.category %}
+                            <li class="highlight"><a style="color: black !important;" href="#">اطلاعیه و اخبار</a></li>
+                            {% else %}
+                            <li><a href="#">اطلاعیه</a></li>
+                            {% endif %}
+                            {% if 'educational' in blog.category %}
+                            <li class="highlight"><a style="color: black !important;" href="#">آموزشی</a></li>
+                            {% else %}
+                            <li><a href="#">آموزشی</a></li>
+                            {% endif %}
+                            {% if 'law' in blog.category %}
+                            <li class="highlight"><a style="color: black !important;" href="#">قانون</a></li>
+                            {% else %}
+                            <li><a href="#">قانون</a></li>
+                            {% endif %}
+                            {% if 'cases' in blog.category %}
+                            <li class="highlight"><a style="color: black !important;" href="#">پرونده</a></li>
+                            {% else %}
+                            <li><a href="#">پرونده</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+
+                    <h2 class="text-light mt-5 mb-3">نظرات کاربران</h2>
+                    <!-- comment -->
+                    <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
+                        <h3 class="bg-gold text-dark px-5 py-3 w-75 text-center blog-title"><i
+                                class="bi bi-chat-fill me-2"></i> {{ blog.comments.count }} نظر </h3>
+
+                        {% for comment in blog.comments.all|dictsortreversed:"created_at" %}
+                        {% if not comment.parent %}
+                        <div class="comment-container" id="comment-{{ comment.id }}">
+                            <div class="comment-header">
+                                <div class="comment-info">
+                                    {% if comment.author.is_staff %}
+                                    <p class="comment-author">ادمین گفته:</p>
+                                    {% else %}
+                                    {% if comment.author.name %}
+                                    <p class="comment-author">{{ comment.author.name }} گفته:</p>
+                                    {% else %}
+                                    <p class="comment-author">کاربر سایت گفته:</p>
+                                    {% endif %}
+                                    {% endif %}
+                                    <p class="comment-date">{{ comment.created_at|date:"Y/m/d" }} {{
+                                        comment.created_at|time:"H:i" }}</p>
                                 </div>
-                                {% endif %}
-                                </div>
-                                {% endif %}
-                                <script>
-                                function showReplyForm(commentId, authorName) {
-                                        // نمایش بخش اطلاعات پاسخ
-    document.getElementById('reply-info').style.display = 'block';
-                                        
-                                        // تنظیم نام نویسنده در بخش پاسخ
-     document.getElementById('reply-to-author').textContent = "درحال پاسخ به کامنت " + commentId;
-                                        
-
-    document.getElementById('parent-id').value = commentId;
-                                        
-                                        // اسکرول به فرم نظر
-    document.querySelector('.comment-box').scrollIntoView({ behavior: 'smooth' });
-                                        
-                                        // فوکوس روی فیلد متن نظر
-    document.getElementById('comment').focus();
-    }
-                                    
-                                    // اضافه کردن رویداد برای دکمه لغو پاسخ
-    document.getElementById('cancel-reply').addEventListener('click', function() {
-    document.getElementById('reply-info').style.display = 'none';
-    document.getElementById('parent-id').value = '';
-    });
-
-                                </script>
-                            {% empty %}
-                                <div class="text-center my-4">
-                                    <p>هنوز نظری ثبت نشده است. اولین نفری باشید که نظر می‌دهید!</p>
-                                </div>
-                            {% endfor %}
-
-                            <div class="comment-box">
-                                <h2>دیدگاهتان را بنویسید</h2>
-                                <p>نشانی از شما منتشر نخواهد شد.*</p>
-                                
-                                {% if user.is_authenticated %}
-                                <div id="reply-info" style="display: none; background-color: #f8f9fa; padding: 10px; margin-bottom: 15px; border-radius: 5px; color: black;">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">در حال پاسخ به: <span id="reply-to-author"></span></p>
-                                        <button type="button" id="cancel-reply" class="btn btn-sm btn-danger">
-                                            <i class="bi bi-x"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <form action="{% url 'blog:post_detail' post_id=blog.id %}" method="POST">
+                            </div>
+                            <div class="comment-body">
+                                <p class="text-break">{{ comment.content }}</p>
+                            </div>
+                            <div class="comment-footer">
+                                <button class="btn btn-sm btn-outline-light reply-link"
+                                    onclick="showReplyForm('{{ comment.id }}', '{% if comment.author.is_staff %}{{ comment.author.name|default:comment.author.username }}{% else %}{% if comment.author.name %}{{ comment.author.name }}{% else %}کاربر سایت{% endif %}{% endif %}')">پاسخ</button>
+                                {% if user.is_staff %}
+                                <form action="{% url 'blog:delete_comment' comment_id=comment.id %}" method="POST"
+                                    style="display:inline;">
                                     {% csrf_token %}
-                                    <input type="hidden" id="parent-id" name="parent" value="">
-                                    <label for="comment">دیدگاه *</label>
-                                    <textarea style="color: black;" id="comment" name="content" rows="5" required></textarea>
-
-                                    <div class="row justify-content-between align-items-center mt-3">
-                                        <div class="col-md-4 col-12">
-                                            <label for="name">نام کاربری شما</label>
-                                            <input type="text" id="name" name="name" style="color: black;" value="{{ request.user.name|default:request.user.username }}" {% if request.user.is_authenticated %}readonly{% endif %} required>
-                                        </div>
-
-                                    </div>
-
-
-                                    <button type="submit" class="submit-btn mt-3">فرستادن دیدگاه</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
                                 </form>
-                                {% else %}
-                                <div class="blur-overlay" style="background-color: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; backdrop-filter: blur(5px); text-align: center;">
-                                    <h3 class="mb-4">برای ارسال دیدگاه ابتدا وارد حساب کاربری خود شوید</h3>
-                                    <a href="{% url 'users:login' %}?next={{ request.path }}" class="btn btn-primary btn-lg">ورود / ثبت نام</a>
-                                </div>
                                 {% endif %}
                             </div>
-                        </div>
 
+                            {% if comment.reply %}
+                            <div class="comment-container reply-comment"
+                                style="margin-right: 30px; background-color: rgba(255, 215, 0, 0.2); border-right: 3px solid #ffd700; max-width: calc(100% - 30px);">
+                                <div class="comment-header">
+                                    <div class="comment-info">
+                                        {% if comment.reply.author.is_staff %}
+                                        <p class="comment-author">ادمین گفته:</p>
+                                        {% else %}
+                                        {% if comment.reply.author.name %}
+                                        <p class="comment-author">{{ comment.reply.author.name }} گفته:</p>
+                                        {% else %}
+                                        <p class="comment-author">کاربر سایت گفته:</p>
+                                        {% endif %}
+                                        {% endif %}
+                                        <p class="comment-date">{{ comment.reply.created_at|date:"Y/m/d" }} {{
+                                            comment.reply.created_at|time:"H:i" }}</p>
+                                    </div>
+                                </div>
+                                <div class="comment-body">
+                                    <p class="text-break">{{ comment.reply.content }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+
+                        {% empty %}
+                        <div class="text-center my-4">
+                            <p>هنوز نظری ثبت نشده است. اولین نفری باشید که نظر می‌دهید!</p>
+                        </div>
+                        {% endfor %}
+
+                        <div class="comment-box">
+                            <h2>دیدگاهتان را بنویسید</h2>
+                            <p>نشانی از شما منتشر نخواهد شد.*</p>
+
+                            {% if user.is_authenticated %}
+                            <div id="reply-info"
+                                style="display: none; background-color: #f8f9fa; padding: 10px; margin-bottom: 15px; border-radius: 5px; color: black;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="mb-0">در حال پاسخ به: <span id="reply-to-author"></span></p>
+                                    <button type="button" id="cancel-reply" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <form action="{% url 'blog:post_detail' post_id=blog.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" id="parent-id" name="parent" value="">
+                                <label for="comment">دیدگاه *</label>
+                                <textarea style="color: black;" id="comment" name="content" rows="5" required></textarea>
+                            
+                                <div class="row justify-content-between align-items-center mt-3">
+                                    <div class="col-md-4 col-12">
+                                        <label for="name">نام کاربری شما</label>
+                                        <input type="text" id="name" name="name" style="color: black;"
+                                            value="{{ request.user.name|default:request.user.username }}" 
+                                            {% if request.user.is_authenticated %}readonly{% endif %} required>
+                                    </div>
+                                </div>
+                            
+                                <button type="submit" class="submit-btn mt-3">فرستادن دیدگاه</button>
+                            </form>
+                            {% else %}
+                            <div class="blur-overlay"
+                                style="background-color: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; backdrop-filter: blur(5px); text-align: center;">
+                                <h3 class="mb-4">برای ارسال دیدگاه ابتدا وارد حساب کاربری خود شوید</h3>
+                                <a href="{% url 'users:login' %}?next={{ request.path }}"
+                                    class="btn btn-primary btn-lg">ورود / ثبت نام</a>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
 
                 </div>
 
-                <!-- Blog Left (Sidebar) -->
-                <div class="col-md-4 mt-md-0 mt-5">
-                    <!-- Search Box -->
-                    <div class="mb-4 d-flex flex-column p-4 py-5 bg-blog ">
-                        <input class="input-blog mb-3" type="text" name="q" placeholder="جستجو ..." style="width: 100%;">
-                        <button class="bg-gold border-0 py-2 btn-form" type="submit">جستجو</button>
+            </div>
+
+            <!-- Blog Left (Sidebar) -->
+            <div class="col-md-4 mt-md-0 mt-5">
+                <!-- Search Box -->
+                <div class="p-4 py-5 bg-blog text-light mb-5 position-relative">
+                    <h6 class="bg-gold text-dark px-5 py-3 blog-title">
+                        <i class="bi bi-search me-2"></i>جستجو در وبلاگ
+                    </h6>
+                    <form action="{% url 'blog:blog' %}" method="GET" class="mt-4">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control bg-dark text-light border-secondary"
+                                placeholder="جستجو ...">
+                            <button class="btn bg-gold text-dark" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Related Posts -->
+                <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
+                    <h6 class="bg-gold text-dark px-5 py-3 blog-title">
+                        <i class="bi bi-link-45deg me-2"></i>مطالب مرتبط
+                    </h6>
+                    <div class="mt-4">
+                        {% if related_posts %}
+                            {% for post in related_posts %}
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0">
+                                    <img src="/media/{{ post.image }}" class="rounded" width="60" height="60" alt="{{ post.title }}">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-1">
+                                        <a href="{% url 'blog:blogpage' post.slug %}" class="text-light text-decoration-none hover-gold">
+                                            {{ post.title|truncatechars:50 }}
+                                        </a>
+                                    </h6>
+                                    <div class="d-flex gap-3 text-muted small">
+                                        <span>
+                                            <i class="bi bi-eye-fill me-1"></i>
+                                            {{ post.view }}
+                                        </span>
+                                        <span>
+                                            <i class="bi bi-clock-fill me-1"></i>
+                                            {{ post.time_to_read }} دقیقه
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center my-4">
+                                <p class="text-muted">مطلب مرتبطی یافت نشد</p>
+                            </div>
+                        {% endif %}
                     </div>
-
-                    <!-- Latest Posts -->
-                    <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">
-                            مطالب مرتبط
-                        </h6>
-                        <ul class="list-group mt-2">
-                            {% if blog %}
-                                {% for post in posts|slice:":5" %}
-                                <li class="mb-3">
-                                    <a href="{% url 'blog:blogpage' post.slug %}" class="text-light fs-14">
-                                        {{ post.title|truncatechars:50 }}
-                                    </a>
-                                </li>
-                                {% endfor %}
-                            {% else %}
-                                <li class="mb-3">
-                                    <span class="text-light fs-14">هنوز مطلبی منتشر نشده است</span>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                    <!-- Latest Posts -->
-                    <!-- <div class="p-4 py-5 bg-blog text-light my-5 position-relative">
-                        <h6 class="bg-gold text-dark px-5 py-3 blog-title">آخرین دیدگاه ها </h6>
-                        <ul class="list-group mt-2">
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">به دنبال بالا بودن تقاضا به دنبال رهبران کار و
-                                    استخدام
-                                    است</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">ساختمان صنعتی با مالک سابق نزدیک به ۴ میلیون دلار
-                                    معامله
-                                    می‌شود</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">بسیاری از شرکت های حقوقی کلاس های سال اول را قوی
-                                    نگه می
-                                    دارند</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">فضای زیادی در جهان</a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="#" class="text-light fs-14">با الهام از شما</a>
-                            </li>
-                        </ul>
-                    </div> -->
-
-
                 </div>
             </div>
         </div>
-    </section>
-
-
-    <!-- footer -->
-
-
-    <!-- fix phone -->
-    <div class="bg-gold fix-phone">
-        <a href="tel:001800345678" title="تماس با ما 02112345678"><i class="bi bi-telephone px-2 py-1 me-2"
-                                                                     style="background-color: rgba(16,26,14,0.31);"></i><span> تماس با ما
-                ۰۲۱۱۲۳۴۵۶۷۸</span></a>
     </div>
-    <!-- fix phone -->
+</section>
+
+
+<!-- footer -->
 {% endblock %}
 
 {% block script %}
 <script>
-    
+    function showReplyForm(commentId, authorName) {
+        // نمایش بخش اطلاعات پاسخ
+        document.getElementById('reply-info').style.display = 'block';
+
+        // تنظیم نام نویسنده در بخش پاسخ
+        document.getElementById('reply-to-author').textContent = "درحال پاسخ به کامنت " + commentId;
+
+
+        document.getElementById('parent-id').value = commentId;
+
+        // اسکرول به فرم نظر
+        document.querySelector('.comment-box').scrollIntoView({ behavior: 'smooth' });
+
+        // فوکوس روی فیلد متن نظر
+        document.getElementById('comment').focus();
+    }
+
+    // اضافه کردن رویداد برای دکمه لغو پاسخ
+    document.getElementById('cancel-reply').addEventListener('click', function () {
+        document.getElementById('reply-info').style.display = 'none';
+        document.getElementById('parent-id').value = '';
+    });
+
 
     var swiper = new Swiper(".mySwiper2", {
-    pagination: {
-    el: ".swiper-pagination",
-    },
-    slidesPerView: 1,
-    spaceBetween: 10,
-    breakpoints: {
-    640: {
-    slidesPerView: 1,
-    },
+        pagination: {
+            el: ".swiper-pagination",
+        },
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+            },
 
-    1024: {
-    slidesPerView: 3,
-    },
-    },
+            1024: {
+                slidesPerView: 3,
+            },
+        },
     });
 
     // Accordion
     const headers = document.querySelectorAll('.accordion-header');
     if (headers) {
-    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
 
-    headers.forEach(header => {
-    header.addEventListener('click', function () {
-    const body = this.nextElementSibling;
-    body.classList.toggle('active');
+            headers.forEach(header => {
+                header.addEventListener('click', function () {
+                    const body = this.nextElementSibling;
+                    body.classList.toggle('active');
 
-    headers.forEach(otherHeader => {
-    if (otherHeader !== this) {
-    otherHeader.nextElementSibling.classList.remove('active');
-    }
-    });
-    });
-    });
-    });
+                    headers.forEach(otherHeader => {
+                        if (otherHeader !== this) {
+                            otherHeader.nextElementSibling.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        });
 
 
     }

@@ -47,14 +47,12 @@
     <section class="py-5">
         <div class="container">
             <div class="row g-5">
-                <!-- Main Content -->
                 <div class="col-lg-8">
                     <div class="bg-dark-soft rounded-3 mb-4">
                         <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-0 fw-bolder">
                             <i class="bi bi-newspaper me-2"></i>جدیدترین مطالب
                         </h3>
                     </div>
-                    
                     <div class="row g-4" id="blog-container">
                         {% for b in blog|slice:":8" %}
                         <div class="col-md-6 blog-card">
@@ -67,16 +65,14 @@
                                         <h2 class="h4 text-gold mb-0 fw-bold">{{ b.title }}</h2>
                                         {% if user.is_staff %}
                                         <a href="{% url 'blog:PostEdit' b.id %}" class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-pencil-square"></i> ویرایش
-                                        </a>
+                                            <i class="bi bi-pencil-square"></i> ویرایش</a>
                                         {% endif %}
                                     </div>
-                                    
                                     <div class="d-flex align-items-center gap-3 text-light mb-3 opacity-75">
                                         <small><i class="bi bi-calendar-date me-1"></i> {{ b.published_date|date:"d/m/Y" }}</small>
                                         <small><i class="bi bi-person me-1"></i> نویسنده: {{ b.author.name|default:b.author.username }}</small>
-                                        <small><i class="bi bi-eye me-1"></i> {{ b.views }} بازدید</small>
-                                        <small><i class="bi bi-clock me-1"></i> {{ b.time_to_read }} دقیقه</small>
+                                        <small><i class="bi bi-eye me-1"></i> {{ b.view }} بازدید</small>
+                                        <small><i class="bi bi-clock me-1"></i> {{ b.time_to_read }}  دقیقه مدت مطالعه</small>
                                     </div>
 
                                     {% if b.category or b.subcategory %}
@@ -168,7 +164,7 @@
                                         <div class="flex-grow-1">
                                             <h4 class="h6 text-gold mb-3 fw-bold">{{ post.title|truncatechars:50 }}</h4>
                                             <div class="d-flex align-items-center text-light opacity-75 small mt-2">
-                                                <span class="me-3"><i class="bi bi-eye me-1"></i>{{ post.views }} بازدید</span>
+                                                <span class="me-3"><i class="bi bi-eye me-1"></i>{{ post.view }} بازدید</span>
                                                 <span><i class="bi bi-clock me-1"></i>{{ post.time_to_read }} دقیقه مطالعه</span>
                                             </div>
                                         </div>
@@ -228,12 +224,7 @@
         </div>
     </section>
 
-    <div class="fixed-bottom d-lg-none">
-        <a href="tel:02112345678" class="btn btn-gold w-100 rounded-0 py-3">
-            <i class="bi bi-telephone me-2"></i>
-            تماس با ما: ۰۲۱۱۲۳۴۵۶۷۸
-        </a>
-    </div>
+    
 {% endblock %}
 
 {% block extra_js %}

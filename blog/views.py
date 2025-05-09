@@ -25,11 +25,19 @@ def blog(request):
     return render(request, 'blog/blog.html', {'blog': blog})
 
 
+
+from django.db.models import F
+
 def blogpage(request, slug):
     blog = get_object_or_404(Post, slug=slug)
-    posts = Post.objects.filter(is_published=True)
-
-    return render(request, 'blog/blog-page.html', {'blog': blog,'post':posts})
+    # افزایش تعداد بازدیدها با استفاده از F() برای جلوگیری از race condition
+    Post.objects.filter(pk=blog.pk).update(view=F('view') + 1)
+    related_posts = Post.objects.filter(category=blog.category, is_published=True).exclude(id=blog.id)[:5]
+    
+    return render(request, 'blog/blog-page.html', {
+        'blog': blog,
+        'related_posts': related_posts
+    })
 
 
 def contact(request):
@@ -151,9 +159,8 @@ class PostEdit(View):
             if form.is_valid():
                 post = form.save(commit=False)
                 # اضافه کردن فیلدهای views و time_to_read
-                post.views = request.POST.get('views', post.views)
-                post.time_to_read = request.POST.get('time_to_read', post.time_to_read)
                 post.save()
+                print(1)
                 return redirect('blog:blog')
             return render(request, 'blog/post_form.html', {'form': form, 'post': post})
         else:
