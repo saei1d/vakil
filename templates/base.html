@@ -169,6 +169,67 @@
             right: 20px;
             z-index: 999;
         }
+
+        /* تنظیمات CLS برای منو و اسلایدر */
+        .menu-mobile {
+            min-height: 100vh;
+            min-width: 280px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-mobile.animate__slideInRight {
+            transform: translateX(0);
+        }
+
+        .swiper {
+            min-height: 700px;
+            width: 100%;
+        }
+
+        .swiper-slide {
+            min-height: 700px;
+            width: 100%;
+        }
+
+        /* تنظیمات CLS برای آیکون‌ها */
+        .bi {
+            width: 1em;
+            height: 1em;
+            display: inline-block;
+        }
+
+        /* تنظیمات CLS برای تصاویر */
+        img {
+            aspect-ratio: attr(width) / attr(height);
+        }
+
+        /* تنظیمات CLS برای ویدیو */
+        video {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            height: auto;
+        }
+
+        /* تنظیمات CLS برای انیمیشن‌ها */
+        .animate__animated {
+            will-change: transform, opacity;
+        }
+
+        .animate__fadeIn {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 
     {% block style %}{% endblock %}
@@ -724,17 +785,33 @@
     {% load static %}
     <script src="{% static "js/script.js" %}" defer></script>
     <script defer>
-        // Initialize AOS after DOM is loaded
+        // Initialize AOS with optimized settings
+        AOS.init({
+            once: false,
+            disable: 'mobile',
+            startEvent: 'DOMContentLoaded',
+            offset: 120,
+            delay: 0,
+            duration: 800,
+            easing: 'ease-in-out',
+            mirror: false,
+            anchorPlacement: 'top-bottom',
+            useClassNames: true,
+            disableMutationObserver: false,
+            initClassName: 'aos-init',
+            animatedClassName: 'aos-animate',
+            disableClassName: 'aos-disabled'
+        });
+
+        // Optimize animations
         document.addEventListener('DOMContentLoaded', function() {
-            // منوی همبرگری با JavaScript خالص
             const menuButton = document.querySelector('.bi-list');
             const menuMobile = document.querySelector('.menu-mobile');
             const closeButton = document.querySelector('.bi-x');
             const overlay = document.getElementById('overlay');
 
             function toggleMenu() {
-                menuMobile.classList.toggle('animate__slideInRight');
-                menuMobile.classList.toggle('animate__slideOutRight');
+                menuMobile.style.transform = menuMobile.style.transform === 'translateX(0px)' ? 'translateX(100%)' : 'translateX(0px)';
                 overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
             }
 

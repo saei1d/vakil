@@ -3,71 +3,125 @@
 {% block meta_description %}موسسه حقوقی آوای حق با بیش از ۱۰ سال تجربه در زمینه دعاوی حقوقی، کیفری و خانواده، آماده ارائه مشاوره رایگان و خدمات تخصصی حقوقی به شماست.{% endblock %}
 {% block style %}
 <style>
-/* CSS */
-.button-85 {
-  padding: 0.6em 2em;
-  border: none;
-  outline: none;
-  color: #FFD700;
-  background: #111111;
-  cursor: pointer;
-  position: relative;
-  z-index: 0;
-  border-radius: 10px;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  text-shadow: 0 0 5px rgba(255,215,0,0.8);
+/* تنظیمات CLS برای اسلایدر */
+.swiper-slide-2 {
+    min-height: 700px;
+    width: 100%;
+    position: relative;
 }
 
-.button-85:before {
-  content: "";
-  background: linear-gradient(
-    45deg,
-    #FFD700,
-    #FFDF00,
-    #FFE44D,
-    #FFEE7F,
-    #FFF8B2,
-    #FFDF00,
-    #FFD700
-  );
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  background-size: 400%;
-  z-index: -1;
-  filter: blur(5px);
-  -webkit-filter: blur(5px);
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  animation: glowing-button-85 20s linear infinite;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 10px;
+.swiper-slide-2 img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+}
+
+.text-slider {
+    min-height: 300px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* تنظیمات CLS برای کارت‌ها */
+.custom-card {
+    min-height: 250px;
+    width: 100%;
+}
+
+/* تنظیمات CLS برای آیکون‌ها */
+.box-category img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+/* تنظیمات CLS برای فرم */
+.form-section {
+    min-height: 500px;
+    width: 100%;
+}
+
+/* تنظیمات CLS برای کامنت‌ها */
+.swiper-slide {
+    min-height: 330px;
+    width: 100%;
+}
+
+.img-comment {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* تنظیمات CLS برای دکمه‌ها */
+.button-85 {
+    min-width: 200px;
+    min-height: 50px;
+}
+
+/* تنظیمات CLS برای تصاویر */
+img[src*="sliderlogo.webp"] {
+    width: 650px;
+    height: 130px;
+    object-fit: contain;
+}
+
+img[src*="awards.webp"] {
+    width: 350px;
+    height: auto;
+    object-fit: contain;
+}
+
+img[src*="icon1.webp"] {
+    width: 200px;
+    height: 40px;
+    object-fit: contain;
+}
+
+img[src*="signature1.webp"] {
+    width: 200px;
+    height: 100px;
+    object-fit: contain;
+}
+
+img[src*="indeximage1.webp"],
+img[src*="indeximage2.webp"] {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+/* تنظیمات CLS برای ویدیو */
+video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+/* تنظیمات CLS برای انیمیشن‌ها */
+.animate__animated {
+    will-change: transform, opacity;
 }
 
 @keyframes glowing-button-85 {
-  0% {
-    background-position: 0 0;
-  }
-  50% {
-    background-position: 400% 0;
-  }
-  100% {
-    background-position: 0 0;
-  }
-}
-
-.button-85:after {
-  z-index: -1;
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #1a1a1a;
-  left: 0;
-  top: 0;
-  border-radius: 10px;
+    0% {
+        background-position: 0 0;
+        transform: translateY(0);
+    }
+    50% {
+        background-position: 400% 0;
+        transform: translateY(-2px);
+    }
+    100% {
+        background-position: 0 0;
+        transform: translateY(0);
+    }
 }
 </style>
 
