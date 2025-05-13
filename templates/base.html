@@ -17,14 +17,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
 
+    <!-- Load critical CSS first -->
+    <style>
+        /* Critical CSS for initial render */
+        body {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        body.loaded {
+            opacity: 1;
+        }
+    </style>
+
     <!-- Preload critical fonts -->
     <link rel="preload" href="{% static 'fonts/ttf/Ravi-Medium.ttf' %}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{% static 'fonts/ttf/Ravi-Bold.ttf' %}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{% static 'css/font.css' %}" as="style">
-    <link rel="preload" href="{% static 'css/bootstrap.rtl.css' %}" as="style">
-    <link rel="preload" href="{% static 'css/style.css' %}" as="style">
-    <link rel="preload" href="{% static 'css/Responsive.css' %}" as="style">
-    <link rel="preload" href="{% static 'plugin/swiper-bundle.min.css' %}" as="style">
+
+    <!-- Load critical CSS synchronously -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/swiper-bundle.min.css' %}">
+
+    <!-- Load non-critical CSS asynchronously -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+    <!-- Fallback for browsers that don't support async CSS loading -->
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    </noscript>
+
+    <script>
+        // Show body when critical CSS is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
 
     <!-- Preload critical images -->
     <link rel="preload" href="/static/image/slider2.webp" as="image" fetchpriority="high">
@@ -38,22 +71,6 @@
             src: url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.woff2') format('woff2');
         }
     </style>
-
-    <!-- Load non-critical CSS asynchronously -->
-    <link rel="stylesheet" href="{% static 'plugin/swiper-bundle.min.css' %}" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.css' %}" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="{% static 'css/font.css' %}" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="{% static 'css/Responsive.css' %}" media="print" onload="this.media='all'">
-
-    <!-- Fallback for browsers that don't support async CSS loading -->
-    <noscript>
-        <link rel="stylesheet" href="{% static 'plugin/swiper-bundle.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.css' %}">
-        <link rel="stylesheet" href="{% static 'css/font.css' %}">
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" href="{% static 'css/Responsive.css' %}">
-    </noscript>
 
     <!-- Load non-critical CSS asynchronously -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -206,9 +223,17 @@
 
         /* تنظیمات CLS برای ویدیو */
         video {
-            aspect-ratio: 16 / 9;
+            aspect-ratio: 21 / 3;
             width: 100%;
             height: auto;
+            max-height: 150px;
+        }
+
+        @media (max-width: 768px) {
+            video {
+                aspect-ratio: 28 / 10;
+                max-height: 100px;
+            }
         }
 
         /* تنظیمات CLS برای انیمیشن‌ها */
@@ -283,15 +308,15 @@
                 </li>
                 <img src="{% static "image/icons8-greek-pillar-base-100.webp" %}" alt="آیکون درباره ما" width="35px">
                 <li>
-                    <a href="{% url 'blog:about-us' %}"
-                        class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما</a>
-                </li>
-                <img src="{% static "image/icons8-capital-100.webp" %}" alt="آیکون وبلاگ حقوقی" width="35px">
-                <li>
                     <a href="{% url 'blog:blog' %}"
                         class="{% if request.path == '/blog/' %}activelink{% endif %}">وبلاگ</a>
                 </li>
                 <img src="{% static "image/icons8-greek-pillar-base-100.webp" %}" alt="آیکون ورود کاربر" width="35px">
+                <li>
+                    <a href="{% url 'blog:about-us' %}"
+                        class="{% if request.path == '/about-us/' %}activelink{% endif %}">درباره ما</a>
+                </li>
+                <img src="{% static "image/icons8-capital-100.webp" %}" alt="آیکون وبلاگ حقوقی" width="35px">
                 {% if not user.is_authenticated %}
                 <li>
                     <a href="{% url 'users:login' %}">ورود به حساب</a>
@@ -329,13 +354,7 @@
                 </a>
             </div>
             <div class="position-relative" style="user-select: none;">
-                {% if not user.is_questioned %}
-                <div class="notification-badge position-absolute" style="top: -38px; right: -10px; cursor: pointer;"
-                    onclick="window.location.href='{% url 'users:home' %}#free';" title="برای پرسش رایگان کلیک کنید">
-                    {% endif %}
-                    <img src="{% static 'image/gift-box.webp' %}" alt="آیکون هدیه" width="30" height="30">
-                </div>
-                <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4" style="user-select: none; cursor: pointer;"></i>
+                <i class="bi-list bg-gold px-2 pt-2 text-black fs-4" style="user-select: none; cursor: pointer;"></i>
             </div>
 
         </nav>
@@ -516,7 +535,7 @@
                     <img src="/static/image/newlogo.avif" width="160px" alt="">
                 </a>
             </div>
-            <i class="bi bi-list bg-gold px-2 pt-2 text-black fs-4"></i>
+            <i class="bi-list bg-gold px-2 pt-2 text-black fs-4"></i>
         </nav>
         <!-- nav top -->
 
@@ -556,16 +575,14 @@
                     class="menu-item d-flex align-items-center {% if request.path == '/blog/' %}active-menu{% endif %}"
                     style="{% if request.path == '/blog/' %}color: #BC945C; padding-right: 15px;{% endif %}">
                     <li><i class="bi bi-newspaper me-2"
-                            style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/blog/' %}color: #BC945C;{% endif %}"></i>وبلاگ
-                        و اطلاعیه</li>
+                            style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/blog/' %}color: #BC945C;{% endif %}"></i>وبلاگ</li>
                     <div class="menu-line"></div>
                 </a>
                 <a href="{% url 'blog:about-us' %}"
                     class="menu-item d-flex align-items-center {% if request.path == '/about-us/' %}active-menu{% endif %}"
                     style="{% if request.path == '/about-us/' %}color: #BC945C; padding-right: 15px;{% endif %}">
                     <li><i class="bi bi-info-circle-fill me-2"
-                            style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/about-us/' %}color: #BC945C;{% endif %}"></i>درباره
-                        اوای‌حق</li>
+                            style="font-size: 1.2rem; width: 24px; text-align: center; {% if request.path == '/about-us/' %}color: #BC945C;{% endif %}"></i>درباره ما</li>
                     <div class="menu-line"></div>
                 </a>
                 {% if not user.is_authenticated %}
@@ -643,7 +660,7 @@
                     </div>
 
                 </div>
-                <div class="col-md-8 box-footer">
+                <div class="col-md-10 box-footer">
                     <div class="row justify-content-between">
                         <div class="col-md-4">
                             <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">اطلاعات تماس</h5>
@@ -694,7 +711,14 @@
                         <div class="col-md-4">
                             <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">لوگو اعتماد</h5>
                             <ul class="list-unstyled mt-4 fs-12">
-                                <li id="enamad-container"></li>
+                                <li>
+                                    <a href="https://trustseal.enamad.ir/" target="_blank">
+                                        <img src="{% static 'image/Enamad-logo.webp' %}" 
+                                             alt="نماد اعتماد الکترونیکی" 
+                                             style="border: 2px solid #b38538; border-radius: 8px; padding: 5px;"
+                                             width="100">
+                                    </a>
+                                </li>
                             </ul>
                         </div>
 
@@ -718,17 +742,16 @@
     </div>
 
     <div class="support-container" style="bottom: 60px;">
-
         <div class="support-button" id="supportButton">
             {% load static %}
             <img src="{% static 'image/supporterwhite.webp' %}" width="50px" alt="پشتیبانی">
-            <div class="green-light"></div> <!-- چراغ چشمک‌زن -->
+            <div class="green-light"></div>
         </div>
 
-        <div class="overlay" id="overlay"></div>
+        <div class="overlay" id="overlay" style="display: none;"></div>
 
         <div class="support-menu justify-content-between row align-items-center" id="supportMenu"
-            style="margin: auto; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a1a, #2c2c2c); border-radius: 20px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 90%; max-width: 500px;">
+            style="display: none; margin: auto; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a1a, #2c2c2c); border-radius: 20px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 90%; max-width: 500px;">
             <div class="col text-center ">
                 <a href="javascript:void(0);" id="telegramLink" class="support-icon"
                     style="display: inline-block; padding: 20px; background: #2c3e50; border-radius: 20px; transition: all 0.3s ease; width: 100px; height: 100px;">
@@ -894,6 +917,36 @@
                             });
                         }
                     });
+            });
+
+            const supportButton = document.getElementById('supportButton');
+            const supportMenu = document.getElementById('supportMenu');
+            let isMenuVisible = false;
+
+            function toggleSupportMenu() {
+                isMenuVisible = !isMenuVisible;
+                supportMenu.style.display = isMenuVisible ? 'block' : 'none';
+                overlay.style.display = isMenuVisible ? 'block' : 'none';
+                
+                // اضافه کردن تاخیر برای انیمیشن
+                if (isMenuVisible) {
+                    setTimeout(() => {
+                        supportMenu.style.opacity = '1';
+                    }, 10);
+                } else {
+                    supportMenu.style.opacity = '0';
+                }
+            }
+
+            supportButton.addEventListener('click', toggleSupportMenu);
+            overlay.addEventListener('click', toggleSupportMenu);
+
+            // بستن منو هنگام تغییر صفحه
+            window.addEventListener('beforeunload', function() {
+                if (isMenuVisible) {
+                    supportMenu.style.display = 'none';
+                    overlay.style.display = 'none';
+                }
             });
         });
     </script>

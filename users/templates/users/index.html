@@ -104,6 +104,18 @@ video {
     object-fit: cover;
 }
 
+@media (max-width: 768px) {
+    video {
+        width: 100%;
+        margin: 0 auto;
+        display: block;
+        aspect-ratio: 21/3;
+        height: auto;
+        max-height: 100px;
+        object-fit: cover;
+    }
+}
+
 /* تنظیمات CLS برای انیمیشن‌ها */
 .animate__animated {
     will-change: transform, opacity;
