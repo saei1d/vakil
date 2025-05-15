@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}موسسه حقوقی آوای حق | وکلای متخصص در دعاوی حقوقی{% endblock %}
-{% block meta_description %}موسسه حقوقی آوای حق با بیش از ۱۰ سال تجربه در زمینه دعاوی حقوقی، کیفری و خانواده، آماده ارائه مشاوره رایگان و خدمات تخصصی حقوقی به شماست.{% endblock %}
+{% block title %}گروه حقوقی آوای حق | وکلای متخصص در دعاوی حقوقی{% endblock %}
+{% block meta_description %}گروه حقوقی آوای حق با بیش از ۱۰ سال تجربه در زمینه دعاوی حقوقی، کیفری و خانواده، آماده ارائه مشاوره رایگان و خدمات تخصصی حقوقی به شماست.{% endblock %}
 {% block style %}
 <style>
 /* تنظیمات CLS برای اسلایدر */
@@ -27,7 +27,7 @@
 
 /* تنظیمات CLS برای کارت‌ها */
 .custom-card {
-    min-height: 250px;
+    min-height: 200px;
     width: 100%;
 }
 
@@ -145,27 +145,30 @@ video {
             <div class="swiper-wrapper">
                 <div class="swiper-slide swiper-slide-2">
                     {% load static %}
-                    <img src="{% static "image/slider2.webp" %}" height="700" width="1920" fetchpriority="high" alt="موسسه حقوقی آوای حق - خدمات حقوقی تخصصی">
+                    <img src="{% static "image/slider2.webp" %}" height="700" width="1920" fetchpriority="high" alt="گروه حقوقی آوای حق - خدمات حقوقی تخصصی">
                     <div class="text-slider mb-5 text-center">
                         {% load static %}
-                        <img src="{% static "image/sliderlogo.webp" %}" width="650" height="130" class="p-2 mb-4" alt="لوگو موسسه حقوقی آوای حق">
+                        <div class="d-flex justify-content-center">
+                            <img src="{% static "image/sliderlogo.webp" %}" width="80" height="100" class="p-2 mb-4" alt="لوگو گروه حقوقی آوای حق" style="max-width: 100%; height: auto;">
+                        </div>
                             <h1 class="my-2 h1-res mb-4" style="font-size: 64px; line-height: 1.6; max-width: 800px; margin: 0 auto;">
-                                تخصص ما، حق شما - ۱۰ سال تجربه موفق در دعاوی حقوقی
+                                تخصص ما، حق شما - ۱۰ سال تجربه موفق
                             </h1>
                             
-                        <img src="{% static "image/awards.webp" %}" style="width: 350px !important; height: auto;" alt="نماد رسمی موسسه حقوقی">
+                        <img src="{% static "image/awards.webp" %}" style="width: 250px !important; height: auto;" alt="نماد رسمی گروه حقوقی">
                     </div>
                 </div>
                 <div class="swiper-slide mb-5 swiper-slide-2">
                     {% load static %}
-                    <img src="{% static "image/slider1.webp" %}" height="700" width="1920" alt="تیم حقوقی برتر ایران - موسسه آوای حق">
+                    <img src="{% static "image/slider1.webp" %}" height="700" width="1920" fetchpriority="high" alt="گروه حقوقی آوای حق - خدمات حقوقی تخصصی">
                     <div class="text-slider mb-5 text-center">
                         {% load static %}
-                        <img src="{% static "image/sliderlogo.webp" %}" width="650" height="130" class="p-2 mb-4" alt="لوگو موسسه حقوقی آوای حق">
-                        <h2 class="my-2 h1-res mb-4" style="font-size: 64px; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+                        <div class="d-flex justify-content-center">
+                            <img src="{% static "image/sliderlogo.webp" %}" width="80" height="100" class="p-2 mb-4" alt="لوگو گروه حقوقی آوای حق" style="max-width: 100%; height: auto;">
+                        </div>                        <h1 class="my-2 h1-res mb-4" style="font-size: 64px; line-height: 1.6; max-width: 800px; margin: 0 auto;">
                             تیم حقوقی برتر ایران در کنار شماست
-                        </h2>
-                        <img src="{% static "image/awards.webp" %}" style="width: 350px !important; height: auto;" alt="نماد رسمی موسسه حقوقی">
+                        </h1>
+                        <img src="{% static "image/awards.webp" %}" style="width: 250px !important; height: auto;" alt="نماد رسمی گروه حقوقی">
                     </div>
                 </div>
 
@@ -173,12 +176,12 @@ video {
             <div class="swiper-pagination"></div>
         </div>
         <div class="container-2 box-hed">
-            <div class="row flex-row-reverse">
+            <div class="row flex-row-reverse justify-content-center">
                 {% for p in post %}
-                    <div class="col-md-4 mb-4">
-                        <div class="custom-card" style="background: #fff; border-radius: 15px; padding: 35px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 10px;">
+                    <div class="col-md-4 col-10 mb-4">
+                        <div class="custom-card" style="background: #fff; border-radius: 15px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 12px;">
                             <h3 style="color: #1a1a1a !important; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;margin-top: 10px;">{{ p.title }}</h3>
-                            <p style="color: #666 !important; line-height: 1.8; margin-bottom: 10px; min-height: 60px;">{{ p.summery }}</p>
+                            <p style="color: #666 !important; line-height: 1.8;margin-bottom: 2rem !important;">{{ p.summery }}</p>
                             <a href="{% url 'blog:blogpage' p.slug %}" class="btn-custom" style="display: inline-block; padding: 12px 30px; background: #b38538; color: #fff !important; border-radius: 8px; text-decoration: none;">مطالعه بیشتر</a>
                         </div>
                     </div>
@@ -244,13 +247,34 @@ video {
 
 
 
-<div class="text-center mt-5">
-    <img src="{% static "image/emptylogo.webp" %}" width="300" height="60" alt="لوگو موسسه حقوقی">
+<div class="text-center mt-5 container-2">
+    <img src="{% static "image/emptylogo.webp" %}" width="300" height="60" alt="لوگو گروه حقوقی">
     <h2 class="my-5" style="line-height: 1.6;">با تکیه بر دانش و تجربه، در مسیر پیروزی شما گام برمی‌داریم</h2>
-    <div class="d-flex gap-4 justify-content-center">
-        <a href="#free" class=" p-3 px-4 button-85" title="مشاوره رایگان">
-            یک مشاوره رایگان </a>
-        <a href="https://avahagh.ir/about-us/" class="border-gold p-3 px-4 text-gold" title="درباره ما">
+    <div class="d-flex gap-3 justify-content-center flex-wrap" style="max-width: 600px; margin: 0 auto;">
+        <a href="#free" class="p-2 px-3 glass-button" title="مشاوره رایگان" style="
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: white;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 10px rgba(255, 215, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        ">
+            <span style="position: relative; z-index: 2;">یک مشاوره رایگان</span>
+            <div style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+                z-index: 1;"></div>
+        </a>
+        <a href="https://avahagh.ir/about-us/" class="border-gold p-2 px-3 text-gold" title="درباره ما" style="font-size: 0.9rem;">
          موفقیت‌های ما </a>
     </div>
 </div>
@@ -259,14 +283,14 @@ video {
         <div class="container-2 mt2">
             <div class="row justify-content-between align-items-center">
                 <div class="col-md-5 text-md-start text-center mb-3">
-                    <img src="{% static "image/icon1.webp" %}" alt="آیکون موسسه حقوقی" width="200" height="40">
+                    <img src="{% static "image/icon1.webp" %}" alt="آیکون گروه حقوقی" width="200" height="40">
                     <h2 class="my-4 text-wrap" style="font-size: 35px; line-height: 1.6;">همراه شما برای احقاق حقوق قانونی‌تان</h2>
-                    <p style="line-height: 1.6;font-size: 18px;">با تیمی متشکل از برترین وکلای کشور، ما نه تنها از حقوق شما دفاع می‌کنیم، بلکه برای پیروزی شما می‌جنگیم. تجربه موفق ما در صدها پرونده پیچیده، تضمینی برای انتخاب شماست.</p>
-                    <img src="{% static "image/signature1.webp" %}" class="mt-5" alt="امضا موسسه حقوقی" width="200" height="100">
+                    <p style="line-height: 1.6; font-size: 18px; text-align: right; direction: rtl;">با تیمی متشکل از برترین وکلای کشور، ما نه تنها از حقوق شما دفاع می‌کنیم، بلکه برای پیروزی شما می‌جنگیم. تجربه موفق ما در صدها پرونده پیچیده، اعتماد برای انتخاب شماست.</p>
+                    <img src="{% static "image/signature1.webp" %}" class="mt-5" alt="امضا گروه حقوقی" width="200" height="100">
                 </div>
                 <div class="col-md-4 ">
                     <div class="bg-befor position-relative">
-                        <img src="{% static "image/indeximage1.webp" %}" width="100%" height="auto" alt="تصویر موسسه حقوقی">
+                        <img src="{% static "image/indeximage1.webp" %}" width="100%" height="auto" alt="تصویر گروه حقوقی">
                     </div>
                 </div>
             </div>
@@ -427,7 +451,7 @@ video {
         <div class="container-2">
             <div class="row align-items-center justify-content-between">
                 <div class="col-md-5 bg-befor mb-5 position-relative">
-                    <img src="{% static "image/indeximage2.webp" %}" alt="تصویر موسسه حقوقی" width="100%" height="auto">
+                    <img src="{% static "image/indeximage2.webp" %}" alt="تصویر گروه حقوقی" width="100%" height="auto">
                 </div>
                 <div class="col-md-6 text-center text-md-start">
                     <h2 class=" mt-5" style="line-height: 1.6;font-size: 33px;">نتایج درخشان ما، پیش‌بینی موفقیت شما</h2>
@@ -472,7 +496,7 @@ video {
     <!--  amar -->
     <!-- comment -->
     <section>
-        <div class="container-2 mt2">
+        <div class="container-2 mt2 position-relative">
             <div class="swiper commentSwiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide p-5 text-center position-relative"
@@ -480,7 +504,7 @@ video {
                         <img src="{% static "image/icons8-user-100 (1).webp" %}" class="img-comment" width="80" height="80" alt="تصویر موکل" loading="lazy">
                         <h3 class="mt-5">علی رسولی</h3>
                         <p class="mb-3">پرونده موفق بیمه عمر</p>
-                        <p class="my-4" style="line-height: 1.6;">"از همکاری با موسسه حقوقی آوای حق بسیار راضی هستم. تیم حرفه‌ای و متعهد آنها با پیگیری مستمر و تخصص بالا، توانستند حق من را در پرونده پیچیده بیمه عمر به دست آورند. صمیمانه از تلاش‌های بی‌وقفه آنها سپاسگزارم."</p>
+                        <p class="my-4" style="line-height: 1.6;">"از همکاری با گروه حقوقی آوای حق بسیار راضی هستم. تیم حرفه‌ای و متعهد آنها با پیگیری مستمر و تخصص بالا، توانستند حق من را در پرونده پیچیده بیمه عمر به دست آورند. صمیمانه از تلاش‌های بی‌وقفه آنها سپاسگزارم."</p>
                         <div>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
@@ -494,7 +518,7 @@ video {
                         <img src="{% static "image/icons8-user-100 (1).webp" %}" class="img-comment" width="80" height="80" alt="تصویر موکل" loading="lazy">
                         <h3 class="mt-5">محمد احمدی</h3>
                         <p class="mb-3">پرونده تصادف</p>
-                        <p class="my-4" style="line-height: 1.6;">"بعد از تصادف شدید، موسسه حقوقی آوای حق تمام مراحل پرونده را با دقت پیگیری کرد و توانست حق و حقوق من را به طور کامل دریافت کند. از تخصص و تعهد این تیم حرفه‌ای بسیار سپاسگزارم."</p>
+                        <p class="my-4" style="line-height: 1.6;">"بعد از تصادف شدید، گروه حقوقی آوای حق تمام مراحل پرونده را با دقت پیگیری کرد و توانست حق و حقوق من را به طور کامل دریافت کند. از تخصص و تعهد این تیم حرفه‌ای بسیار سپاسگزارم."</p>
                         <div>
                             <span class="text-gold">★</span>
                             <span class="text-gold">★</span>
@@ -547,14 +571,12 @@ video {
                         </div>
                     </div>
                 </div>
-                <div class="swiper-button-next" style="color: #BC945C;"></div>
-                <div class="swiper-button-prev" style="color: #BC945C;"></div>
+                <div class="swiper-button-next" style="color: #BC945C; right: 10px;"></div>
+                <div class="swiper-button-prev" style="color: #BC945C; left: 10px;"></div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
     </section>
-
-    <!-- comment -->
 
 
     <!-- blog -->

@@ -13,21 +13,11 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <meta name="description"
-        content="موسسه حقوقی آوای حق با بیش از ۱۰ سال تجربه در زمینه دعاوی حقوقی، کیفری و خانواده، آماده ارائه مشاوره رایگان و خدمات تخصصی حقوقی به شماست.">
+        content="گروه حقوقی آوای حق با بیش از ۱۰ سال تجربه در زمینه دعاوی حقوقی، کیفری و خانواده، آماده ارائه مشاوره رایگان و خدمات تخصصی حقوقی به شماست.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
 
-    <!-- Load critical CSS first -->
-    <style>
-        /* Critical CSS for initial render */
-        body {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        body.loaded {
-            opacity: 1;
-        }
-    </style>
+
 
     <!-- Preload critical fonts -->
     <link rel="preload" href="{% static 'fonts/ttf/Ravi-Medium.ttf' %}" as="font" type="font/woff2" crossorigin>
@@ -200,12 +190,10 @@
         }
 
         .swiper {
-            min-height: 700px;
             width: 100%;
         }
 
         .swiper-slide {
-            min-height: 700px;
             width: 100%;
         }
 
@@ -277,7 +265,7 @@
         <nav class=" d-flex justify-content-between mt-3 align-items-center">
             <div class="col-md-1">
                 <a href="{% url 'users:home' %}">
-                    <img src="/static/image/newlogo.avif" width="160px" alt="لوگو موسسه حقوقی آوای حق">
+                    <img src="/static/image/newlogo.avif" width="160px" alt="لوگو گروه حقوقی آوای حق">
                 </a>
             </div>
             <div class="col-md-7 d-flex justify-content-end gap-4 align-items-center">
@@ -638,90 +626,111 @@
 
     {% endblock %}
 
-
-
-
-    <footer class="bg-white pt-5 mt position-relative" style="border-top: 5px solid #BC945C;">
-        <div class="container ">
-
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="{% static "image/logoblack.webp" %}" width="200" alt="">
-                    <p class="text-black text-jus my-4 col-md-11 fw-semibold">سامانه حقوقی آوا حق با وکلای مجرب، خدمات تخصصی شامل مشاوره حقوقی، تنظیم لوایح، وکالت و سایر امور حقوقی را ارائه می‌دهد. ما با رعایت اصول اخلاقی و حفظ حریم خصوصی، بهترین راهکارهای حقوقی را به شما ارائه می‌کنیم.</p>
-
-                    <div class="mt-5 d-flex gap-3 footer-icon">
-                        <a href="#" data-text="Telegram"><i class="bi bi-telegram text-gold p-1 px-2"
-                                style="border: 1px solid #bc945c94 ;"></i></a>
-                        <a href="https://www.instagram.com/avahagh.ir/profilecard/?igsh=MW4wM3BvZndjaW0yOQ=="
-                            data-text="Instagram"><i class="bi bi-instagram text-gold p-1 px-2"
-                                style="border: 1px solid #bc945c94 ;"></i></a>
-                        {# <a href="" data-text="Twitter"><i class="bi bi-twitter text-gold p-1 px-2" #} {#
-                                style="border: 1px solid #bc945c94 ;"></i></a>#}
+    <footer class="bg-white pt-5 position-relative mt-3" style="border-top: 5px solid #BC945C;">
+        <div class="container">
+            <div class="row gx-5">
+                <!-- Logo and Description -->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <div class="text-center text-lg-start">
+                        <img src="{% static "image/logoblack.webp" %}" width="200" alt="لوگو آوا حق" class="mb-4">
+                        <p class="text-black mb-4 fw-semibold" style="line-height: 1.8;">
+                            سامانه حقوقی آوا حق با وکلای مجرب، خدمات تخصصی شامل مشاوره حقوقی، تنظیم لوایح، وکالت و سایر امور حقوقی را ارائه می‌دهد. ما با رعایت اصول اخلاقی و حفظ حریم خصوصی، بهترین راهکارهای حقوقی را به شما ارائه می‌کنیم.
+                        </p>
+                        <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                            <a href="#" class="social-icon" data-text="Telegram">
+                                <i class="bi bi-telegram text-gold p-3" style="border: 1px solid #bc945c94; border-radius: 50%; font-size: 1.5rem; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;"></i>
+                            </a>
+                            <a href="https://www.instagram.com/avahagh.ir/profilecard/?igsh=MW4wM3BvZndjaW0yOQ==" class="social-icon" data-text="Instagram">
+                                <i class="bi bi-instagram text-gold p-3" style="border: 1px solid #bc945c94; border-radius: 50%; font-size: 1.5rem; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;"></i>
+                            </a>
+                        </div>
                     </div>
-
                 </div>
-                <div class="col-md-10 box-footer">
-                    <div class="row justify-content-between">
-                        <div class="col-md-4">
-                            <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">اطلاعات تماس</h5>
-                            <ul class="list-unstyled mt-4">
-                                <li class="mb-4 d-flex gap-4">
-                                    <img alt="" src="{% static "image/call.webp" %}" width="44px" height="44"
-                                        class="text-gold ">
+
+                <!-- Contact Info and Quick Links -->
+                <div class="col-lg-8">
+                    <div class="row gx-5">
+                        <!-- Contact Info -->
+                        <div class="col-md-4 mb-5 mb-md-0">
+                            <h5 class="text-gold pb-3 mb-4" style="border-bottom: 1px dashed #5a5a5a;">اطلاعات تماس</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-4 d-flex align-items-center gap-3">
+                                    <img src="{% static "image/call.webp" %}" width="40" height="40" alt="تلفن">
                                     <div>
-                                        <p class="text-gold">تلفن: </p>
-                                        <h5 style="color: white" class="fw-light mt-2">۰۲۵-۳۲۷۰۵۱۹۹</h5>
+                                        <p class="text-gold mb-1">تلفن:</p>
+                                        <p class="text-dark fw-light mb-0">۰۲۵-۳۲۷۰۵۱۹۹</p>
                                     </div>
                                 </li>
-                                <li class="mb-4 d-flex gap-4">
-                                    <img alt="" src="{% static "image/email-100.webp" %}" width="44px" height="44"
-                                        class="text-gold ">
+                                <li class="mb-4 d-flex align-items-center gap-3">
+                                    <img src="{% static "image/email-100.webp" %}" width="40" height="40" alt="ایمیل">
                                     <div>
-                                        <p class="text-gold">ایمیل: </p>
-                                        <h5 style="color: white" class="fw-light mt-2">avahagh.ir@gmail.com</h5>
+                                        <p class="text-gold mb-1">ایمیل:</p>
+                                        <p class="text-dark fw-light mb-0">avahagh.ir@gmail.com</p>
                                     </div>
                                 </li>
-                                <li class="mb-5 d-flex gap-4">
-                                    <img alt="" src="{% static "image/location-100.webp" %}" width="44px" height="44"
-                                        class="text-gold ">
-                                    <div>
-                                        <p class="text-gold">آدرس: </p>
-                                        <p style="color: white; line-height: 1.8;" class="fw-light mt-2">
-                                            قم - زنبیل آباد، ۵۵ متری فردوسی، جنب شاه آبادی، جنب فروشگاه افق
-                                        </p>
+                                <li class="d-flex align-items-center gap-3">
+                                    <img src="{% static "image/location-100.webp" %}" width="40" height="40" alt="آدرس">
+                                    <div class="mb-3">
+                                        <p class="text-gold mb-1">آدرس:</p>
+                                        <div class="d-flex flex-column gap-2">
+                                            <p class="text-dark fw-light mb-0" style="line-height: 1.6;">
+                                                <span class="d-block fw-medium">دفتر تهران:</span>
+                                                یافت آباد، میدان غدیر، خیابان مرتضی زندیه، ابتدای خیابان باقری، مجموعه شهید شهریاری
+                                            </p>
+                                            <hr class="my-2" style="border-top: 2px dashed #e2ae63d9;">
+                                            <p class="text-dark fw-light mb-0" style="line-height: 1.6;">
+                                                <span class="d-block fw-medium">دفتر قم:</span>
+                                                زنبیل آباد، ۵۵ متری فردوسی، جنب شاه آبادی، جنب فروشگاه افق
+                                            </p>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
-
-                        </div>
-                        <div class="col-md-4">
-                            <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">دسترسی سریع</h5>
-                            <ul class="list-unstyled mt-4 fs-12">
-                                <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
-                                        href="{% url 'service:pricing' %}">خدمات حقوقی</a></li>
-                                <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
-                                        href="{% url 'blog:about-us' %}">درباره ما</a></li>
-                                <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
-                                        href="{% url 'blog:blog' %}">وبلاگ</a></li>
-                                <li class="mb-3"><i class="bi bi-chevron-left text-gold"> </i> <a
-                                        href="{% url 'blog:faq' %}">سوالات متداول</a></li>
-                            </ul>
                         </div>
 
-                        <div class="col-md-4">
-                            <h5 class="text-gold pb-3" style="border-bottom: 1px dashed #5a5a5a;">لوگو اعتماد</h5>
-                            <ul class="list-unstyled mt-4 fs-12">
+                        <!-- Quick Links -->
+                        <div class="col-md-4 mb-5 mb-md-0">
+                            <h5 class="text-gold pb-3 mb-4" style="border-bottom: 1px dashed #5a5a5a;">دسترسی سریع</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <a href="{% url 'service:pricing' %}" class="text-dark text-decoration-none d-flex align-items-center gap-2">
+                                        <i class="bi bi-chevron-left text-gold"></i>
+                                        خدمات حقوقی
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a href="{% url 'blog:about-us' %}" class="text-dark text-decoration-none d-flex align-items-center gap-2">
+                                        <i class="bi bi-chevron-left text-gold"></i>
+                                        درباره ما
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a href="{% url 'blog:blog' %}" class="text-dark text-decoration-none d-flex align-items-center gap-2">
+                                        <i class="bi bi-chevron-left text-gold"></i>
+                                        وبلاگ
+                                    </a>
+                                </li>
                                 <li>
-                                    <a href="https://trustseal.enamad.ir/" target="_blank">
-                                        <img src="{% static 'image/Enamad-logo.webp' %}" 
-                                             alt="نماد اعتماد الکترونیکی" 
-                                             style="border: 2px solid #b38538; border-radius: 8px; padding: 5px;"
-                                             width="100">
+                                    <a href="{% url 'blog:faq' %}" class="text-dark text-decoration-none d-flex align-items-center gap-2">
+                                        <i class="bi bi-chevron-left text-gold"></i>
+                                        سوالات متداول
                                     </a>
                                 </li>
                             </ul>
                         </div>
 
+                        <!-- Trust Logo -->
+                        <div class="col-md-4 mb-5 p-3">
+                            <h5 class="text-gold pb-3 mb-4" style="border-bottom: 1px dashed #5a5a5a;">لوگو اعتماد</h5>
+                            <div class="text-center">
+                                <a href="https://trustseal.enamad.ir/" target="_blank">
+                                    <img src="{% static 'image/Enamad-logo.webp' %}" 
+                                         alt="نماد اعتماد الکترونیکی" 
+                                         style="border: 2px solid #b38538; border-radius: 8px; padding: 5px;"
+                                         width="100">
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
