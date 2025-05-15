@@ -4,16 +4,18 @@ services:
   web:
     build: .
     restart: always
+    user: "1000:1000"  # استفاده از UID/GID هاست برای جلوگیری از مشکلات permission
     volumes:
-      - .:/app
-      - media_volume:/media  # انتقال media خارج از /app
-      - static_volume:/app/staticfiles
-    depends_on:
-      - db
+      - ./:/app
+      - ./media:/app/media  # mount مستقیم پوشه media از هاست
+      - ./static:/app/staticfiles  # mount مستقیم پوشه static از هاست
     environment:
       - DEBUG=False
-      - SECRET_KEY="django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l"
-      - DATABASE_URL=postgresql://postgres:1111@postgress-ekr-service:5432/postgreserd_db
+      - SECRET_KEY=django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l
+      - DATABASE_URL=postgresql://postgres:1111@db:5432/postgreserd_db
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - app_network
 
@@ -23,9 +25,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=1111
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=postgreserd_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - app_network
 
@@ -34,12 +41,13 @@ services:
     restart: always
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - static_volume:/app/staticfiles
-      - media_volume:/media  # این‌جا هم مسیر جدید media را تعریف می‌کنیم
+      - ./static:/app/staticfiles:ro
+      - ./media:/app/media:ro
     ports:
       - "80:80"
     depends_on:
-      - web
+      web:
+        condition: service_healthy
     networks:
       - app_network
 
@@ -49,5 +57,3 @@ networks:
 
 volumes:
   postgres_data:
-  static_volume:
-  media_volume:
