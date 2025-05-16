@@ -6,7 +6,7 @@ services:
     restart: always
     volumes:
       - .:/app
-      - media_volume:/media  # انتقال media خارج از /app
+      - media_volume:/app/media  # ✅ mount media به داخل کانتینر
       - static_volume:/app/staticfiles
     depends_on:
       - db
@@ -35,7 +35,7 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - static_volume:/app/staticfiles
-      - media_volume:/media  # این‌جا هم مسیر جدید media را تعریف می‌کنیم
+      - media_volume:/media  # ✅ media mount به مسیر درست در nginx
     ports:
       - "80:80"
     depends_on:
