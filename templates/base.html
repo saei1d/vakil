@@ -243,7 +243,22 @@
                 transform: translateY(0);
             }
         }
+
+        .support-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #d4af37, #b38b2d) !important;
+        }
+    
+        .support-icon img {
+            transition: transform 0.3s ease;
+        }
+    
+        .support-icon:hover img {
+            transform: scale(1.1);
+                }
     </style>
+
 
     {% block style %}{% endblock %}
 
@@ -788,21 +803,7 @@
                     style="font-size: 16px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">پشتیبانی</p>
             </div>
         </div>
-        <style>
-            .support-icon:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-                background: linear-gradient(135deg, #d4af37, #b38b2d) !important;
-            }
 
-            .support-icon img {
-                transition: transform 0.3s ease;
-            }
-
-            .support-icon:hover img {
-                transform: scale(1.1);
-            }
-        </style>
     </div>
 
     <!-- Load critical JS first -->
@@ -957,6 +958,31 @@
                     overlay.style.display = 'none';
                 }
             });
+        });
+
+        
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var openBtn = document.getElementById('openMobileMenu');
+            var closeBtn = document.getElementById('closeMobileMenu');
+            var menu = document.getElementById('mobileMenu');
+            var overlay = document.getElementById('mobileMenuOverlay');
+        
+            if(openBtn && closeBtn && menu && overlay){
+                openBtn.onclick = function() {
+                    menu.style.display = 'block';
+                    overlay.style.display = 'block';
+                };
+                closeBtn.onclick = function() {
+                    menu.style.display = 'none';
+                    overlay.style.display = 'none';
+                };
+                overlay.onclick = function() {
+                    menu.style.display = 'none';
+                    overlay.style.display = 'none';
+                };
+            }
         });
     </script>
     {% block script %}{% endblock %}
