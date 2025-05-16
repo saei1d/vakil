@@ -243,22 +243,7 @@
                 transform: translateY(0);
             }
         }
-
-        .support-icon:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(135deg, #d4af37, #b38b2d) !important;
-        }
-    
-        .support-icon img {
-            transition: transform 0.3s ease;
-        }
-    
-        .support-icon:hover img {
-            transform: scale(1.1);
-                }
     </style>
-
 
     {% block style %}{% endblock %}
 
@@ -772,7 +757,6 @@
             <div class="green-light"></div>
         </div>
 
-        <div class="overlay" id="overlay" style="display: none;"></div>
 
         <div class="support-menu justify-content-between row align-items-center" id="supportMenu"
             style="display: none; margin: auto; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a1a, #2c2c2c); border-radius: 20px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 90%; max-width: 500px;">
@@ -803,7 +787,21 @@
                     style="font-size: 16px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">پشتیبانی</p>
             </div>
         </div>
+        <style>
+            .support-icon:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+                background: linear-gradient(135deg, #d4af37, #b38b2d) !important;
+            }
 
+            .support-icon img {
+                transition: transform 0.3s ease;
+            }
+
+            .support-icon:hover img {
+                transform: scale(1.1);
+            }
+        </style>
     </div>
 
     <!-- Load critical JS first -->
@@ -841,16 +839,13 @@
             const menuButton = document.querySelector('.bi-list');
             const menuMobile = document.querySelector('.menu-mobile');
             const closeButton = document.querySelector('.bi-x');
-            const overlay = document.getElementById('overlay');
 
             function toggleMenu() {
                 menuMobile.style.transform = menuMobile.style.transform === 'translateX(0px)' ? 'translateX(100%)' : 'translateX(0px)';
-                overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
             }
 
             menuButton.addEventListener('click', toggleMenu);
             closeButton.addEventListener('click', toggleMenu);
-            overlay.addEventListener('click', toggleMenu);
 
             // کد مربوط به لوگوی اعتماد
             const enamad = document.createElement('a');
@@ -958,31 +953,6 @@
                     overlay.style.display = 'none';
                 }
             });
-        });
-
-        
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var openBtn = document.getElementById('openMobileMenu');
-            var closeBtn = document.getElementById('closeMobileMenu');
-            var menu = document.getElementById('mobileMenu');
-            var overlay = document.getElementById('mobileMenuOverlay');
-        
-            if(openBtn && closeBtn && menu && overlay){
-                openBtn.onclick = function() {
-                    menu.style.display = 'block';
-                    overlay.style.display = 'block';
-                };
-                closeBtn.onclick = function() {
-                    menu.style.display = 'none';
-                    overlay.style.display = 'none';
-                };
-                overlay.onclick = function() {
-                    menu.style.display = 'none';
-                    overlay.style.display = 'none';
-                };
-            }
         });
     </script>
     {% block script %}{% endblock %}
