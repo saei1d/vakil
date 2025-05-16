@@ -5,17 +5,17 @@ services:
     build: .
     restart: always
     volumes:
-      - .:/app
-      - media_volume:/app/media  # ✅ mount media به داخل کانتینر
+      - media_volume:/app/media
       - static_volume:/app/staticfiles
     depends_on:
       - db
     environment:
       - DEBUG=False
-      - SECRET_KEY="django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l"
-      - DATABASE_URL=postgresql://postgres:1111@postgress-ekr-service:5432/postgreserd_db
+      - SECRET_KEY=...
+      - DATABASE_URL=...
     networks:
       - app_network
+
 
   db:
     image: postgres:13
@@ -35,7 +35,7 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - static_volume:/app/staticfiles
-      - media_volume:/media  # ✅ media mount به مسیر درست در nginx
+      - media_volume:/media 
     ports:
       - "80:80"
     depends_on:
@@ -49,5 +49,5 @@ networks:
 
 volumes:
   postgres_data:
-  static_volume:
   media_volume:
+  static_volume:
