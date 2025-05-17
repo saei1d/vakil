@@ -5,7 +5,26 @@
 <meta name="description"
     content="{{ blog.excerpt|default:'مطالب تخصصی در زمینه حقوق، آموزش و پرونده های قضایی. جدیدترین مقالات و تحلیل های حقوقی در وبلاگ ما'|truncatechars:155 }}">
 {% endblock %}
+{% block style %}
+<style>
 
+.card-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}
+
+/* برای جلوگیری از overflow در تگ‌های pre یا table (اگر وجود دارند) */
+.card-body pre,
+.card-body table {
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+</style>
+{% endblock % }
 {% block content %}
 <section>
     <div class="container-2">
