@@ -7,7 +7,8 @@ from django.views import View
 from .models import Post, Comment
 from .form import *
 from django.views.generic import ListView
-
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -196,3 +197,14 @@ def delete_blog(request,id):
     
 def testblog(request):
     return render(request,'blog/bonyadvokala.html')
+
+
+def load_more_blogs(request):
+    if request.method == "GET":
+        offset = int(request.GET.get("offset", 0))
+        limit = 8
+        blogs = Post.objects.filter(is_published=True).order_by('-published_date')[offset:offset+limit]
+        html = render_to_string("blog/blog_list_partial.html", {"blogs": blogs})
+        has_more = Post.objects.filter(is_published=True).count() > offset + limit
+        return JsonResponse({"html": html, "has_more": has_more})
+    return JsonResponse({"error": "Invalid request"}, status=400)

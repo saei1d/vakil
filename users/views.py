@@ -42,7 +42,7 @@ def send_otp(request):
         try:
             data = json.loads(request.body)
             phone = normalize_phone(data.get("phone"))
-
+            print(phone)
             if not phone:
                 return JsonResponse({
                     "success": False,
@@ -89,15 +89,6 @@ def send_otp(request):
                 "swal": {
                     "title": "خطا",
                     "text": "داده‌های ارسالی نامعتبر است.",
-                    "icon": "error"
-                }
-            })
-        except Exception as e:
-            return JsonResponse({
-                "success": False,
-                "swal": {
-                    "title": "خطا",
-                    "text": f"خطایی رخ داده است: {str(e)}",
                     "icon": "error"
                 }
             })

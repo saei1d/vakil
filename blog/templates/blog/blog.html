@@ -48,14 +48,9 @@
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-8">
-                    <div class="bg-dark-soft rounded-3 mb-4">
-                        <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-0 fw-bolder">
-                            <i class="bi bi-newspaper me-2"></i>جدیدترین مطالب
-                        </h3>
-                    </div>
                     <div class="row g-4" id="blog-container">
-                        {% for b in blog|slice:":8" %}
-                        <div class="col-md-6 blog-card">
+                        {% for b in blog|dictsortreversed:"published_date" %}
+                        <div class="col-md-6 blog-card{% if forloop.counter > 8 %} d-none{% endif %}">
                             <div class="card bg-transparent border-gold mb-4 shadow-hover transition-all hover-scale h-100 d-flex flex-column">
                                 {% if b.image %}
                                 <img src="/media/{{ b.image }}" class="card-img-top rounded-top" alt="{{ b.title }}" style="height: 200px; object-fit: cover;">
@@ -134,6 +129,19 @@
                         </button>
                     </div>
                     {% endif %}
+
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const loadMoreBtn = document.getElementById('load-more');
+                        const blogCards = document.querySelectorAll('#blog-container .blog-card');
+                        if (loadMoreBtn) {
+                            loadMoreBtn.addEventListener('click', function() {
+                                blogCards.forEach(card => card.classList.remove('d-none'));
+                                loadMoreBtn.style.display = 'none';
+                            });
+                        }
+                    });
+                    </script>
                 </div>
 
                 <!-- Sidebar -->

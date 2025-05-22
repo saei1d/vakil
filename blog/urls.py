@@ -6,6 +6,7 @@ app_name = 'blog'
 
 urlpatterns = [
     path('testblog/',testblog,name='testblog'),
+    path('load-more-blogs/', load_more_blogs, name='load_more_blogs'),
     path('about-us/', aboutus, name='about-us'),
     path('faq/', faq, name='faq'),
     path('blog/', blog, name='blog'),
