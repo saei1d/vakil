@@ -29,6 +29,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from kavenegar import *
 from .models import Client
 import random
+from django.db.models import Q
 
 
 
@@ -152,9 +153,13 @@ def verify_otp(request):
 class HomeView(View):
     def get(self, request):
         form_data = request.session.get('form_data', {})
-        posts = Post.objects.filter(is_published=True,category=Category.CASES).order_by('published_date')[:3]
 
-        # پس از پردازش داده‌ها، می‌توانید داده‌ها را از سشن پاک کنید
+        posts = Post.objects.filter(
+            is_published=True
+        ).filter(
+            Q(category=Category.CASES) | Q(category=Category.ANNOUNCEMENT)
+        ).order_by('published_date')
+
         if 'form_data' in request.session:
             del request.session['form_data']
 
@@ -163,7 +168,7 @@ class HomeView(View):
             'title': form_data.get('title', ''),
             'department': form_data.get('department', ''),
             'description': form_data.get('description', ''),
-            'post': posts,  # ارسال متغیر post به قالب
+            'post': posts,
         })
 
     def post(self, request):

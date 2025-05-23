@@ -47,6 +47,66 @@
     <section class="py-5">
         <div class="container">
             <div class="row g-5">
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <div class="bg-dark p-4 rounded-3 mb-4 shadow-sm border border-gold">
+                        <form class="d-flex gap-2" action="{% url 'blog:search' %}" method="get">
+                            <input class="form-control bg-dark text-gold border-gold" type="search" name="q" placeholder="جستجو در مقالات..." aria-label="Search" required>
+                            <button class="btn btn-dark border-gold text-gold hover-gold" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                    
+                    <div class="bg-dark-soft p-4 rounded-3 mb-4 shadow">
+                        <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-3 fw-bold">
+                            <i class="bi bi-graph-up-arrow me-2"></i>پربازدیدترین مقالات
+                        </h3>
+                        <ul class="list-unstyled">
+                            {% for post in blog|dictsortreversed:"view"|slice:":5" %}
+                            <li class="mb-3">
+                                <a href="{% url 'blog:blogpage' post.slug %}" class="text-light d-flex flex-column gap-2 p-3 rounded-2 hover-gold border border-gold bg-dark">
+                                    <div class="d-flex align-items-center gap-3">
+                                        {% if post.image %}
+                                        <img src="/media/{{ post.image }}" class="rounded-2 border border-gold" alt="{{ post.title }}" style="width: 70px; height: 70px; object-fit: cover;">
+                                        {% else %}
+                                        <div class="bg-secondary rounded-2 d-flex align-items-center justify-content-center border border-gold" style="width: 70px; height: 70px;">
+                                            <i class="bi bi-image text-light"></i>
+                                        </div>
+                                        {% endif %}
+                                        <div class="flex-grow-1">
+                                            <h4 class="h6 text-gold mb-3 fw-bold">{{ post.title|truncatechars:50 }}</h4>
+                                            <div class="d-flex align-items-center text-light opacity-75 small mt-2">
+                                                <span class="me-3"><i class="bi bi-eye me-1"></i>{{ post.view }} بازدید</span>
+                                                <span><i class="bi bi-clock me-1"></i>{{ post.time_to_read }} دقیقه مطالعه</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-2 mt-2">
+                                        {% if post.category %}
+                                        <span class="badge bg-dark text-gold border border-gold">
+                                            <i class="bi bi-tag me-1"></i>
+                                            {{ post.get_category_display }}
+                                        </span>
+                                        {% endif %}
+                                        {% if post.subcategory %}
+                                        <span class="badge bg-dark text-gold border border-gold">
+                                            <i class="bi bi-folder2 me-1"></i>
+                                            {{ post.get_subcategory_display }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center small text-light opacity-75 mt-2">
+                                        <span><i class="bi bi-calendar-date me-1"></i>{{ post.published_date|date:"d/m/Y" }}</span>
+                                        <span><i class="bi bi-person me-1"></i>{{ post.author.name|default:post.author.username }}</span>
+                                    </div>
+                                </a>
+                            </li>
+                            {% empty %}
+                            <li class="text-light p-3 border border-gold rounded-2 bg-dark">هنوز مطلبی منتشر نشده است</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- MAIN BLOG -->
                 <div class="col-lg-8">
                     <div class="row g-4" id="blog-container">
                         {% for b in blog|dictsortreversed:"published_date" %}
@@ -124,7 +184,7 @@
 
                     {% if blog|length > 8 %}
                     <div class="text-center mt-4">
-                        <button id="load-more" class="btn btn-gold px-4 py-2 border border-gold hover-scale">
+                        <button id="load-more" style="background-color: #b38538;" class="btn px-4 py-2 border border-gold hover-scale">
                             <i class="bi bi-arrow-down-circle me-2"></i>مشاهده مطالب بیشتر
                         </button>
                     </div>
@@ -142,91 +202,6 @@
                         }
                     });
                     </script>
-                </div>
-
-                <!-- Sidebar -->
-                <div class="col-lg-4">
-                    <div class="bg-dark p-4 rounded-3 mb-4 shadow-sm border border-gold">
-                        <form class="d-flex gap-2" action="{% url 'blog:search' %}" method="get">
-                            <input class="form-control bg-dark text-gold border-gold" type="search" name="q" placeholder="جستجو در مقالات..." aria-label="Search" required>
-                            <button class="btn btn-dark border-gold text-gold hover-gold" type="submit"><i class="bi bi-search"></i></button>
-                        </form>
-                    </div>
-                    
-                    <div class="bg-dark-soft p-4 rounded-3 mb-4 shadow">
-                        <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-3 fw-bold">
-                            <i class="bi bi-graph-up-arrow me-2"></i>پربازدیدترین مقالات
-                        </h3>
-                        <ul class="list-unstyled">
-                            {% for post in blog|slice:":5" %}
-                            <li class="mb-3">
-                                <a href="{% url 'blog:blogpage' post.slug %}" class="text-light d-flex flex-column gap-2 p-3 rounded-2 hover-gold border border-gold bg-dark">
-                                    <div class="d-flex align-items-center gap-3">
-                                        {% if post.image %}
-                                        <img src="/media/{{ post.image }}" class="rounded-2 border border-gold" alt="{{ post.title }}" style="width: 70px; height: 70px; object-fit: cover;">
-                                        {% else %}
-                                        <div class="bg-secondary rounded-2 d-flex align-items-center justify-content-center border border-gold" style="width: 70px; height: 70px;">
-                                            <i class="bi bi-image text-light"></i>
-                                        </div>
-                                        {% endif %}
-                                        <div class="flex-grow-1">
-                                            <h4 class="h6 text-gold mb-3 fw-bold">{{ post.title|truncatechars:50 }}</h4>
-                                            <div class="d-flex align-items-center text-light opacity-75 small mt-2">
-                                                <span class="me-3"><i class="bi bi-eye me-1"></i>{{ post.view }} بازدید</span>
-                                                <span><i class="bi bi-clock me-1"></i>{{ post.time_to_read }} دقیقه مطالعه</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-wrap gap-2 mt-2">
-                                        {% if post.category %}
-                                        <span class="badge bg-dark text-gold border border-gold">
-                                            <i class="bi bi-tag me-1"></i>
-                                            {{ post.get_category_display }}
-                                        </span>
-                                        {% endif %}
-                                        {% if post.subcategory %}
-                                        <span class="badge bg-dark text-gold border border-gold">
-                                            <i class="bi bi-folder2 me-1"></i>
-                                            {{ post.get_subcategory_display }}
-                                        </span>
-                                        {% endif %}
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center small text-light opacity-75 mt-2">
-                                        <span><i class="bi bi-calendar-date me-1"></i>{{ post.published_date|date:"d/m/Y" }}</span>
-                                        <span><i class="bi bi-person me-1"></i>{{ post.author.name|default:post.author.username }}</span>
-                                    </div>
-                                </a>
-                            </li>
-                            {% empty %}
-                            <li class="text-light p-3 border border-gold rounded-2 bg-dark">هنوز مطلبی منتشر نشده است</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-dark-soft p-4 rounded-3">
-                        <h3 class="h5 bg-gold text-dark px-3 py-2 rounded-2 mb-3">آخرین پرونده‌ها</h3>
-                        <ul class="list-unstyled">
-                            {% for case in cases|slice:":5" %}
-                            <li class="mb-2">
-                                <a href="{% url 'service:case_detail' case.id %}" class="text-light d-flex align-items-center gap-3 p-2 rounded-2 hover-gold border border-gold">
-                                    {% if case.image %}
-                                    <img src="/media/{{ case.image }}" class="rounded-2 border border-gold" alt="{{ case.title }}" style="width: 50px; height: 50px; object-fit: cover;">
-                                    {% else %}
-                                    <div class="bg-secondary rounded-2 d-flex align-items-center justify-content-center border border-gold" style="width: 50px; height: 50px;">
-                                        <i class="bi bi-image text-light"></i>
-                                    </div>
-                                    {% endif %}
-                                    <div>
-                                        <i class="bi bi-arrow-left-short me-2"></i>
-                                        {{ case.title|truncatechars:50 }}
-                                    </div>
-                                </a>
-                            </li>
-                            {% empty %}
-                            <li class="text-light p-2 border border-gold rounded-2">هنوز پرونده‌ای ثبت نشده است</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>

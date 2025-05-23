@@ -266,7 +266,7 @@
                 <!-- Search Box -->
                 <div class="p-4 py-5 bg-blog text-light mb-5 position-relative">
                     <h6 class="bg-gold text-dark px-5 py-3 blog-title">
-                        <i class="bi bi-search me-2"></i>جستجو در وبلاگ
+                        <i class="bi bi-search me-2"></i>جستجو
                     </h6>
                     <form action="{% url 'blog:blog' %}" method="GET" class="mt-4">
                         <div class="input-group">
@@ -284,40 +284,53 @@
                     <h6 class="bg-gold text-dark px-5 py-3 blog-title">
                         <i class="bi bi-link-45deg me-2"></i>مطالب مرتبط
                     </h6>
-                    <div class="mt-4">
+                    <ul class="list-unstyled mt-4">
                         {% if related_posts %}
                             {% for post in related_posts %}
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="flex-shrink-0">
-                                    <img src="/media/{{ post.image }}" class="rounded" width="60" height="60" alt="{{ post.title }}">
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1">
-                                        <a href="{% url 'blog:blogpage' post.slug %}" class="text-light text-decoration-none hover-gold">
-                                            {{ post.title|truncatechars:50 }}
-                                        </a>
-                                    </h6>
-                                    <div class="d-flex gap-3 text-muted small">
-                                        <span>
-                                            <i class="bi bi-eye-fill me-1"></i>
-                                            {{ post.view }}
-                                        </span>
-                                        <span>
-                                            <i class="bi bi-clock-fill me-1"></i>
-                                            {{ post.time_to_read }} دقیقه
-                                        </span>
+                            <li class="mb-3">
+                                <a href="{% url 'blog:blogpage' post.slug %}" class="text-light d-flex flex-column gap-2 p-3 rounded-2 hover-gold border border-gold bg-dark">
+                                    <div class="d-flex align-items-center gap-3">
+                                        {% if post.image %}
+                                        <img src="/media/{{ post.image }}" class="rounded-2 border border-gold" alt="{{ post.title }}" style="width: 70px; height: 70px; object-fit: cover;">
+                                        {% else %}
+                                        <div class="bg-secondary rounded-2 d-flex align-items-center justify-content-center border border-gold" style="width: 70px; height: 70px;">
+                                            <i class="bi bi-image text-light"></i>
+                                        </div>
+                                        {% endif %}
+                                        <div class="flex-grow-1">
+                                            <h4 class="h6 text-gold mb-3 fw-bold">{{ post.title|truncatechars:50 }}</h4>
+                                            <div class="d-flex align-items-center text-light opacity-75 small mt-2">
+                                                <span class="me-3"><i class="bi bi-eye me-1"></i>{{ post.view }} بازدید</span>
+                                                <span><i class="bi bi-clock me-1"></i>{{ post.time_to_read }} دقیقه مطالعه</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="d-flex flex-wrap gap-2 mt-2">
+                                        {% if post.category %}
+                                        <span class="badge bg-dark text-gold border border-gold">
+                                            <i class="bi bi-tag me-1"></i>
+                                            {{ post.get_category_display }}
+                                        </span>
+                                        {% endif %}
+                                        {% if post.subcategory %}
+                                        <span class="badge bg-dark text-gold border border-gold">
+                                            <i class="bi bi-folder2 me-1"></i>
+                                            {{ post.get_subcategory_display }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center small text-light opacity-75 mt-2">
+                                        <span><i class="bi bi-calendar-date me-1"></i>{{ post.published_date|date:"d/m/Y" }}</span>
+                                        <span><i class="bi bi-person me-1"></i>{{ post.author.name|default:post.author.username }}</span>
+                                    </div>
+                                </a>
+                            </li>
                             {% endfor %}
                         {% else %}
-                            <div class="text-center my-4">
-                                <p class="text-muted">مطلب مرتبطی یافت نشد</p>
-                            </div>
+                            <li class="text-light p-3 border border-gold rounded-2 bg-dark">هنوز مطلبی منتشر نشده است</li>
                         {% endif %}
-                    </div>
+                    </ul>
                 </div>
-            </div>
         </div>
     </div>
 </section>
