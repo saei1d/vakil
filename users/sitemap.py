@@ -9,7 +9,7 @@ class StaticViewSitemap(Sitemap):
     changefreq = 'monthly'
 
     def items(self):
-        return ['users:home', 'blog:about-us', 'service','blog:faq']  # اسم viewهایی که URL دارن و ثابتن
+        return ['users:home', 'blog:about-us', 'service:pricing','blog:faq']  # اسم viewهایی که URL دارن و ثابتن
 
     def location(self, item):
         return reverse(item)
@@ -23,7 +23,6 @@ class ServiceSitemap(Sitemap):
         return Service.objects.all()
 
     def location(self, obj):
-        # حالا باید از اسم URLهای موجود برای هر سرویس استفاده کنیم
         if obj.name == 'call':
             return reverse('service:call')
         elif obj.name == 'payam':
