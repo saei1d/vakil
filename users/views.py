@@ -69,7 +69,8 @@ def send_otp(request):
             
             # تولید و ذخیره OTP
             # otp = random.randint(1000, 9999)
-            otp = '1234'
+            otp = random.randint(1000, 9999)
+            send_otp_code(request,phone,otp)
             request.session["otp"] = otp
             request.session["phone"] = phone
             request.session["last_otp_sent"] = now().timestamp()
@@ -313,7 +314,20 @@ Sitemap: http://avahagh.ir/sitemap.xml
     return HttpResponse(content, content_type="text/plain")
 
 
-def sms(request):
-    api = KavenegarAPI('3063366B4A7055574C7152554774354F48366B4D444E33786532446D63376A7035714A2F38314C64664C633D')
-    params = { 'sender' : '2000660110', 'receptor': '09362680254', 'message' :'.وب سرویس پیام کوتاه کاوه نگار' }
-    response = api.sms_send(params)
+from kavenegar import *
+
+def send_otp_code(request,phone_number, code):
+    try:
+        api = KavenegarAPI('3063366B4A7055574C7152554774354F48366B4D444E33786532446D63376A7035714A2F38314C64664C633D')
+        params = {
+            'receptor': phone_number,
+            'template': 'verifycode',  # اسم الگوی شما
+            'token': code,             # کدی که می‌خوای بفرستی
+            'type': 'sms'              # یا 'call' برای تماس صوتی
+        }
+        response = api.verify_lookup(params)
+        print(response)
+    except APIException as e:
+        print('APIException:', e)
+    except HTTPException as e:
+        print('HTTPException:', e)

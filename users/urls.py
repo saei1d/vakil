@@ -25,6 +25,6 @@ urlpatterns = [
     path('check-text-service/', check_text_service, name='check_text_service'),
     path('update-name/', update_name, name='update_name'),
     path('set-nickname/<str:username>/', set_nickname, name='set_nickname'),
-    path('sms/',sms,name='sms')
+    path('send_otp_code/<str:phone_number>/<int:code>/',send_otp_code,name='send_otp_code')
 
 ]
