@@ -215,117 +215,92 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% block script %}
     <script>
-
-        {% if messages %}
-            document.addEventListener('DOMContentLoaded', function () {
-                {% for message in messages %}
-                    Swal.fire({
-                        title: 'اطلاعیه',
-                        text: '{{ message }}',
-                        icon: 'info',
-                        confirmButtonText: 'باشه'
-                    });
-                {% endfor %}
-            });
-        {% endif %}
-        const urlParams = new URLSearchParams(window.location.search);
-        const nextUrl = urlParams.get('next') || '/';
-
-        // گرفتن CSRF Token از کوکی
-        function getCSRFToken() {
-            const name = "csrftoken";
-            const cookies = document.cookie.split(';');
-            for (let cookie of cookies) {
-                if (cookie.trim().startsWith(name + "=")) {
-                    return cookie.trim().substring(name.length + 1);
+        // تابع دریافت کوکی (برای CSRF)
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
             }
-            return null;
+            return cookieValue;
         }
 
-        const csrftoken = getCSRFToken();
+        // گرفتن CSRF Token برای همه درخواست‌ها
+        const csrftoken = getCookie("csrftoken");
 
-        // نمایش پیام با SweetAlert
+        // تابع نمایش SweetAlert
         function showAlert(type, title, text) {
             Swal.fire({
-                icon: type, // 'success', 'error', 'warning', 'info'
+                icon: type, // 'success' | 'error' | 'warning' | 'info'
                 title: title,
                 text: text,
-                confirmButtonText: 'باشه'
+                confirmButtonText: "باشه"
             });
         }
 
-        // ارسال کد OTP
         document.addEventListener("DOMContentLoaded", function () {
+
+            // رویداد کلیک برای ارسال کد
             document.getElementById("send-code").addEventListener("click", function () {
                 const phone = document.getElementById("phone").value;
+
                 if (!phone || phone.length !== 11 || !phone.startsWith("09")) {
-                    showAlert("warning", "شماره تلفن نامعتبر", "لطفاً شماره تلفن معتبر وارد کنید.");
+                    showAlert("warning", "شماره تلفن نامعتبر", "لطفاً شماره موبایل معتبر وارد کنید.");
                     return;
                 }
 
-                function getCookie(name) {
-                    let cookieValue = null;
-                    if (document.cookie && document.cookie !== "") {
-                        const cookies = document.cookie.split(';');
-                        for (let i = 0; i < cookies.length; i++) {
-                            const cookie = cookies[i].trim();
-                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
-                            }
-                        }
-                    }
-                    return cookieValue;
-                }
-
-                const csrftoken = getCookie('csrftoken');
-
-                console.log("در حال ارسال درخواست ارسال کد...");
                 fetch("/send-otp/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "X-CSRFToken": csrftoken
-                    }
-                    ,
+                    },
                     body: JSON.stringify({phone: phone})
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("خطای شبکه یا CSRF");
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         console.log("پاسخ سرور:", data);
+
                         if (data.success) {
-                            showAlert("success", "ارسال موفق", "کد تأیید با موفقیت ارسال شد!");
+                            showAlert("success", "ارسال موفق", "کد تأیید با موفقیت ارسال شد.");
                             document.getElementById("otp-form").style.display = "block";
                             document.getElementById("otp").disabled = false;
                             document.getElementById("verify-code").disabled = false;
+                        } else if (data.swal) {
+                            showAlert(data.swal.icon, data.swal.title, data.swal.text);
                         } else {
-                            if (data.swal) {
-                                showAlert(data.swal.icon, data.swal.title, data.swal.text);
-                            } else {
-                                showAlert("error", "خطا", "ارسال کد با خطا مواجه شد.");
-                            }
+                            showAlert("error", "خطا", "ارسال کد با خطا مواجه شد.");
                         }
                     })
                     .catch(error => {
-                        console.error("خطا:", error);
-                        showAlert("error", "خطای سیستم", "خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+                        console.error("خطای ارسال:", error);
+                        showAlert("error", "خطای سیستم", "مشکلی در ارتباط با سرور پیش آمده است.");
                     });
             });
 
-            // رویداد ارسال برای تأیید کد OTP
+            // رویداد تأیید کد OTP
             document.getElementById("otp-form").addEventListener("submit", function (e) {
-                e.preventDefault(); // جلوگیری از ارسال پیش‌فرض فرم
+                e.preventDefault();
+
                 const phone = document.getElementById("phone").value;
                 const otp = document.getElementById("otp").value;
 
                 if (!otp || otp.length !== 4) {
-                    showAlert("warning", "کد تأیید نامعتبر", "لطفاً کد تأیید معتبر وارد کنید.");
+                    showAlert("warning", "کد نامعتبر", "لطفاً کد ۴ رقمی معتبر وارد کنید.");
                     return;
                 }
 
-                // ارسال درخواست تأیید کد
-                console.log("در حال ارسال درخواست تأیید کد...");
                 fetch("/verify-otp/", {
                     method: "POST",
                     headers: {
@@ -334,49 +309,43 @@
                     },
                     body: JSON.stringify({phone: phone, otp: otp})
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("خطای تأیید کد یا CSRF");
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        console.log("پاسخ سرور:", data);
                         if (data.success) {
-                            showAlert("success", "تأیید موفق", "کد تأیید شد و کاربر لاگین شد.");
-
-                            // بررسی وجود پارامتر `next` در URL
+                            showAlert("success", "تأیید موفق", "کد تأیید شد و وارد شدید.");
                             const urlParams = new URLSearchParams(window.location.search);
-                            if (urlParams.has('next')) {
-                                const nextUrl = urlParams.get('next');
+                            const next = urlParams.get("next");
 
-                                // بررسی اینکه آیا `next` شامل `/home/` است
-                                if (nextUrl.includes('/home/')) {
-                                    window.location.href = "https://avahagh.ir/home/#free";
-                                } else {
-                                    // هدایت به مسیر اصلی پارامتر `next`
-                                    const redirectUrl = new URL(nextUrl, window.location.origin);
-                                    redirectUrl.searchParams.set('redirected', 'true'); // اضافه کردن پارامتر
-                                    window.location.href = redirectUrl; // هدایت به مسیر بعدی
-                                }
+                            if (next) {
+                                const target = new URL(next, window.location.origin);
+                                target.searchParams.set("redirected", "true");
+                                window.location.href = target.toString();
                             } else {
-                                // هدایت به صفحه اصلی اگر پارامتر `next` وجود ندارد
-                                window.location.href = "https://avahagh.ir/home/";
+                                window.location.href = "/home/";
                             }
                         } else {
                             showAlert("error", "کد نامعتبر", data.error || "کد وارد شده صحیح نیست.");
                         }
-
                     })
                     .catch(error => {
                         console.error("خطا:", error);
-                        showAlert("error", "خطای سیستم", "خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+                        showAlert("error", "خطای سیستم", "تأیید کد انجام نشد.");
                     });
             });
-        })
-        ;
-        document.getElementById("ghavanin").addEventListener("click", function (event) {
-            event.preventDefault(); // جلوگیری از رفتار پیش‌فرض لینک
-            window.location.href = "https://avahagh.ir/faq/#ghavanin";
+
+            // لینک قوانین
+            document.getElementById("ghavanin").addEventListener("click", function (e) {
+                e.preventDefault();
+                window.location.href = "/faq/#ghavanin";
+            });
         });
-
-
     </script>
+
 {% endblock script %}
 </body>
 </html>
