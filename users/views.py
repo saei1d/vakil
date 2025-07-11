@@ -16,6 +16,7 @@ from .models import Client
 import random
 from django.db.models import Q
 from kavenegar import *
+from django.views.decorators.csrf import csrf_exempt
 
 
 def normalize_phone(phone):
@@ -24,6 +25,7 @@ def normalize_phone(phone):
     return phone
 
 
+@csrf_exempt
 def send_otp(request):
     if request.method == "POST":
         print('number sented with method post!!!!!!!!!!!!!!')
