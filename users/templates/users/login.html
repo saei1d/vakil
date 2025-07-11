@@ -176,6 +176,8 @@
     <div class="otp-right p-3">
         <h2>ورود به حساب کاربری</h2>
         <form id="phone-form" method="post">
+            {% csrf_token %}
+
             <input
                     style="margin-bottom: 20px"
                     type="number"
@@ -190,6 +192,7 @@
             <button type="button" id="send-code">ارسال کد</button>
         </form>
         <form id="otp-form" style="margin-top: 20px;">
+            {% csrf_token %}
             <label id="taeid" for="otp">کد پیامک شده را وارد کنید:</label>
             <input type="text" style="width: 92%" id="otp" name="otp" placeholder="کد چهار رقمی را وارد کنید" required
                    disabled>
