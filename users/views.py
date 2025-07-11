@@ -1,36 +1,21 @@
-import json
 import jdatetime
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib import messages
-
 from blog.models import Post, Category
 from payment.models import *
 from service.models import FreeForm, UserServiceRequest
-from users.models import Client
 from django.contrib.auth import logout, login, authenticate
-import random
-from django.utils.timezone import now, make_aware
-from datetime import datetime, timedelta
-from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils import timezone
-from kavenegar import *
-import json
-from datetime import datetime, timedelta
 from django.http import JsonResponse
 from django.utils.timezone import make_aware, now
 from django.contrib.auth import authenticate, login
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.core.exceptions import ObjectDoesNotExist
-from kavenegar import *
 from .models import Client
 import random
 from django.db.models import Q
-
+from kavenegar import *
 
 
 def normalize_phone(phone):
@@ -38,8 +23,10 @@ def normalize_phone(phone):
         return '0' + phone[3:]
     return phone
 
+
 def send_otp(request):
     if request.method == "POST":
+        print('number sented with method post!!!!!!!!!!!!!!')
         try:
             data = json.loads(request.body)
             phone = normalize_phone(data.get("phone"))
@@ -66,15 +53,12 @@ def send_otp(request):
             #                 "icon": "warning"
             #             }
             #         })
-            
-            # تولید و ذخیره OTP
-            # otp = random.randint(1000, 9999)
             otp = random.randint(1000, 9999)
-            send_otp_code(request,phone,otp)
+            print(otp)
+            send_otp_code(request, phone, otp)
             request.session["otp"] = otp
             request.session["phone"] = phone
             request.session["last_otp_sent"] = now().timestamp()
-
 
             return JsonResponse({
                 "success": True,
@@ -102,7 +86,8 @@ def send_otp(request):
             "icon": "error"
         }
     })
-            
+
+
 def verify_otp(request):
     if request.method == "POST":
         try:
@@ -117,8 +102,6 @@ def verify_otp(request):
             session_otp = str(request.session.get("otp"))
             session_phone = normalize_phone(request.session.get("phone"))
 
-
-
             if not session_otp or not session_phone:
                 return JsonResponse({"success": False, "error": "لطفاً ابتدا کد OTP را دریافت کنید."})
 
@@ -127,10 +110,10 @@ def verify_otp(request):
 
             # بررسی و ایجاد یا بروزرسانی کاربر
             user, created = Client.objects.get_or_create(username=phone)
-            
+
             # فقط اگر کاربر جدید بود، رمز عبور ست می‌شود
             user.set_password(otp)
-            user.save() 
+            user.save()
 
             # ورود به سیستم
             user = authenticate(request, username=phone, password=otp)
@@ -140,7 +123,7 @@ def verify_otp(request):
                 if url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
                     return JsonResponse({"success": True, "next_url": next_url})
                 return JsonResponse({"success": True, "next_url": '/home/'})
-            
+
             return JsonResponse({"success": False, "error": "احراز هویت ناموفق بود."})
 
         except json.JSONDecodeError:
@@ -182,15 +165,12 @@ class HomeView(View):
             'description': request.POST.get('description'),
         }
 
-        # بررسی اینکه آیا کاربر لاگین کرده است
         if not request.user.is_authenticated:
-            # ذخیره داده‌ها در سشن
             request.session['form_data'] = form_data
             messages.info(request, 'فرم شما موقتا ذخیره شد، بعد از ثبت نام آن را مجددا ارسال کنید.')
             next_url = request.POST.get('next', '/')
             return redirect(f'/login/?next={next_url}')
 
-        # ایجاد FreeForm
         if request.user.is_questioned:
             messages.info(request,
                           'شما قبلا یکبار از این فرم استفاده کرده اید برای خرید سرویس از این صفحه استفاده کنید')
@@ -203,12 +183,12 @@ class HomeView(View):
                 description=form_data['description']
             )
 
-            # به‌روزرسانی وضعیت is_questioned و نام کاربر
             request.user.is_questioned = True
             request.user.name = form_data['name']
             request.user.save()
             messages.info(request,
-                          'سوال شما برای وکیل ارسال شد و تا قبل 24 ساعت پاسخ آنرا دریافت خواهید کرد درصورت نیاز و ارتباط سریعتر با وکیل میتونید با تهیه سرویس تماس تلفنی با وکیل در ارتباط باشید')
+                          'سوال شما برای وکیل ارسال شد و تا قبل 24 ساعت پاسخ آنرا دریافت خواهید کرد درصورت نیاز و '
+                          'ارتباط سریعتر با وکیل میتونید با تهیه سرویس تماس تلفنی با وکیل در ارتباط باشید')
 
             return redirect('service:pricing')
 
@@ -234,16 +214,13 @@ def dashboard(request, username=None):
         noww = timezone.localtime(timezone.now())
         current_date_shamsi = jdatetime.date.fromgregorian(date=noww.date())
 
-        # فیلتر کردن سرویس‌هایی که تاریخ پایان آن‌ها گذشته است
         expired_services = UserServiceRequest.objects.filter(
             user=request.user,
-            end_date__lt=current_date_shamsi.isoformat()  # تبدیل تاریخ شمسی به ISO برای مقایسه
+            end_date__lt=current_date_shamsi.isoformat()
         )
         expired_services.update(is_active=False)
         services = UserServiceRequest.objects.filter(user=user)
         transactions = Payment.objects.filter(user=user)
-        
-
 
     return render(request, 'users/dashboard.html', {
         'user': user,
@@ -276,30 +253,29 @@ def update_name(request):
     if request.method == "POST":
         name = request.POST.get("name")
         if name:
-            request.user.name = name  # اصلاح دسترسی به نام کاربر
-            request.user.save()  # ذخیره تغییرات در کاربر
+            request.user.name = name
+            request.user.save()
             messages.success(request, "نام شما با موفقیت به‌روزرسانی شد.")
         else:
             messages.error(request, "لطفا نام خود را وارد کنید.")
-    return redirect('users:dashboard')  # اصلاح نام الگو به 'users:dashboard'
+    return redirect('users:dashboard')
 
 
-def set_nickname (request,username):
+def set_nickname(request, username):
     if request.method == "POST":
         nickname = request.POST.get("nickname")
         if nickname:
             user = Client.objects.get(username=username)
-            user.last_name = nickname  # ذخیره نام مستعار در فیلد lastname
-            user.save()  # ذخیره تغییرات در کاربر
+            user.last_name = nickname
+            user.save()
             messages.success(request, "نام مستعار شما با موفقیت به‌روزرسانی شد.")
         else:
             messages.error(request, "لطفا نام مستعار خود را وارد کنید.")
-    return redirect('users:dashboard')  # بازگشت به داشبورد کاربر
-
-
+    return redirect('users:dashboard')
 
 
 from django.http import HttpResponse
+
 
 def robots_txt(request):
     content = """
@@ -314,16 +290,14 @@ Sitemap: http://avahagh.ir/sitemap.xml
     return HttpResponse(content, content_type="text/plain")
 
 
-from kavenegar import *
-
-def send_otp_code(request,phone_number, code):
+def send_otp_code(request, phone_number, code):
     try:
         api = KavenegarAPI('3063366B4A7055574C7152554774354F48366B4D444E33786532446D63376A7035714A2F38314C64664C633D')
         params = {
             'receptor': phone_number,
-            'template': 'verifycode',  # اسم الگوی شما
-            'token': code,             # کدی که می‌خوای بفرستی
-            'type': 'sms'              # یا 'call' برای تماس صوتی
+            'template': 'verifycode',
+            'token': code,
+            'type': 'sms'
         }
         response = api.verify_lookup(params)
         print(response)
