@@ -87,7 +87,7 @@ def send_otp(request):
         }
     })
 
-
+####
 def verify_otp(request):
     if request.method == "POST":
         try:
