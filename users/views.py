@@ -25,10 +25,8 @@ def normalize_phone(phone):
     return phone
 
 
-@csrf_exempt
 def send_otp(request):
     if request.method == "POST":
-        print('number sented with method post!!!!!!!!!!!!!!')
         try:
             data = json.loads(request.body)
             phone = normalize_phone(data.get("phone"))
