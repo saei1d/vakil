@@ -1,17 +1,6 @@
-
 from django.contrib.messages import constants as messages
 import os
 from pathlib import Path
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
-    'https://localhost:8000',
-    'http://avahagh.ir',
-    'https://avahagh.ir',
-    'http://avahagh.runflare.run',
-    'https://avahagh.runflare.run',
-
-]
 
 SECURE_SSL_REDIRECT = False
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -28,9 +17,28 @@ LOGIN_REDIRECT_URL = '/'
 SECRET_KEY = 'django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '.avahagh.ir',
+    'avahagh.ir',
+    'www.avahagh.ir',
+    'localhost',
+    '127.0.0.1'
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'https://localhost',
+    'http://avahagh.ir',
+    'https://avahagh.ir',
+    'http://avahagh.runflare.run',
+    'https://avahagh.runflare.run',
+
+]
+
+
+
 
 ZARINPAL_MERCHANT_ID = '1fb68613-e6b7-4df0-acb9-c0d6c639c218'
 ZARINPAL_CALLBACK_URL = 'http://127.0.0.1:8000/verify/'

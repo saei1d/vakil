@@ -157,6 +157,24 @@
                 margin-bottom: 10px;
             }
 
+
+            .spinner {
+                width: 18px;
+                height: 18px;
+                border: 2px solid rgba(255, 255, 255, 0.3); /* دایره کمرنگ */
+                border-top: 2px solid white; /* قسمت متحرک */
+                border-radius: 50%;
+                animation: spin 0.6s linear infinite;
+                display: inline-block;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+
         </style>
     {% endblock %}
 
@@ -189,7 +207,14 @@
                     pattern="09[0-9]{9}"
                     title="شماره موبایل باید با 09 شروع شده و 11 رقم باشد."
             >
-            <button type="button" id="send-code">ارسال کد</button>
+            <button type="button" id="send-code">
+                <span class="btn-text">ارسال کد</span>
+                <span class="btn-loader" style="display: none; margin-right: 8px;">
+    <span class="spinner"></span>
+  </span>
+            </button>
+
+
         </form>
         <form id="otp-form" style="margin-top: 20px;">
             {% csrf_token %}
@@ -201,7 +226,12 @@
                 <label id="ghavanin2" for="checkbox"> <a href="#" id="ghavanin">قوانین و مقررات</a> را
                     پذیرفته ام</label>
             </div>
-            <button type="submit" id="verify-code" style="width: inherit;" disabled>تایید</button>
+            <button type="submit" id="verify-code" style="width: inherit;" disabled>
+                <span class="btn-text">تایید</span>
+                <span class="btn-loader" style="display: none; margin-right: 8px;">
+        <span class="spinner"></span>
+    </span>
+            </button>
         </form>
     </div>
 </div>
@@ -215,7 +245,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% block script %}
     <script>
-        // تابع دریافت کوکی (برای CSRF)
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== "") {
@@ -246,14 +275,21 @@
 
         document.addEventListener("DOMContentLoaded", function () {
 
-            // رویداد کلیک برای ارسال کد
             document.getElementById("send-code").addEventListener("click", function () {
                 const phone = document.getElementById("phone").value;
+                const sendBtn = document.getElementById("send-code");
+                const btnText = sendBtn.querySelector(".btn-text");
+                const btnLoader = sendBtn.querySelector(".btn-loader");
 
                 if (!phone || phone.length !== 11 || !phone.startsWith("09")) {
                     showAlert("warning", "شماره تلفن نامعتبر", "لطفاً شماره موبایل معتبر وارد کنید.");
                     return;
                 }
+
+                // ⛔ غیرفعال کردن دکمه و نمایش لودر
+                sendBtn.disabled = true;
+                btnText.style.display = "none";
+                btnLoader.style.display = "inline-block";
 
                 fetch("/send-otp/", {
                     method: "POST",
@@ -286,8 +322,15 @@
                     .catch(error => {
                         console.error("خطای ارسال:", error);
                         showAlert("error", "خطای سیستم", "مشکلی در ارتباط با سرور پیش آمده است.");
+                    })
+                    .finally(() => {
+                        // ✅ بازگرداندن دکمه به حالت عادی
+                        sendBtn.disabled = false;
+                        btnText.style.display = "inline";
+                        btnLoader.style.display = "none";
                     });
             });
+
 
             // رویداد تأیید کد OTP
             document.getElementById("otp-form").addEventListener("submit", function (e) {
@@ -295,11 +338,19 @@
 
                 const phone = document.getElementById("phone").value;
                 const otp = document.getElementById("otp").value;
+                const verifyBtn = document.getElementById("verify-code");
+                const btnText = verifyBtn.querySelector(".btn-text");
+                const btnLoader = verifyBtn.querySelector(".btn-loader");
 
                 if (!otp || otp.length !== 4) {
                     showAlert("warning", "کد نامعتبر", "لطفاً کد ۴ رقمی معتبر وارد کنید.");
                     return;
                 }
+
+                // ⛔ غیرفعال کردن دکمه و نمایش لودر
+                verifyBtn.disabled = true;
+                btnText.style.display = "none";
+                btnLoader.style.display = "inline-block";
 
                 fetch("/verify-otp/", {
                     method: "POST",
@@ -335,8 +386,15 @@
                     .catch(error => {
                         console.error("خطا:", error);
                         showAlert("error", "خطای سیستم", "تأیید کد انجام نشد.");
+                    })
+                    .finally(() => {
+                        // ✅ بازگرداندن دکمه به حالت عادی
+                        verifyBtn.disabled = false;
+                        btnText.style.display = "inline";
+                        btnLoader.style.display = "none";
                     });
             });
+
 
             // لینک قوانین
             document.getElementById("ghavanin").addEventListener("click", function (e) {
