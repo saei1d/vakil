@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect , reverse
+from django.shortcuts import render, redirect, reverse
 from django.views import View
 from datetime import datetime, timedelta, time
 from django.utils import timezone
@@ -18,7 +18,8 @@ import requests
 class Pricing(View):
     def get(self, request):
         services = Service.objects.all()
-        return render(request, 'services/pricing.html',{'services':services})
+        return render(request, 'services/pricing.html', {'services': services})
+
 
 class ServiceHandler:
     @staticmethod
@@ -29,7 +30,7 @@ class ServiceHandler:
         return True
 
     @staticmethod
-    def create_service_request(user, service, title, is_accepted, description, start_date, end_date, attachment=None,):
+    def create_service_request(user, service, title, is_accepted, description, start_date, end_date, attachment=None, ):
         return UserServiceRequest.objects.create(
             user=user,
             service=service,
@@ -39,21 +40,20 @@ class ServiceHandler:
             start_date=start_date.isoformat(),
             end_date=end_date.isoformat(),
             attachment=attachment,
-            
+
         )
+
     @staticmethod
-    def payment_request(user, service,amount, description):
+    def payment_request(user, service, amount, description):
         try:
             zarinpal = ZarinPal(merchant_id=settings.ZARINPAL_MERCHANT_ID)
-            
 
             payment = Payment.objects.create(
                 user=user,
                 service_request=service,  # چون service در اینجا همون service_request هست
-                amount=amount,          
+                amount=amount,
                 transaction_type='deposit'
             )
-
 
             result = zarinpal.request({
                 'amount': amount,
@@ -71,7 +71,6 @@ class ServiceHandler:
 
         except Exception as e:
             return None, str(e)
-
 
 
 def payment_verify(request):
@@ -111,8 +110,6 @@ def payment_verify(request):
         return redirect('service:pricing')
     except Exception as e:
         return redirect('service:pricing')
-
-
 
 
 @login_required
@@ -169,8 +166,6 @@ def Call(request):
                 messages.success(request, 'درخواست با موفقیت ثبت شد')
                 return redirect('users:dashboard')
 
-
-            
             # درخواست پرداخت
             payment, authority_or_error = ServiceHandler.payment_request(
                 request.user,
@@ -189,13 +184,14 @@ def Call(request):
         messages.error(request, str(e))
         return redirect('service:pricing')
 
+
 @login_required
 def Payam(request):
     if request.method == 'POST':
         tarikh_chat = request.POST['date']
         moddat_chat = int(request.POST['duration'])
         jalali_date = jdatetime.datetime.strptime(tarikh_chat, '%Y/%m/%d').date()
-        
+
         now = timezone.localtime(timezone.now())
         current_date_shamsi = jdatetime.date.fromgregorian(date=now.date())
 
@@ -216,10 +212,9 @@ def Payam(request):
             service_request.is_paid = True
             service_request.save()
             return redirect('users:dashboard')
-        
+
         mablagh = service.price * moddat_chat
-        
-        
+
         payment, authority_or_error = ServiceHandler.payment_request(
             request.user,
             service_request,
@@ -240,7 +235,7 @@ def Shekaiatname(request):
         turnstile_response = request.POST.get("cf-turnstile-response")
         secret_key = '0x4AAAAAABOXzQoGG9cbDjMlFN66fS6lmT4'
         verify_url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
-        
+
         resp = requests.post(verify_url, data={
             'secret': secret_key,
             'response': turnstile_response,
@@ -269,7 +264,7 @@ def Shekaiatname(request):
 
             group_map = {
                 "1": "تنظیم لایحه",
-                "2": "تنظیم دادخواست", 
+                "2": "تنظیم دادخواست",
                 "3": "تنظیم شکواییه",
                 "4": "تنظیم اظهارنامه"
             }
@@ -306,6 +301,8 @@ def Shekaiatname(request):
             # خطا در کپچا
             messages.info(request, 'کپچا تأیید نشد!')
             return redirect('service:pricing')
+
+
 @login_required
 def Ekhtesasi(request):
     if request.method == 'POST':
@@ -349,5 +346,3 @@ def Ekhtesasi(request):
 
 def check_authentication(request):
     return JsonResponse({'authenticated': request.user.is_authenticated})
-
-

@@ -1,9 +1,10 @@
 from django.urls import path
+from django.shortcuts import redirect
+from django.urls import path
+from .views import support_click_notification
 from .views import *
 
 app_name = 'users'
-
-from django.shortcuts import redirect
 
 
 def redirect_to_home(request):
@@ -25,6 +26,7 @@ urlpatterns = [
     path('check-text-service/', check_text_service, name='check_text_service'),
     path('update-name/', update_name, name='update_name'),
     path('set-nickname/<str:username>/', set_nickname, name='set_nickname'),
-    path('send_otp_code/<str:phone_number>/<int:code>/',send_otp_code,name='send_otp_code')
+    path('send_otp_code/<str:phone_number>/<int:code>/', send_otp_code, name='send_otp_code'),
+    path('support-click/', support_click_notification, name='support_click'),
 
 ]

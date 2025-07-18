@@ -17,7 +17,7 @@ LOGIN_REDIRECT_URL = '/'
 SECRET_KEY = 'django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '.avahagh.ir',
@@ -72,18 +72,7 @@ CHANNEL_LAYERS = {
     },
 }
 
-# Security settings
-if not DEBUG:
-    # Enable these security settings in production
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'DENY'
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

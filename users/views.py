@@ -16,7 +16,9 @@ from .models import Client
 import random
 from django.db.models import Q
 from kavenegar import *
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 def normalize_phone(phone):
@@ -86,6 +88,7 @@ def send_otp(request):
             "icon": "error"
         }
     })
+
 
 ####
 def verify_otp(request):
@@ -305,3 +308,38 @@ def send_otp_code(request, phone_number, code):
         print('APIException:', e)
     except HTTPException as e:
         print('HTTPException:', e)
+
+
+@csrf_exempt
+def support_click_notification(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            source = data.get('source')  # مثلاً 'eitaa', 'telegram', 'vakil'
+            print(data,source)
+            # پیدا کردن سوپروزرها
+            superusers = Client.objects.filter(is_superuser=True)
+
+            for admin in superusers:
+                print(f"[SUPPORT CLICK] کاربر روی دکمه {source} کلیک کرده. ارسال به: {admin.username}")
+                try:
+                    api = KavenegarAPI(
+                        '3063366B4A7055574C7152554774354F48366B4D444E33786532446D63376A7035714A2F38314C64664C633D')
+                    params = {
+                        'receptor': admin.username,
+                        'template': 'notification-massenger',
+                        'token': source,
+                        'type': 'sms'
+                    }
+                    response = api.verify_lookup(params)
+                    print(response)
+                except APIException as e:
+                    print('APIException:', e)
+                except HTTPException as e:
+                    print('HTTPException:', e)
+
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+    return JsonResponse({'status': 'bad method'}, status=405)
