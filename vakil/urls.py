@@ -4,18 +4,14 @@ from django.conf.urls.static import static
 from django.conf import settings
 from users.views import robots_txt
 
-
-
 from django.contrib.sitemaps.views import sitemap
-from users.sitemap import StaticViewSitemap, ServiceSitemap , PostSitemap
+from users.sitemap import StaticViewSitemap, ServiceSitemap, PostSitemap
 
 sitemaps = {
     'static': StaticViewSitemap,
     'services': ServiceSitemap,
     'posts': PostSitemap,
 }
-
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,14 +30,6 @@ urlpatterns = [
 
     path("sitemap.xml", sitemap, {'sitemaps': sitemaps}, name="sitemap"),
 
-
-]
-from django.views.static import serve
-from django.conf import settings
-from django.urls import re_path
-
-urlpatterns += [
-    re_path(r'^kvn-push-sw\.js$', serve, {'document_root': settings.BASE_DIR / 'public'}),
 ]
 
 if settings.DEBUG:
