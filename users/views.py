@@ -189,6 +189,32 @@ class HomeView(View):
             request.user.is_questioned = True
             request.user.name = form_data['name']
             request.user.save()
+
+            # notification
+            try:
+
+                superusers = Client.objects.filter(is_superuser=True)
+
+                for admin in superusers:
+                    try:
+                        api = KavenegarAPI(
+                            '3063366B4A7055574C7152554774354F48366B4D444E33786532446D63376A7035714A2F38314C64664C633D')
+                        params = {
+                            'receptor': admin.username,
+                            'template': 'notification-massenger',
+                            'token': 'فرم رایگان',
+                            'type': 'sms'
+                        }
+                        response = api.verify_lookup(params)
+                        print(response)
+                    except APIException as e:
+                        print('APIException:', e)
+                    except HTTPException as e:
+                        print('HTTPException:', e)
+
+                return JsonResponse({'status': 'success'})
+            except Exception as e:
+                return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
             messages.info(request,
                           'سوال شما برای وکیل ارسال شد و تا قبل 24 ساعت پاسخ آنرا دریافت خواهید کرد درصورت نیاز و '
                           'ارتباط سریعتر با وکیل میتونید با تهیه سرویس تماس تلفنی با وکیل در ارتباط باشید')
@@ -316,7 +342,7 @@ def support_click_notification(request):
         try:
             data = json.loads(request.body)
             source = data.get('source')  # مثلاً 'eitaa', 'telegram', 'vakil'
-            print(data,source)
+            print(data, source)
             # پیدا کردن سوپروزرها
             superusers = Client.objects.filter(is_superuser=True)
 

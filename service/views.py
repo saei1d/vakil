@@ -5,9 +5,13 @@ from datetime import datetime, timedelta, time
 from django.utils import timezone
 import jdatetime
 from django.http import JsonResponse
+from kavenegar import KavenegarAPI
+
 from service.models import UserServiceRequest
 from django.contrib import messages
 import os
+
+from users.models import Client
 from .models import Service, UserServiceRequest  # فرضی
 from payment.models import Payment
 from zarinpal import ZarinPal
@@ -93,7 +97,29 @@ def payment_verify(request):
             if result.data.code == 100:
                 payment.is_paid = True
                 payment.save()
+                # notification
+                try:
 
+                    superusers = Client.objects.filter(is_superuser=True)
+
+                    for admin in superusers:
+                        try:
+                            api = KavenegarAPI(
+                                '3063366B4A7055574C7152554774354F48366B4D444E33786532446D63376A7035714A2F38314C64664C633D')
+                            params = {
+                                'receptor': admin.username,
+                                'template': 'notification-payment',
+                                'token': payment.amount,
+                                'type': 'sms'
+                            }
+                            response = api.verify_lookup(params)
+                            print(response)
+                        except:
+                            print('notif payment not working')
+
+                    return JsonResponse({'status': 'success'})
+                except Exception as e:
+                    return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
                 service_request = payment.service_request
                 service_request.is_paid = True
                 service_request.save()
