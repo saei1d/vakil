@@ -17,15 +17,17 @@ LOGIN_REDIRECT_URL = '/'
 SECRET_KEY = 'django-insecure-ke0$uicco09-)3a&6!sjwlj890ws_fe&7k_aq-=vzibs_d=j-l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '.avahagh.ir',
     'avahagh.ir',
     'www.avahagh.ir',
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
+    '.runflare.run'
 ]
+
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
